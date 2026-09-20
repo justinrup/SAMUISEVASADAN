@@ -1332,7 +1332,7 @@ style="padding:10px 13px;border:0;border-radius:9px;background:#1565c0;color:whi
 style="padding:10px 13px;border:0;border-radius:9px;background:#2e9d50;color:white;font-weight:bold;">
 💾 Save</button>
 
-<button type="button" onclick="sssDeleteScrollText()"
+<button type="button" onclick="sssClearScrollText()"
 style="padding:10px 13px;border:0;border-radius:9px;background:#e53935;color:white;font-weight:bold;">
 🗑 Delete</button>
 
@@ -1350,6 +1350,224 @@ style="padding:10px 13px;border:0;border-radius:9px;background:#00897b;color:whi
 style="margin-top:9px;font-weight:700;"></div>
 </div>
 <!-- END SCROLL TEXT -->
+
+<!-- SCROLL TEXT SETTINGS MODAL -->
+<div id="sssScrollSettingsModal" style="
+display:none;
+position:fixed;
+inset:0;
+z-index:99999;
+background:rgba(0,0,0,.55);
+padding:20px;
+box-sizing:border-box;
+overflow:auto;
+">
+
+  <div style="
+  max-width:520px;
+  margin:40px auto;
+  background:#fff;
+  border-radius:18px;
+  padding:20px;
+  box-shadow:0 8px 35px rgba(0,0,0,.25);
+  ">
+
+    <div style="
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:15px;
+    ">
+      <h2 style="margin:0;color:#00897b;">⚙ Scroll Text Settings</h2>
+
+      <button type="button"
+        onclick="sssCloseScrollSettings()"
+        style="
+        border:0;
+        background:#e53935;
+        color:#fff;
+        border-radius:9px;
+        padding:8px 12px;
+        font-size:18px;
+        font-weight:bold;
+        ">
+        ✕
+      </button>
+    </div>
+
+    <label style="display:block;font-weight:bold;margin-top:12px;">
+      Scroll Speed
+    </label>
+
+    <input id="sssScrollSpeed"
+      type="range"
+      min="1"
+      max="20"
+      step="1"
+      value="8"
+      style="width:100%;">
+
+    <div style="margin:5px 0 14px;">
+      Speed: <b id="sssScrollSpeedValue">8</b>
+    </div>
+
+    <label style="display:block;font-weight:bold;margin-top:12px;">
+      Font
+    </label>
+
+    <select id="sssScrollFont"
+      style="
+      width:100%;
+      padding:10px;
+      border:1px solid #ccd7e5;
+      border-radius:9px;
+      margin-top:5px;
+      ">
+      <option value="Arial, sans-serif">Arial</option>
+      <option value="Verdana, sans-serif">Verdana</option>
+      <option value="Georgia, serif">Georgia</option>
+      <option value="'Times New Roman', serif">Times New Roman</option>
+      <option value="Tahoma, sans-serif">Tahoma</option>
+      <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+    </select>
+
+    <label style="display:block;font-weight:bold;margin-top:15px;">
+      Text Color
+    </label>
+
+    <div style="display:flex;gap:8px;align-items:center;">
+      <input id="sssScrollTextColor"
+        type="color"
+        value="#1565c0"
+        style="width:55px;height:42px;">
+
+      <input id="sssScrollTextColorHex"
+        type="text"
+        value="#1565c0"
+        placeholder="#1565c0"
+        style="
+        flex:1;
+        padding:10px;
+        border:1px solid #ccd7e5;
+        border-radius:9px;
+        ">
+    </div>
+
+    <label style="display:block;font-weight:bold;margin-top:15px;">
+      Background Color
+    </label>
+
+    <div style="display:flex;gap:8px;align-items:center;">
+      <input id="sssScrollBgColor"
+        type="color"
+        value="#e8f7fa"
+        style="width:55px;height:42px;">
+
+      <input id="sssScrollBgColorHex"
+        type="text"
+        value="#e8f7fa"
+        placeholder="#e8f7fa"
+        style="
+        flex:1;
+        padding:10px;
+        border:1px solid #ccd7e5;
+        border-radius:9px;
+        ">
+    </div>
+
+    <label style="display:block;font-weight:bold;margin-top:15px;">
+      Text Weight
+    </label>
+
+    <select id="sssScrollWeight"
+      style="
+      width:100%;
+      padding:10px;
+      border:1px solid #ccd7e5;
+      border-radius:9px;
+      margin-top:5px;
+      ">
+      <option value="400">Normal</option>
+      <option value="500">Medium</option>
+      <option value="600">Semi Bold</option>
+      <option value="700">Bold</option>
+      <option value="800">Extra Bold</option>
+    </select>
+
+    <div style="margin-top:18px;">
+      <b>Preview</b>
+
+      <div id="sssScrollPreview"
+        style="
+        margin-top:8px;
+        padding:14px;
+        border-radius:10px;
+        overflow:hidden;
+        white-space:nowrap;
+        ">
+        Scroll Text Preview
+      </div>
+    </div>
+
+    <div style="
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:18px;
+    ">
+
+      <button type="button"
+        onclick="sssSaveScrollSettings()"
+        style="
+        flex:1;
+        min-width:130px;
+        padding:11px;
+        border:0;
+        border-radius:9px;
+        background:#2e9d50;
+        color:#fff;
+        font-weight:bold;
+        ">
+        💾 Save Settings
+      </button>
+
+      <button type="button"
+        onclick="sssResetScrollSettings()"
+        style="
+        flex:1;
+        min-width:130px;
+        padding:11px;
+        border:0;
+        border-radius:9px;
+        background:#1565c0;
+        color:#fff;
+        font-weight:bold;
+        ">
+        ↺ Reset
+      </button>
+
+      <button type="button"
+        onclick="sssCloseScrollSettings()"
+        style="
+        flex:1;
+        min-width:130px;
+        padding:11px;
+        border:0;
+        border-radius:9px;
+        background:#757575;
+        color:#fff;
+        font-weight:bold;
+        ">
+        Close
+      </button>
+
+    </div>
+
+  </div>
+</div>
+<!-- END SCROLL TEXT SETTINGS MODAL -->
+
 
 
     <div style="display:flex;gap:12px;flex-wrap:wrap;">

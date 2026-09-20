@@ -2105,6 +2105,39 @@ if(menu){
     wrap.style.display = "block";
     textEl.textContent = text.trim();
 
+    // Load saved Scroll Text Settings
+    try{
+      const settings = Object.assign({
+        speed:35,
+        font:"Segoe UI",
+        textColor:"#1565c0",
+        bgColor:"#fff8d6",
+        weight:"normal"
+      }, JSON.parse(localStorage.getItem("sss_scroll_settings") || "{}"));
+
+      if(settings.textColor){
+        textEl.style.color = settings.textColor;
+      }
+
+      if(settings.font){
+        textEl.style.fontFamily = settings.font;
+      }
+
+      if(settings.weight){
+        textEl.style.fontWeight = settings.weight;
+      }
+
+      if(settings.bgColor){
+        wrap.style.background = settings.bgColor;
+      }
+
+      if(settings.speed){
+        textEl.style.animationDuration = Number(settings.speed) + "s";
+      }
+    }catch(e){
+      console.log("Scroll settings load error:", e);
+    }
+
     textEl.classList.remove("sss-scroll-running");
     void textEl.offsetWidth;
     textEl.classList.add("sss-scroll-running");
