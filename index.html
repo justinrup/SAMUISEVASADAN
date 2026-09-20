@@ -2165,3 +2165,100 @@ if(menu){
 
 })();
 </script>
+
+<style id="sss-search-contact-left-fix">
+/* Search + contact number group সামান্য বামদিকে */
+.sss-header-search,
+.sss-search,
+.header-search,
+.search-box,
+.search-container{
+  transform:translateX(-18px) !important;
+}
+</style>
+
+<style id="sss-search-down-fix">
+/* Search bar + contact group একটু নিচে */
+.sss-header-search,
+.sss-search,
+.header-search,
+.search-box,
+.search-container{
+  position:relative !important;
+  left:-18px !important;
+  top:5px !important;
+}
+</style>
+
+<style id="sss-menu-zindex-fix">
+/* 3-dot side menu সব content-এর উপরে থাকবে */
+.sss-side-menu{
+  position:fixed !important;
+  z-index:999999 !important;
+}
+
+.sss-menu-overlay{
+  position:fixed !important;
+  z-index:999998 !important;
+}
+
+.sss-side-menu *{
+  position:relative;
+  z-index:1000000 !important;
+}
+
+.sss-side-menu .sss-menu-header,
+.sss-side-menu .sss-menu-title,
+.sss-side-menu .sss-menu-brand{
+  z-index:1000001 !important;
+}
+</style>
+
+<style id="sss-menu-header-home-final-fix">
+/* পুরো menu আগের জায়গাতেই থাকবে */
+.sss-side-menu{
+  transform:none !important;
+}
+
+/* SAMUI SEVA SADAN header একটু উপরে */
+.sss-side-menu .sss-menu-header{
+  padding-top:12px !important;
+  padding-bottom:18px !important;
+}
+
+/* Header-এর title একটু উপরে */
+.sss-side-menu .sss-menu-header h1,
+.sss-side-menu .sss-menu-header h2,
+.sss-side-menu .sss-menu-header .sss-menu-title,
+.sss-side-menu .sss-menu-header .sss-menu-brand{
+  transform:translateY(-5px) !important;
+}
+
+/* Home option header থেকে পরিষ্কার gap নিয়ে থাকবে */
+.sss-side-menu a[href="#home"]{
+  margin-top:8px !important;
+  position:relative !important;
+  z-index:1000002 !important;
+}
+</style>
+
+<style id="sss-home-menu-sticky-final">
+/* Menu header side-menu-এর একদম উপরেই থাকবে */
+.sss-side-menu .sss-menu-header{
+  position:sticky !important;
+  top:0 !important;
+  z-index:1000005 !important;
+}
+
+/* Home option header-এর নিচে পরিষ্কারভাবে থাকবে */
+.sss-side-menu .sss-menu-list{
+  position:relative !important;
+  z-index:1000004 !important;
+}
+
+.sss-side-menu .sss-menu-list > a:first-child{
+  position:relative !important;
+  z-index:1000006 !important;
+  display:flex !important;
+}
+</style>
