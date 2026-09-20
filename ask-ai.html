@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<!-- LANGUAGE SELECTOR -->
+<section id="languageSection"
+style="margin:12px 0;padding:14px;background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,.08);">
+
+<div style="font-size:16px;font-weight:700;margin-bottom:9px;">
+🌐 LANGUAGE
+</div>
+
+<select id="sssLanguage"
+style="width:100%;padding:11px;border:1px solid #ddd;border-radius:9px;background:#f8fafc;font-size:15px;">
+
+<option value="bn">বাংলা</option>
+<option value="en">English</option>
+<option value="hi">हिन्दी</option>
+<option value="as">অসমীয়া</option>
+<option value="or">ଓଡ଼ିଆ</option>
+<option value="ta">தமிழ்</option>
+<option value="te">తెలుగు</option>
+<option value="ml">മലയാളം</option>
+<option value="kn">ಕನ್ನಡ</option>
+<option value="mr">मराठी</option>
+<option value="gu">ગુજરાતી</option>
+<option value="pa">ਪੰਜਾਬੀ</option>
+<option value="ur">اردو</option>
+<option value="ne">नेपाली</option>
+
+<option value="ar">العربية</option>
+<option value="fa">فارسی</option>
+<option value="he">עברית</option>
+<option value="tr">Türkçe</option>
+
+<option value="zh">中文</option>
+<option value="ja">日本語</option>
+<option value="ko">한국어</option>
+<option value="th">ไทย</option>
+<option value="vi">Tiếng Việt</option>
+<option value="id">Bahasa Indonesia</option>
+<option value="ms">Bahasa Melayu</option>
+<option value="fil">Filipino</option>
+
+<option value="fr">Français</option>
+<option value="de">Deutsch</option>
+<option value="es">Español</option>
+<option value="pt">Português</option>
+<option value="it">Italiano</option>
+<option value="ru">Русский</option>
+<option value="uk">Українська</option>
+<option value="pl">Polski</option>
+<option value="nl">Nederlands</option>
+<option value="el">Ελληνικά</option>
+<option value="ro">Română</option>
+<option value="cs">Čeština</option>
+<option value="sv">Svenska</option>
+<option value="da">Dansk</option>
+<option value="fi">Suomi</option>
+<option value="no">Norsk</option>
+<option value="hu">Magyar</option>
+<option value="bg">Български</option>
+<option value="sr">Српски</option>
+<option value="sk">Slovenčina</option>
+<option value="hr">Hrvatski</option>
+<option value="sl">Slovenščina</option>
+<option value="sw">Kiswahili</option>
+<option value="af">Afrikaans</option>
+
+</select>
+
+<div id="languageStatus"
+style="font-size:12px;color:#777;margin-top:7px;">
+Selected language: বাংলা
+</div>
+
+</section>
+
+<title>Ask AI - SAMUI SEVA SADAN</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f4f8fb;
+ color:#17212b;
+}
+.header{
+ background:#087f8c;
+ color:#fff;
+ padding:16px;
+ text-align:center;
+}
+.container{
+ max-width:850px;
+ margin:auto;
+ padding:15px;
+}
+.card{
+ background:#fff;
+ border-radius:16px;
+ padding:16px;
+ margin-bottom:15px;
+ box-shadow:0 4px 15px rgba(0,0,0,.10);
+}
+h2,h3{margin-top:0}
+.options{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+ gap:9px;
+}
+.option{
+ border:1px solid #d5e1e8;
+ background:#f8fbfd;
+ border-radius:10px;
+ padding:10px;
+ cursor:pointer;
+ text-align:center;
+}
+.option:active{transform:scale(.98)}
+.chat{
+ min-height:150px;
+ max-height:400px;
+ overflow:auto;
+ padding:10px;
+ background:#f7f9fa;
+ border-radius:12px;
+}
+.msg{
+ padding:10px 12px;
+ border-radius:12px;
+ margin:7px 0;
+ max-width:90%;
+ line-height:1.5;
+}
+.user{
+ background:#d9f3f6;
+ margin-left:auto;
+}
+.ai{
+ background:#fff;
+ border:1px solid #e0e5e8;
+}
+.askrow{
+ display:flex;
+ gap:8px;
+ margin-top:10px;
+}
+#question{
+ flex:1;
+ padding:12px;
+ border:1px solid #ccd7dc;
+ border-radius:10px;
+ font-size:15px;
+}
+#askBtn{
+ border:0;
+ border-radius:10px;
+ background:#087f8c;
+ color:#fff;
+ padding:0 18px;
+ font-weight:bold;
+}
+.back{
+ display:inline-block;
+ color:#fff;
+ text-decoration:none;
+ margin-top:7px;
+}
+.warning{
+ font-size:13px;
+ color:#8a4b00;
+ background:#fff6df;
+ padding:10px;
+ border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <div style="font-size:24px;font-weight:bold;">🤖 Ask AI</div>
+  <div>SAMUI SEVA SADAN</div>
+  <a class="back" href="index.html">← Home</a>
+</div>
+
+<div class="container">
+
+<div class="card">
+<h3>🩺 রোগের বিষয় নির্বাচন করুন</h3>
+
+<div class="options">
+<div class="option" onclick="askTopic('হৃদরোগ')">❤️ হৃদরোগ</div>
+<div class="option" onclick="askTopic('ফুসফুসের রোগ')">🫁 ফুসফুসের রোগ</div>
+<div class="option" onclick="askTopic('কিডনি ও মূত্রনালীর রোগ')">🫘 কিডনি ও মূত্রনালী</div>
+<div class="option" onclick="askTopic('লিভারের রোগ')">🧡 লিভারের রোগ</div>
+<div class="option" onclick="askTopic('পাকস্থলী ও অন্ত্রের রোগ')">🩺 পাকস্থলী/আন্ত্রিক</div>
+<div class="option" onclick="askTopic('ডায়াবেটিস ও হরমোন')">🩸 ডায়াবেটিস/হরমোন</div>
+<div class="option" onclick="askTopic('রক্তের রোগ')">🩸 রক্তের রোগ</div>
+<div class="option" onclick="askTopic('ত্বকের রোগ')">🧴 ত্বকের রোগ</div>
+<div class="option" onclick="askTopic('চোখের রোগ')">👁️ চোখের রোগ</div>
+<div class="option" onclick="askTopic('কান নাক গলা')">👂 কান-নাক-গলা</div>
+<div class="option" onclick="askTopic('হাড় ও জয়েন্ট')">🦴 হাড় ও জয়েন্ট</div>
+<div class="option" onclick="askTopic('স্নায়ুরোগ')">🧠 স্নায়ুরোগ</div>
+<div class="option" onclick="askTopic('সংক্রমণজনিত রোগ')">🦠 সংক্রমণ</div>
+<div class="option" onclick="askTopic('স্ত্রীরোগ')">👩 স্ত্রীরোগ</div>
+<div class="option" onclick="askTopic('শিশুদের রোগ')">👶 শিশুদের রোগ</div>
+<div class="option" onclick="askTopic('মানসিক স্বাস্থ্য')">🧠 মানসিক স্বাস্থ্য</div>
+<div class="option" onclick="askTopic('ক্যান্সার')">🎗️ ক্যান্সার</div>
+</div>
+</div>
+
+<div class="card">
+<h3>💊 ওষুধ</h3>
+
+<div class="options">
+<div class="option" onclick="askMedicine('Paracetamol')">Paracetamol</div>
+<div class="option" onclick="askMedicine('Ibuprofen')">Ibuprofen</div>
+<div class="option" onclick="askMedicine('Amoxicillin')">Amoxicillin</div>
+<div class="option" onclick="askMedicine('Metformin')">Metformin</div>
+<div class="option" onclick="askMedicine('Omeprazole')">Omeprazole</div>
+<div class="option" onclick="askMedicine('Cetirizine')">Cetirizine</div>
+<div class="option" onclick="askMedicine('Salbutamol')">Salbutamol</div>
+<div class="option" onclick="askMedicine('Amlodipine')">Amlodipine</div>
+</div>
+</div>
+
+<div class="card">
+<h3>💬 Ask AI</h3>
+
+<div id="chat" class="chat">
+<div class="msg ai">
+নমস্কার। আমি শুধু রোগ, স্বাস্থ্য-সংক্রান্ত সাধারণ তথ্য এবং ওষুধের সাধারণ ব্যবহার সম্পর্কে তথ্য দিতে পারি।
+</div>
+</div>
+
+<div class="askrow">
+<input id="question" type="text"
+ placeholder="রোগ বা ওষুধ সম্পর্কে প্রশ্ন লিখুন...">
+<button id="askBtn" onclick="askQuestion()">Ask</button>
+</div>
+
+<p class="warning">
+⚠️ এটি সাধারণ স্বাস্থ্য তথ্যের জন্য। এটি রোগ নির্ণয় বা ব্যক্তিগত প্রেসক্রিপশনের বিকল্প নয়।
+জরুরি সমস্যা হলে সরাসরি চিকিৎসকের সাহায্য নিন।
+</p>
+</div>
+
+</div>
+
+<script>
+const allowedWords = [
+ "রোগ","অসুখ","লক্ষণ","উপসর্গ","কারণ","চিকিৎসা","স্বাস্থ্য",
+ "হৃদ","হার্ট","ফুসফুস","কিডনি","মূত্র","লিভার","পাকস্থলী",
+ "আন্ত্র","ডায়াবেটিস","হরমোন","রক্ত","ত্বক","চোখ","কান","নাক",
+ "গলা","হাড়","জয়েন্ট","স্নায়ু","সংক্রমণ","স্ত্রী","গর্ভ","শিশু",
+ "মানসিক","ক্যান্সার","ওষুধ","medicine","tablet","drug",
+ "paracetamol","ibuprofen","amoxicillin","metformin","omeprazole",
+ "cetirizine","salbutamol","amlodipine","জ্বর","ব্যথা","অ্যালার্জি",
+ "অ্যাসিডিটি","শ্বাস","কাশি"
+];
+
+const medicineInfo={
+ "Paracetamol":"Paracetamol সাধারণত জ্বর ও সাধারণ ব্যথা কমাতে ব্যবহৃত হয়।",
+ "Ibuprofen":"Ibuprofen ব্যথা, প্রদাহ ও জ্বরের ক্ষেত্রে ব্যবহৃত হতে পারে।",
+ "Amoxicillin":"Amoxicillin কিছু ব্যাকটেরিয়াল সংক্রমণের চিকিৎসায় ব্যবহৃত অ্যান্টিবায়োটিক।",
+ "Metformin":"Metformin সাধারণত Type 2 diabetes নিয়ন্ত্রণে ব্যবহৃত হয়।",
+ "Omeprazole":"Omeprazole পাকস্থলীর অতিরিক্ত অ্যাসিড ও GERD-এর মতো সমস্যায় ব্যবহৃত হয়।",
+ "Cetirizine":"Cetirizine অ্যালার্জির উপসর্গ যেমন হাঁচি, নাক দিয়ে পানি পড়া ও চুলকানিতে ব্যবহৃত হয়।",
+ "Salbutamol":"Salbutamol হাঁপানি বা bronchospasm-এ শ্বাসনালীর সংকোচন কমাতে ব্যবহৃত হয়।",
+ "Amlodipine":"Amlodipine সাধারণত উচ্চ রক্তচাপ নিয়ন্ত্রণে ব্যবহৃত হয়।"
+};
+
+function addMessage(text,type){
+ const chat=document.getElementById("chat");
+ const div=document.createElement("div");
+ div.className="msg "+type;
+ div.textContent=text;
+ chat.appendChild(div);
+ chat.scrollTop=chat.scrollHeight;
+}
+
+function isAllowed(q){
+ const x=q.toLowerCase();
+ return allowedWords.some(w=>x.includes(w.toLowerCase()));
+}
+
+function askQuestion(){
+ const input=document.getElementById("question");
+ const q=input.value.trim();
+ if(!q)return;
+
+ addMessage(q,"user");
+ input.value="";
+
+ if(!isAllowed(q)){
+   addMessage(
+   "দুঃখিত। Ask AI শুধুমাত্র রোগ, স্বাস্থ্য-সংক্রান্ত সাধারণ তথ্য এবং ওষুধের নাম ও সাধারণ ব্যবহার সম্পর্কে উত্তর দিতে পারে।",
+   "ai");
+   return;
+ }
+
+ let answer="এই বিষয়ে সাধারণ তথ্য দিতে পারি। আপনার প্রশ্নটি নির্দিষ্ট রোগ বা ওষুধের সাধারণ তথ্যের মধ্যে রাখুন।";
+
+ for(const name in medicineInfo){
+   if(q.toLowerCase().includes(name.toLowerCase())){
+     answer=medicineInfo[name];
+     break;
+   }
+ }
+
+ addMessage(answer,"ai");
+}
+
+function askTopic(topic){
+ document.getElementById("question").value=topic+" সম্পর্কে সাধারণ তথ্য জানতে চাই";
+ askQuestion();
+}
+
+function askMedicine(name){
+ document.getElementById("question").value=name+" কী কাজে ব্যবহার করা হয়?";
+ askQuestion();
+}
+
+document.getElementById("question").addEventListener("keydown",function(e){
+ if(e.key==="Enter") askQuestion();
+});
+</script>
+
+
+<script>
+(function(){
+
+const answers = {
+
+"❤️ হৃদরোগ":
+"হৃদরোগ সম্পর্কে সাধারণ তথ্য: বুক ব্যথা, শ্বাসকষ্ট, অতিরিক্ত ঘাম, মাথা ঘোরা বা বুক ধড়ফড়ের মতো উপসর্গ দেখা দিতে পারে। তীব্র বুক ব্যথা বা শ্বাসকষ্ট হলে দ্রুত জরুরি চিকিৎসা নিন।",
+
+"🫁 ফুসফুসের রোগ":
+"ফুসফুসের রোগে কাশি, শ্বাসকষ্ট, বুক চাপ লাগা বা শ্বাস নেওয়ার সময় অস্বস্তি হতে পারে। দীর্ঘদিনের কাশি বা শ্বাসকষ্ট থাকলে চিকিৎসকের পরামর্শ নেওয়া প্রয়োজন।",
+
+"🩺 কিডনি ও মূত্রনালী":
+"কিডনি ও মূত্রনালীর সমস্যায় প্রস্রাবে জ্বালা, বারবার প্রস্রাব, কোমর ব্যথা বা প্রস্রাবে রক্ত দেখা যেতে পারে। এসব উপসর্গ থাকলে চিকিৎসকের পরামর্শ নিন।",
+
+"💛 লিভারের রোগ":
+"লিভারের সমস্যায় দুর্বলতা, ক্ষুধামন্দা, পেটের অস্বস্তি বা চোখ-ত্বক হলুদ হতে পারে। প্রয়োজন অনুযায়ী চিকিৎসকের পরামর্শ ও পরীক্ষা করা দরকার।",
+
+"🍽️ পাকস্থলী/আন্ত্রিক":
+"পাকস্থলী বা অন্ত্রের সমস্যায় গ্যাস, পেট ব্যথা, অম্বল, বমি বা পায়খানার পরিবর্তন হতে পারে। দীর্ঘস্থায়ী সমস্যা হলে চিকিৎসকের পরামর্শ নিন।",
+
+"🩸 ডায়াবেটিস/হরমোন":
+"ডায়াবেটিসে অতিরিক্ত পিপাসা, বারবার প্রস্রাব, ক্ষুধা বৃদ্ধি বা দুর্বলতা হতে পারে। রক্তের শর্করা পরীক্ষা ও চিকিৎসকের পরামর্শ গুরুত্বপূর্ণ।",
+
+"🩸 রক্তের রোগ":
+"রক্তের বিভিন্ন সমস্যায় দুর্বলতা, অতিরিক্ত ক্লান্তি, মাথা ঘোরা বা অস্বাভাবিক রক্তপাত হতে পারে। প্রয়োজন হলে রক্ত পরীক্ষা করে চিকিৎসকের পরামর্শ নিতে হয়।",
+
+"🧴 পুরুষের রোগ":
+"পুরুষদের বিভিন্ন স্বাস্থ্য সমস্যার কারণ আলাদা হতে পারে। ব্যথা, প্রস্রাবের সমস্যা বা যৌনস্বাস্থ্য সংক্রান্ত দীর্ঘস্থায়ী সমস্যা থাকলে চিকিৎসকের পরামর্শ নিন।",
+
+"👁️ চোখের রোগ":
+"চোখের সমস্যায় ঝাপসা দেখা, চোখ ব্যথা, লাল হওয়া বা চুলকানি হতে পারে। হঠাৎ দৃষ্টি কমে গেলে দ্রুত চোখের চিকিৎসকের সাহায্য নিন।",
+
+"👂 কান-নাক-গলা":
+"কান-নাক-গলার সমস্যায় কান ব্যথা, নাক বন্ধ, গলা ব্যথা বা শ্রবণশক্তির পরিবর্তন হতে পারে। দীর্ঘস্থায়ী হলে চিকিৎসকের পরামর্শ নিন।",
+
+"🦴 হাড় ও জয়েন্ট":
+"হাড় ও জয়েন্টের সমস্যায় ব্যথা, ফোলা বা নড়াচড়ায় অসুবিধা হতে পারে। আঘাতের পর তীব্র ব্যথা হলে দ্রুত চিকিৎসা নিন।",
+
+"🧠 স্নায়ুরোগ":
+"স্নায়ুর সমস্যায় মাথা ঘোরা, অসাড়তা, দুর্বলতা, কাঁপুনি বা চলাফেরায় সমস্যা হতে পারে। হঠাৎ শরীরের এক পাশ দুর্বল হলে জরুরি চিকিৎসা প্রয়োজন।",
+
+"🦠 সংক্রমণ":
+"সংক্রমণে জ্বর, দুর্বলতা, ব্যথা, কাশি বা আক্রান্ত স্থানে লালচে ভাব হতে পারে। গুরুতর বা দীর্ঘস্থায়ী উপসর্গ হলে চিকিৎসকের পরামর্শ নিন।",
+
+"👩 স্ত্রীরোগ":
+"স্ত্রীরোগ সংক্রান্ত সমস্যায় মাসিকের অনিয়ম, তলপেটে ব্যথা, অস্বাভাবিক স্রাব বা অন্য উপসর্গ হতে পারে। প্রয়োজন হলে স্ত্রীরোগ বিশেষজ্ঞের পরামর্শ নিন।",
+
+"👶 শিশুদের রোগ":
+"শিশুদের অসুস্থতায় জ্বর, কাশি, বমি, ডায়রিয়া বা খাওয়ার সমস্যা দেখা দিতে পারে। শিশুর অবস্থা খারাপ হলে দ্রুত শিশু চিকিৎসকের পরামর্শ নিন।",
+
+"🧠 মানসিক স্বাস্থ্য":
+"মানসিক স্বাস্থ্যের সমস্যায় দীর্ঘদিনের দুশ্চিন্তা, মন খারাপ, ঘুমের সমস্যা বা দৈনন্দিন কাজে আগ্রহ কমে যেতে পারে। প্রয়োজন হলে মানসিক স্বাস্থ্য বিশেষজ্ঞের পরামর্শ নিন।",
+
+"🎗️ ক্যান্সার":
+"ক্যান্সারের ধরন অনুযায়ী উপসর্গ আলাদা হয়। অস্বাভাবিক গুটি, দীর্ঘস্থায়ী ব্যথা, অকারণে ওজন কমা বা অস্বাভাবিক রক্তপাত থাকলে চিকিৎসকের পরামর্শ নিয়ে প্রয়োজনীয় পরীক্ষা করুন।",
+
+"Paracetamol":
+"Paracetamol সাধারণত জ্বর ও সাধারণ ব্যথা কমাতে ব্যবহৃত হয়। নির্ধারিত মাত্রার বেশি গ্রহণ করা উচিত নয়।",
+
+"Ibuprofen":
+"Ibuprofen ব্যথা, প্রদাহ ও জ্বর কমাতে ব্যবহৃত হতে পারে। কিছু মানুষের জন্য এটি উপযুক্ত নাও হতে পারে, তাই প্রয়োজন হলে চিকিৎসকের পরামর্শ নিন।",
+
+"Amoxicillin":
+"Amoxicillin একটি antibiotic। এটি নির্দিষ্ট bacterial infection-এর ক্ষেত্রে চিকিৎসকের পরামর্শে ব্যবহার করা হয়। ভাইরাল সর্দি-কাশিতে এটি সাধারণত কাজ করে না।",
+
+"Metformin":
+"Metformin সাধারণত type 2 diabetes-এর চিকিৎসায় ব্যবহৃত হয়। এটি চিকিৎসকের পরামর্শ অনুযায়ী গ্রহণ করা উচিত।",
+
+"Omeprazole":
+"Omeprazole সাধারণত পাকস্থলীর অতিরিক্ত acid, অম্বল ও acid reflux-এর মতো সমস্যায় ব্যবহৃত হয়। দীর্ঘদিন ব্যবহার করার আগে চিকিৎসকের পরামর্শ নিন।",
+
+"Cetirizine":
+"Cetirizine সাধারণত allergy-এর উপসর্গ যেমন হাঁচি, নাক দিয়ে পানি পড়া বা চুলকানি কমাতে ব্যবহৃত হয়। ঘুমঘুম ভাব হতে পারে।",
+
+"Salbutamol":
+"Salbutamol সাধারণত শ্বাসনালীর সংকোচনজনিত শ্বাসকষ্টে ব্যবহৃত হয়। inhaler-এর ব্যবহার চিকিৎসকের নির্দেশ অনুযায়ী করা উচিত।",
+
+"Amlodipine":
+"Amlodipine সাধারণত উচ্চ রক্তচাপ ও কিছু হৃদ্‌যন্ত্রের সমস্যায় ব্যবহৃত হয়। নিয়মিত রক্তচাপ পর্যবেক্ষণ ও চিকিৎসকের পরামর্শ গুরুত্বপূর্ণ।"
+
+};
+
+function cleanText(t){
+    return t.replace(/\s+/g," ").trim();
+}
+
+function showAnswer(option){
+
+    const text = cleanText(option.innerText || option.textContent);
+    if(!answers[text]) return;
+
+    // পুরনো উত্তর/চ্যাট সম্পূর্ণ পরিষ্কার
+    const chat = document.querySelector(
+        '#chat, .chat-box, .chat, .messages, #messages'
+    );
+
+    if(chat){
+        chat.innerHTML = "";
+        
+        const q = document.createElement("div");
+        q.style.cssText =
+            "background:#d9f7fa;padding:10px 12px;margin:6px 0;border-radius:10px;text-align:right;";
+        q.textContent = text;
+
+        const a = document.createElement("div");
+        a.style.cssText =
+            "background:#fff;padding:10px 12px;margin:6px 0;border-radius:10px;border:1px solid #eee;";
+        a.textContent = answers[text];
+
+        chat.appendChild(q);
+        chat.appendChild(a);
+    }
+
+    // Input থাকলে সেটাও পরিষ্কার
+    const input = document.querySelector(
+        'input[placeholder*="প্রশ্ন"], textarea[placeholder*="প্রশ্ন"], input[placeholder*="প্রশ্ন করুন"], textarea'
+    );
+    if(input) input.value = "";
+}
+
+document.addEventListener("click", function(e){
+
+    let el = e.target.closest("button, .option, .disease-option, .medicine-option");
+
+    if(!el) return;
+
+    const text = cleanText(el.innerText || el.textContent);
+
+    if(answers[text]){
+        e.preventDefault();
+        e.stopPropagation();
+        if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+
+        showAnswer(el);
+    }
+
+}, true);
+
+})();
+</script>
+
+
+<script>
+(function(){
+
+const select = document.getElementById("sssLanguage");
+const status = document.getElementById("languageStatus");
+
+if(!select) return;
+
+const saved = localStorage.getItem("sssSelectedLanguage");
+
+if(saved){
+    const opt = select.querySelector('option[value="' + saved + '"]');
+    if(opt) select.value = saved;
+}
+
+function updateLanguage(){
+    const opt = select.options[select.selectedIndex];
+
+    localStorage.setItem(
+        "sssSelectedLanguage",
+        select.value
+    );
+
+    if(status){
+        status.textContent =
+          "Selected language: " + opt.textContent;
+    }
+
+    window.dispatchEvent(
+      new CustomEvent("sssLanguageChanged", {
+        detail:{
+          code:select.value,
+          name:opt.textContent
+        }
+      })
+    );
+}
+
+select.addEventListener("change", updateLanguage);
+
+if(location.hash === "#language"){
+    setTimeout(function(){
+        document.getElementById("languageSection")?.scrollIntoView({
+            behavior:"smooth",
+            block:"center"
+        });
+    },300);
+}
+
+})();
+</script>
+
+
+<script>
+(function(){
+
+const KEY = "sssAskAiEnabled";
+
+if(localStorage.getItem(KEY) === "false"){
+
+    document.addEventListener("DOMContentLoaded", function(){
+
+        const main = document.querySelector("main") || document.body;
+
+        const box = document.createElement("div");
+
+        box.style.cssText =
+          "margin:30px auto;padding:25px;max-width:600px;text-align:center;background:#fff;border-radius:15px;box-shadow:0 2px 10px rgba(0,0,0,.1);";
+
+        box.innerHTML =
+          "<div style='font-size:35px'>🤖</div>" +
+          "<h3>Ask AI বর্তমানে বন্ধ আছে</h3>" +
+          "<p>Admin Panel → 3-dot Menu থেকে Ask AI ON করুন।</p>";
+
+        main.innerHTML = "";
+        main.appendChild(box);
+
+    });
+}
+
+})();
+</script>
+
+</body>
+</html>

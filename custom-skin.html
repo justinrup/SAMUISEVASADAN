@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Customize Homepage Menu - SAMUI SEVA SADAN</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f5fbfd;
+ color:#123;
+}
+
+.container{
+ max-width:700px;
+ margin:auto;
+ padding:16px;
+}
+
+.card{
+ background:#fff;
+ border:1px solid #b8dfe8;
+ border-radius:16px;
+ padding:16px;
+ margin-bottom:15px;
+ box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+h1{
+ font-size:22px;
+ margin:0 0 6px;
+ color:#075766;
+}
+
+h2{
+ font-size:18px;
+ color:#087e9b;
+ margin-top:0;
+}
+
+label{
+ display:block;
+ font-weight:700;
+ margin:12px 0 6px;
+}
+
+input[type=color]{
+ width:100%;
+ height:46px;
+ border:1px solid #ccc;
+ border-radius:10px;
+}
+
+.menu-list{
+ margin-top:10px;
+}
+
+.menu-row{
+ display:flex;
+ align-items:center;
+ gap:8px;
+ padding:10px;
+ margin:8px 0;
+ background:#f4fbff;
+ border:1px solid #b8dfe8;
+ border-radius:12px;
+}
+
+.drag{
+ font-size:23px;
+ padding:5px;
+ cursor:grab;
+ user-select:none;
+ touch-action:none;
+}
+
+.drag:active{
+ cursor:grabbing;
+}
+
+.menu-info{
+ flex:1;
+ min-width:0;
+}
+
+.menu-name{
+ font-weight:700;
+ font-size:14px;
+ color:#087e9b;
+ margin-bottom:5px;
+}
+
+.menu-text{
+ width:100%;
+ padding:9px;
+ border:1px solid #b8dfe8;
+ border-radius:8px;
+ font-size:14px;
+}
+
+.hide-label{
+ display:flex;
+ align-items:center;
+ gap:5px;
+ font-size:13px;
+ white-space:nowrap;
+ margin:0;
+ font-weight:600;
+}
+
+.menu-row.dragging{
+ opacity:.45;
+ transform:scale(.98);
+}
+
+.menu-row.over{
+ border:2px dashed #087e9b;
+}
+
+button{
+ width:100%;
+ padding:13px;
+ border:0;
+ border-radius:10px;
+ font-size:16px;
+ font-weight:700;
+ cursor:pointer;
+ margin-top:9px;
+}
+
+.save{
+ background:#087e9b;
+ color:#fff;
+}
+
+.reset{
+ background:#e8f7ff;
+ color:#075766;
+ border:1px solid #87ceeb;
+}
+
+.back{
+ background:#eee;
+ color:#333;
+}
+
+#status{
+ min-height:22px;
+ text-align:center;
+ font-weight:700;
+ margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+<h1>🎨 Customize Homepage</h1>
+<p style="margin:0;color:#667">
+Android-এর মতো ধরে option উপর–নিচে সরান, নাম পরিবর্তন করুন এবং প্রয়োজন হলে option hide করুন।
+</p>
+</div>
+
+<div class="card">
+<h2>📋 Homepage Menu Options</h2>
+
+<div id="menuList" class="menu-list"></div>
+
+<p style="font-size:13px;color:#667">
+☝️ বাম পাশের ☰ ধরে option উপর বা নিচে টেনে নিয়ে যান।
+</p>
+</div>
+
+<div class="card">
+<h2>🎨 Menu Design</h2>
+
+<label>Menu Background</label>
+<input type="color" id="menuBg">
+
+<label>Menu Border</label>
+<input type="color" id="menuBorder">
+
+<label>Menu Text</label>
+<input type="color" id="menuText">
+
+<label>Menu Icon</label>
+<input type="color" id="menuIcon">
+
+<button class="save" onclick="saveAll()">💾 SAVE CUSTOMIZE</button>
+<button class="reset" onclick="resetAll()">🔄 RESET</button>
+<button class="back" onclick="history.back()">← BACK</button>
+
+<div id="status"></div>
+</div>
+
+</div>
+
+<script>
+
+const DEFAULT_ITEMS = [
+ {id:"home",name:"Home",visible:true},
+ {id:"about",name:"About",visible:true},
+ {id:"services",name:"Services",visible:true},
+ {id:"doctors",name:"Doctors",visible:true},
+ {id:"facilities",name:"Facilities",visible:true},
+ {id:"contact",name:"Contact",visible:true},
+ {id:"ask-ai",name:"Ask AI",visible:true},
+ {id:"settings",name:"Settings",visible:true},
+ {id:"admin",name:"Admin Panel",visible:true}
+];
+
+const DEFAULT_SKIN = {
+ menuBg:"#ffffff",
+ menuBorder:"#87ceeb",
+ menuText:"#123456",
+ menuIcon:"#087e9b"
+};
+
+let items=[];
+let dragged=null;
+
+function load(){
+
+ let saved=null;
+
+ try{
+   saved=JSON.parse(localStorage.getItem("sssCustomSkin")||"null");
+ }catch(e){}
+
+ let order=saved && Array.isArray(saved.order)
+   ? saved.order
+   : DEFAULT_ITEMS.map(x=>x.id);
+
+ items=order.map(id=>{
+   return DEFAULT_ITEMS.find(x=>x.id===id);
+ }).filter(Boolean).map(x=>({...x}));
+
+ if(saved && saved.items){
+   items.forEach(item=>{
+     if(saved.items[item.id]){
+       if(saved.items[item.id].name!=null)
+         item.name=saved.items[item.id].name;
+
+       if(saved.items[item.id].visible!=null)
+         item.visible=saved.items[item.id].visible;
+     }
+   });
+ }
+
+ document.getElementById("menuBg").value=
+   saved?.menuBg || DEFAULT_SKIN.menuBg;
+
+ document.getElementById("menuBorder").value=
+   saved?.menuBorder || DEFAULT_SKIN.menuBorder;
+
+ document.getElementById("menuText").value=
+   saved?.menuText || DEFAULT_SKIN.menuText;
+
+ document.getElementById("menuIcon").value=
+   saved?.menuIcon || DEFAULT_SKIN.menuIcon;
+
+ render();
+}
+
+function render(){
+
+ const box=document.getElementById("menuList");
+ box.innerHTML="";
+
+ items.forEach((item,index)=>{
+
+   const row=document.createElement("div");
+   row.className="menu-row";
+   row.dataset.id=item.id;
+   row.draggable=true;
+
+   row.innerHTML=`
+     <div class="drag">☰</div>
+
+     <div class="menu-info">
+       <div class="menu-name">${item.name}</div>
+       <input
+         class="menu-text"
+         value="${escapeHtml(item.name)}"
+         placeholder="Option name"
+       >
+     </div>
+
+     <label class="hide-label">
+       <input type="checkbox" ${item.visible?"checked":""}>
+       Show
+     </label>
+   `;
+
+   const input=row.querySelector(".menu-text");
+   const checkbox=row.querySelector("input[type=checkbox]");
+
+   input.addEventListener("input",()=>{
+     item.name=input.value;
+     row.querySelector(".menu-name").textContent=input.value;
+   });
+
+   checkbox.addEventListener("change",()=>{
+     item.visible=checkbox.checked;
+   });
+
+   row.addEventListener("dragstart",()=>{
+     dragged=row;
+     row.classList.add("dragging");
+   });
+
+   row.addEventListener("dragend",()=>{
+     row.classList.remove("dragging");
+     document.querySelectorAll(".menu-row")
+       .forEach(x=>x.classList.remove("over"));
+     syncOrder();
+   });
+
+   row.addEventListener("dragover",e=>{
+     e.preventDefault();
+
+     if(!dragged || dragged===row) return;
+
+     row.classList.add("over");
+
+     const rect=row.getBoundingClientRect();
+     const after=e.clientY > rect.top + rect.height/2;
+
+     if(after)
+       row.parentNode.insertBefore(dragged,row.nextSibling);
+     else
+       row.parentNode.insertBefore(dragged,row);
+   });
+
+   row.addEventListener("dragleave",()=>{
+     row.classList.remove("over");
+   });
+
+   box.appendChild(row);
+ });
+
+ enableTouchDrag();
+}
+
+function syncOrder(){
+
+ const ids=[...document.querySelectorAll(".menu-row")]
+   .map(x=>x.dataset.id);
+
+ items.sort((a,b)=>ids.indexOf(a.id)-ids.indexOf(b.id));
+}
+
+function enableTouchDrag(){
+
+ const rows=document.querySelectorAll(".menu-row");
+
+ rows.forEach(row=>{
+
+   let startY=0;
+   let active=false;
+
+   const handle=row.querySelector(".drag");
+
+   handle.addEventListener("touchstart",e=>{
+     active=true;
+     startY=e.touches[0].clientY;
+     dragged=row;
+     row.classList.add("dragging");
+   },{passive:true});
+
+   handle.addEventListener("touchmove",e=>{
+
+     if(!active) return;
+
+     e.preventDefault();
+
+     const y=e.touches[0].clientY;
+
+     const all=[...document.querySelectorAll(".menu-row")]
+       .filter(x=>x!==row);
+
+     let target=null;
+
+     for(const other of all){
+
+       const r=other.getBoundingClientRect();
+
+       if(y>=r.top && y<=r.bottom){
+         target=other;
+         break;
+       }
+     }
+
+     if(target){
+
+       const r=target.getBoundingClientRect();
+
+       if(y < r.top+r.height/2)
+         target.parentNode.insertBefore(row,target);
+       else
+         target.parentNode.insertBefore(row,target.nextSibling);
+     }
+
+   },{passive:false});
+
+   handle.addEventListener("touchend",()=>{
+
+     active=false;
+     row.classList.remove("dragging");
+     syncOrder();
+
+   });
+
+ });
+
+}
+
+function saveAll(){
+
+ syncOrder();
+
+ const itemData={};
+
+ items.forEach(item=>{
+   itemData[item.id]={
+     name:item.name,
+     visible:item.visible
+   };
+ });
+
+ const skin={
+   order:items.map(x=>x.id),
+   items:itemData,
+
+   menuBg:document.getElementById("menuBg").value,
+   menuBorder:document.getElementById("menuBorder").value,
+   menuText:document.getElementById("menuText").value,
+   menuIcon:document.getElementById("menuIcon").value
+ };
+
+ localStorage.setItem("sssCustomSkin",JSON.stringify(skin));
+
+ const st=document.getElementById("status");
+ st.textContent="✓ Customize Saved";
+ st.style.color="#08a36a";
+
+ setTimeout(()=>{
+   st.textContent="";
+ },1800);
+}
+
+function resetAll(){
+
+ if(!confirm("Homepage Customize সব default অবস্থায় ফিরিয়ে দেবেন?"))
+   return;
+
+ localStorage.removeItem("sssCustomSkin");
+
+ items=DEFAULT_ITEMS.map(x=>({...x}));
+
+ document.getElementById("menuBg").value=DEFAULT_SKIN.menuBg;
+ document.getElementById("menuBorder").value=DEFAULT_SKIN.menuBorder;
+ document.getElementById("menuText").value=DEFAULT_SKIN.menuText;
+ document.getElementById("menuIcon").value=DEFAULT_SKIN.menuIcon;
+
+ render();
+
+ const st=document.getElementById("status");
+ st.textContent="✓ Reset completed";
+ st.style.color="#c55";
+}
+
+function escapeHtml(value){
+
+ return String(value)
+   .replace(/&/g,"&amp;")
+   .replace(/"/g,"&quot;")
+   .replace(/</g,"&lt;")
+   .replace(/>/g,"&gt;");
+}
+
+load();
+
+</script>
+
+
+<!-- SSS HOMEPAGE LAYOUT CONTROL -->
+<div id="sssHomepageLayoutControl" style="
+  margin:16px 0;
+  padding:15px;
+  border:1px solid #87ceeb;
+  border-radius:14px;
+  background:#f4fbff;
+">
+
+  <div style="
+    font-size:18px;
+    font-weight:800;
+    color:#075985;
+    margin-bottom:12px;
+  ">
+    📐 Homepage Layout
+  </div>
+
+  <label style="display:block;font-weight:700;margin-bottom:6px;">
+    Menu Layout
+  </label>
+
+  <select id="sssLayoutMode" style="
+    width:100%;
+    padding:11px;
+    border:1px solid #87ceeb;
+    border-radius:9px;
+    background:white;
+    font-size:15px;
+  ">
+    <option value="vertical">Vertical Menu</option>
+    <option value="compact">Compact Menu</option>
+    <option value="grid">Grid Menu</option>
+  </select>
+
+  <label style="
+    display:block;
+    font-weight:700;
+    margin-top:14px;
+    margin-bottom:6px;
+  ">
+    Option Spacing
+  </label>
+
+  <input
+    id="sssLayoutSpacing"
+    type="range"
+    min="2"
+    max="24"
+    value="10"
+    style="width:100%;"
+  >
+
+  <div style="
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    color:#666;
+  ">
+    <span>Close</span>
+    <span>Wide</span>
+  </div>
+
+  <label style="
+    display:block;
+    font-weight:700;
+    margin-top:14px;
+    margin-bottom:6px;
+  ">
+    Menu Width
+  </label>
+
+  <input
+    id="sssLayoutWidth"
+    type="range"
+    min="240"
+    max="420"
+    value="310"
+    style="width:100%;"
+  >
+
+  <div style="
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    color:#666;
+  ">
+    <span>240px</span>
+    <span>420px</span>
+  </div>
+
+  <label style="
+    display:flex;
+    align-items:center;
+    gap:9px;
+    margin-top:14px;
+    font-weight:700;
+  ">
+    <input id="sssLayoutFullWidth" type="checkbox">
+    Full Width Options
+  </label>
+
+  <button
+    type="button"
+    onclick="sssSaveHomepageLayout()"
+    style="
+      width:100%;
+      margin-top:16px;
+      padding:13px;
+      border:0;
+      border-radius:10px;
+      background:#0284c7;
+      color:white;
+      font-size:16px;
+      font-weight:800;
+      cursor:pointer;
+    "
+  >
+    💾 Save Layout
+  </button>
+
+  <button
+    type="button"
+    onclick="sssPreviewHomepageLayout()"
+    style="
+      width:100%;
+      margin-top:8px;
+      padding:11px;
+      border:1px solid #0284c7;
+      border-radius:10px;
+      background:white;
+      color:#075985;
+      font-size:15px;
+      font-weight:700;
+      cursor:pointer;
+    "
+  >
+    👁️ Preview Homepage
+  </button>
+
+  <div id="sssLayoutSavedMessage" style="
+    display:none;
+    margin-top:10px;
+    padding:8px;
+    border-radius:8px;
+    background:#dcfce7;
+    color:#166534;
+    text-align:center;
+    font-weight:700;
+  ">
+    ✓ Layout Saved
+  </div>
+
+</div>
+
+<script id="sss-homepage-layout-admin">
+
+(function(){
+
+  function getSkin(){
+    try{
+      return JSON.parse(
+        localStorage.getItem("sssCustomSkin") || "{}"
+      );
+    }catch(e){
+      return {};
+    }
+  }
+
+  function loadLayout(){
+
+    const skin=getSkin();
+    const layout=skin.layout || {};
+
+    const mode=document.getElementById("sssLayoutMode");
+    const spacing=document.getElementById("sssLayoutSpacing");
+    const width=document.getElementById("sssLayoutWidth");
+    const full=document.getElementById("sssLayoutFullWidth");
+
+    if(mode) mode.value=layout.mode || "vertical";
+    if(spacing) spacing.value=layout.spacing ?? 10;
+    if(width) width.value=layout.width ?? 310;
+    if(full) full.checked=layout.fullWidth === true;
+  }
+
+  window.sssSaveHomepageLayout=function(){
+
+    const skin=getSkin();
+
+    skin.layout={
+      mode:
+        document.getElementById("sssLayoutMode")?.value ||
+        "vertical",
+
+      spacing:
+        Number(
+          document.getElementById("sssLayoutSpacing")?.value || 10
+        ),
+
+      width:
+        Number(
+          document.getElementById("sssLayoutWidth")?.value || 310
+        ),
+
+      fullWidth:
+        document.getElementById("sssLayoutFullWidth")?.checked === true
+    };
+
+    localStorage.setItem(
+      "sssCustomSkin",
+      JSON.stringify(skin)
+    );
+
+    const msg=document.getElementById("sssLayoutSavedMessage");
+
+    if(msg){
+      msg.style.display="block";
+
+      setTimeout(function(){
+        msg.style.display="none";
+      },1800);
+    }
+  };
+
+  window.sssPreviewHomepageLayout=function(){
+
+    sssSaveHomepageLayout();
+
+    setTimeout(function(){
+      location.href="index.html";
+    },250);
+  };
+
+  if(document.readyState==="loading"){
+    document.addEventListener(
+      "DOMContentLoaded",
+      loadLayout
+    );
+  }else{
+    loadLayout();
+  }
+
+})();
+
+</script>
+
+</body>
+</html>

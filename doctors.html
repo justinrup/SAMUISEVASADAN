@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Our Doctors - SAMUI SEVA SADAN</title>
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:#f7f5fc;color:#222}
+header{background:#68459a;color:white;padding:20px;text-align:center}
+main{max-width:900px;margin:20px auto;padding:15px}
+.card{background:white;border-radius:15px;padding:20px;margin-bottom:15px;box-shadow:0 3px 12px #0001}
+.item{padding:12px;border-bottom:1px solid #eee}
+.back{display:inline-block;color:white;text-decoration:none;margin-bottom:8px}
+</style>
+</head>
+<body>
+<header>
+<a class="back" href="/">← Home</a>
+<h1 id="title">Our Doctors</h1>
+</header>
+<main>
+<div class="card">
+<p id="description">Loading...</p>
+<div id="items"></div>
+</div>
+</main>
+
+<script>
+async function load(){
+  try{
+    const r=await fetch("/api/site-content/doctors");
+    const d=await r.json();
+    if(!d.ok) throw new Error();
+
+    const c=d.content||{};
+    document.getElementById("title").textContent=c.title||"Our Doctors";
+    document.getElementById("description").textContent=c.description||"";
+
+    const box=document.getElementById("items");
+    box.innerHTML="";
+
+    if(c.published && Array.isArray(c.items)){
+      c.items.forEach(x=>{
+        const div=document.createElement("div");
+        div.className="item";
+        div.textContent=typeof x==="string"
+          ? x
+          : (x.title||x.name||x.text||"");
+        if(div.textContent) box.appendChild(div);
+      });
+    }
+  }catch(e){
+    document.getElementById("description").textContent="Unable to load content.";
+  }
+}
+load();
+</script>
+</body>
+</html>

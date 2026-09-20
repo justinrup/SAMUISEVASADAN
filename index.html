@@ -1,0 +1,2134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAMUI SEVA SADAN NURSING HOME</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+/* New clean homepage */
+.home-hero-image{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.clean-services{
+    max-width:1240px;
+    margin:auto;
+    padding:45px 7%;
+}
+
+.clean-service-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.clean-service-card{
+    display:block;
+    text-decoration:none;
+    background:#fff;
+    border:1px solid #d9edf1;
+    border-radius:14px;
+    padding:22px 15px;
+    text-align:center;
+    box-shadow:0 5px 16px rgba(13,75,95,.08);
+    transition:.2s;
+}
+
+.clean-service-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 9px 22px rgba(13,75,95,.15);
+}
+
+.clean-service-card .icon{
+    font-size:32px;
+    margin-bottom:8px;
+}
+
+.clean-service-card h3{
+    color:#075985;
+    font-size:15px;
+    margin:5px 0;
+}
+
+.clean-service-card p{
+    color:#68808a;
+    font-size:10px;
+}
+
+.clean-about{
+    max-width:1240px;
+    margin:auto;
+    padding:45px 7%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+    align-items:center;
+}
+
+.clean-about img{
+    width:100%;
+    height:280px;
+    object-fit:cover;
+    border-radius:15px;
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
+}
+
+.clean-about h2{
+    color:#075985;
+}
+
+.clean-about p{
+    color:#5f7884;
+    line-height:1.8;
+}
+
+@media(max-width:800px){
+    .clean-service-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+    .clean-about{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:520px){
+    .clean-service-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+</style>
+
+<style id="sss-home-scroll-css">
+.sss-home-scroll-wrap{
+  width:100%;
+  margin:10px 0 18px;
+  overflow:hidden;
+  box-sizing:border-box;
+  border-radius:12px;
+  background:#e8f8fc;
+  border:1px solid #18a9c9;
+  box-shadow:0 3px 12px rgba(0,0,0,.10);
+}
+
+.sss-home-scroll-track{
+  width:100%;
+  min-height:48px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+}
+
+.sss-home-scroll-text{
+  position:absolute;
+  left:100%;
+  white-space:nowrap;
+  font-size:18px;
+  font-weight:600;
+  color:#087c9b;
+  padding:8px 20px;
+  will-change:transform;
+}
+
+.sss-home-scroll-text.sss-scroll-running{
+  animation:sssHomeScrollMove 15s linear infinite;
+}
+
+@keyframes sssHomeScrollMove{
+  0%{
+    transform:translateX(0);
+  }
+  100%{
+    transform:translateX(-150%);
+  }
+}
+
+@media(max-width:600px){
+  .sss-home-scroll-text{
+    font-size:16px;
+  }
+
+  .sss-home-scroll-text.sss-scroll-running{
+    animation-duration:12s;
+  }
+}
+</style>
+
+<style id="sss-menu-open-fix">
+.sss-side-menu{
+  position:fixed !important;
+  top:60px !important;
+  left:0 !important;
+  width:min(340px,88vw) !important;
+  height:calc(100vh - 60px) !important;
+  z-index:10001 !important;
+  transform:translateX(-110%) !important;
+  transition:transform .3s ease !important;
+  overflow-y:auto !important;
+}
+.sss-side-menu.open{
+  transform:translateX(0) !important;
+}
+.sss-menu-overlay{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:10000 !important;
+  background:rgba(0,0,0,.45) !important;
+  opacity:0 !important;
+  visibility:hidden !important;
+  transition:all .3s ease !important;
+}
+.sss-menu-overlay.open{
+  opacity:1 !important;
+  visibility:visible !important;
+}
+</style><style id="sss-menu-position-fix">
+.sss-side-menu{
+  position:fixed !important;
+  top:60px !important;
+  left:0 !important;
+  bottom:0 !important;
+  width:320px !important;
+  max-width:88vw !important;
+  height:calc(100vh - 60px) !important;
+  margin:0 !important;
+  padding:0 !important;
+  z-index:99999 !important;
+  transform:translate3d(-110%,0,0) !important;
+  display:block !important;
+  overflow-y:auto !important;
+}
+.sss-side-menu.open{
+  transform:translate3d(0,0,0) !important;
+}
+.sss-menu-overlay{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:99998 !important;
+  width:100vw !important;
+  height:calc(100vh - 60px) !important;
+}
+.sss-menu-header{
+  position:sticky !important;
+  top:60px !important;
+  z-index:2 !important;
+}
+</style><style id="sss-menu-background-fix">.sss-side-menu{background:linear-gradient(180deg,#e8f7fa 0%,#f7fcfd 55%,#e2f1f4 100%) !important}.sss-menu-header{background:linear-gradient(135deg,#087f8c,#075766) !important;color:#fff !important}.sss-side-menu a{color:#164e5a !important}.sss-side-menu a:hover{background:rgba(8,127,140,.14) !important}</style>
+<style id="sss-menu-border-skyblue">
+.sss-side-menu{
+  border:2px solid #87CEEB !important;
+  box-shadow:0 0 12px rgba(135,206,235,.45) !important;
+}
+.sss-side-menu *{
+  border-color:#87CEEB !important;
+}
+</style>
+
+
+<style id="sss-menu-skygreen">
+.sss-side-menu{
+  background:linear-gradient(180deg,#d9f7f0 0%,#b8eadc 50%,#9ddcca 100%) !important;
+  border:2px solid #7fd8c2 !important;
+}
+</style>
+
+
+<style id="sss-skyblue-menu-final">
+/* 3-dot menu: full sky-blue background */
+.sss-side-menu{
+  background:linear-gradient(180deg,#87CEEB 0%,#B7E7F5 50%,#87CEEB 100%) !important;
+  border:2px solid #5BBFE5 !important;
+}
+
+/* Menu bars */
+.sss-side-menu a,
+.sss-side-menu button,
+.sss-side-menu .menu-item,
+.sss-side-menu .sss-menu-item{
+  background:rgba(255,255,255,.88) !important;
+  color:#075B8A !important;
+  border:1px solid #62BFE0 !important;
+  border-radius:10px !important;
+}
+
+/* Click/active menu option = blue */
+.sss-side-menu a:active,
+.sss-side-menu button:active,
+.sss-side-menu .menu-item:active,
+.sss-side-menu .sss-menu-item:active,
+.sss-side-menu .active,
+.sss-side-menu .selected{
+  background:#168FD0 !important;
+  color:#fff !important;
+}
+
+/* Hover */
+.sss-side-menu a:hover,
+.sss-side-menu button:hover,
+.sss-side-menu .menu-item:hover,
+.sss-side-menu .sss-menu-item:hover{
+  background:#249DD8 !important;
+  color:#fff !important;
+}
+</style>
+
+
+<style id="sss-menu-green-blue-final">
+
+/* 3-dot menu খুললে GREEN */
+.sss-side-menu{
+  background:linear-gradient(180deg,#9FE3B1 0%,#C8F2D2 50%,#8ED6A2 100%) !important;
+  border:2px solid #55B96F !important;
+}
+
+/* Menu bar */
+.sss-side-menu a,
+.sss-side-menu button,
+.sss-side-menu .menu-item,
+.sss-side-menu .sss-menu-item{
+  background:#ffffff !important;
+  color:#176B35 !important;
+  border:1px solid #55B96F !important;
+}
+
+/* Click করলে GREEN */
+.sss-side-menu a:active,
+.sss-side-menu button:active,
+.sss-side-menu .menu-item:active,
+.sss-side-menu .sss-menu-item:active,
+.sss-side-menu .active,
+.sss-side-menu .selected{
+  background:#20A854 !important;
+  color:#ffffff !important;
+}
+
+/* White background BLUE */
+body{
+  background:#BFE8F5 !important;
+}
+
+</style>
+
+
+<style id="sss-colourful-menu-theme">
+.sss-side-menu{
+  background:linear-gradient(145deg,#b8f0d0 0%,#b9e9f7 48%,#a9dff4 100%) !important;
+  border:2px solid #63c9b0 !important;
+  box-shadow:0 8px 25px rgba(40,150,170,.25) !important;
+}
+
+.sss-side-menu a,
+.sss-side-menu button,
+.sss-side-menu .menu-item,
+.sss-side-menu .sss-menu-item{
+  background:linear-gradient(90deg,#ffffff,#e8f8ff) !important;
+  color:#176b75 !important;
+  border:1px solid #72cbd4 !important;
+  border-radius:12px !important;
+  box-shadow:0 3px 8px rgba(50,150,160,.12) !important;
+}
+
+.sss-side-menu a:hover,
+.sss-side-menu button:hover,
+.sss-side-menu .menu-item:hover,
+.sss-side-menu .sss-menu-item:hover,
+.sss-side-menu .active,
+.sss-side-menu .selected{
+  background:linear-gradient(90deg,#45b9d5,#35b987) !important;
+  color:#fff !important;
+  border-color:#35a99a !important;
+}
+
+body{
+  background:linear-gradient(135deg,#dff7ff,#c9f3e0,#bde8f7) !important;
+}
+</style>
+
+
+<style id="sss-menu-readable-colour-final">
+
+/* পুরো 3-dot menu panel */
+.sss-side-menu{
+  background:linear-gradient(180deg,#b8eaf5 0%,#d5f3e8 45%,#bde8f5 100%) !important;
+  border:2px solid #55bfc5 !important;
+  box-shadow:0 8px 25px rgba(0,120,150,.22) !important;
+}
+
+/* Menu bar */
+.sss-side-menu a,
+.sss-side-menu button,
+.sss-side-menu .menu-item,
+.sss-side-menu .sss-menu-item{
+  background:linear-gradient(90deg,#eefaff 0%,#e1f5f1 100%) !important;
+  color:#075b73 !important;
+  border:1.5px solid #55bcc5 !important;
+  border-radius:14px !important;
+  text-shadow:none !important;
+  box-shadow:0 3px 8px rgba(0,120,150,.12) !important;
+}
+
+/* Menu bar-এর সব লেখা readable */
+.sss-side-menu a *,
+.sss-side-menu button *,
+.sss-side-menu .menu-item *,
+.sss-side-menu .sss-menu-item *{
+  color:#075b73 !important;
+  text-shadow:none !important;
+}
+
+/* Hover / selected */
+.sss-side-menu a:hover,
+.sss-side-menu button:hover,
+.sss-side-menu .menu-item:hover,
+.sss-side-menu .sss-menu-item:hover,
+.sss-side-menu .active,
+.sss-side-menu .selected{
+  background:linear-gradient(90deg,#39acd0,#42bd91) !important;
+  color:#ffffff !important;
+}
+
+.sss-side-menu a:hover *,
+.sss-side-menu button:hover *,
+.sss-side-menu .menu-item:hover *,
+.sss-side-menu .sss-menu-item:hover *,
+.sss-side-menu .active *,
+.sss-side-menu .selected *{
+  color:#ffffff !important;
+}
+
+/* Settings / Admin Panel-ও readable */
+.sss-side-menu{
+  color:#075b73 !important;
+}
+
+</style>
+
+
+<style id="sss-settings-admin-vertical">
+/* Settings এবং Admin Panel আলাদা লাইনে */
+.sss-side-menu .sss-bottom-options{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:stretch !important;
+  gap:10px !important;
+}
+
+.sss-side-menu .sss-bottom-options a,
+.sss-side-menu .sss-bottom-options button{
+  display:block !important;
+  width:100% !important;
+  margin:0 !important;
+}
+</style>
+
+
+<style id="sss-our-services-scroll-position">
+/* OUR SERVICES scroll — heading-এর উপরে */
+.sss-home-scroll,
+.sss-home-scroll-wrap,
+#sssHomeScroll,
+#sss-home-scroll{
+  position:relative !important;
+  z-index:5 !important;
+  margin-bottom:14px !important;
+}
+
+/* Quality Healthcare Services heading */
+.clean-service-grid,
+.quality-healthcare-services,
+#qualityHealthcareServices{
+  position:relative;
+  z-index:2;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- SSS HOME SCROLL TEXT -->
+
+</div>
+<!-- END SSS HOME SCROLL TEXT -->
+
+
+
+<div class="top-strip">
+    <span>📍 Khanakul, Hooghly, West Bengal 712417</span>
+    <span>Quality Healthcare • Compassionate Care</span>
+</div>
+
+<header class="site-header">
+    <div class="header-inner">
+
+        <button class="sss-menu-button" type="button" onclick="document.getElementById('sideMenu').classList.add('open');document.getElementById('menuOverlay').classList.add('open')">⋮</button>
+
+        <div class="brand">
+            <div class="brand-mark">✚</div>
+            <div>
+                <h1>SAMUI SEVA SADAN</h1>
+                <small>NURSING HOME</small>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <a href="#home">Home</a>
+            <a href="#services">Services</a>
+            <a href="about.html">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="header-emergency">
+            <span>Emergency</span>
+            <strong><a href="tel:+919733595341">+91 97335 95341</a></strong>
+        </div>
+
+    </div>
+</header>
+
+<main id="home">
+
+<section class="hero">
+    <div class="hero-inner">
+
+        <div class="hero-copy">
+            <span class="eyebrow">WELCOME TO SAMUI SEVA SADAN</span>
+
+            <h2>Quality Care.<br><span>Better Health.</span></h2>
+
+            <div class="hero-points">
+                ✓ Compassionate Care &nbsp; ✓ Trusted Service
+            </div>
+
+            <p>
+                SAMUI SEVA SADAN NURSING HOME is committed to providing
+                dependable healthcare services with care and compassion.
+            </p>
+
+            <div class="hero-actions">
+                <a href="#services" class="btn btn-primary">
+                    Our Services →
+                </a>
+
+                <a href="tel:+919733595341" class="btn btn-light">
+                    📞 Call Now
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-photo-wrap">
+            <img class="home-hero-image"
+                 src="https://ik.imagekit.io/samuisevasadan/a_wide_high_resolution_slightly_low_angle_street.png?updatedAt=1789108247744"
+                 alt="SAMUI SEVA SADAN">
+            <div class="support-badge">
+                <b>24/7 Care</b>
+                <span>Healthcare support</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="clean-about" id="about">
+    <div>
+        <span class="section-kicker">→ ABOUT US</span>
+        <h2>Healthcare With Care & Compassion</h2>
+        <p>
+            SAMUI SEVA SADAN NURSING HOME provides healthcare support
+            for patients and families in a caring and professional
+            environment.
+        </p>
+        <a href="about.html" class="btn btn-primary">Know More →</a>
+    </div>
+
+    <div>
+        <img src="nursing-home.png" alt="SAMUI SEVA SADAN Nursing Home">
+
+
+    </div>
+</section>
+
+<section class="clean-services" id="services">
+    <div class="section-heading">
+        <div>
+            <span class="section-kicker">→ OUR SERVICES</span>
+            <h2>Quality Healthcare Services</h2>
+        </div>
+    </div>
+
+    <div class="clean-service-grid">
+
+<a href="birth-report.html" class="service-card sss-birth-report-card">
+  <div>👶</div>
+  <h3>Birth Report</h3>
+  <p>Baby DOB অনুযায়ী প্রকাশিত Birth Report দেখুন।</p>
+</a>
+<a class="clean-service-card" href="blood-report.html">
+    <div class="icon">🔬</div>
+    <h3>Blood Report</h3>
+    <p>View published Laboratory Blood Reports.</p>
+</a>
+
+
+
+        <a class="clean-service-card" href="baby-notes.html">
+            <div class="icon">👶</div>
+            <h3>Baby Note</h3>
+            <p>View published Baby Note details.</p>
+        </a>
+
+        <a class="clean-service-card" href="doctor-admin.html">
+            <div class="icon">👨‍⚕️</div>
+            <h3>Doctor Admin</h3>
+            <p>View published Doctor details.</p>
+        </a>
+
+        <a class="clean-service-card" href="facilities.html">
+            <div class="icon">🏢</div>
+            <h3>Facilities</h3>
+            <p>Explore our available facilities.</p>
+        </a>
+
+        <a class="clean-service-card" href="contact.html">
+            <div class="icon">📞</div>
+            <h3>Contact Us</h3>
+            <p>Get in touch with SAMUI SEVA SADAN.</p>
+        </a>
+
+    </div>
+</section>
+
+<!-- NEW ABOUT / STATS SECTION -->
+<div class="sss-home-scroll-wrap" id="sssHomeScrollWrap"
+style="display:none;width:100vw;position:relative;left:50%;transform:translateX(-50%);margin:14px 0 18px;box-sizing:border-box;">
+  <div class="sss-home-scroll-track" id="sssHomeScrollTrack">
+    <div class="sss-home-scroll-text" id="sssHomeScrollText"></div>
+  </div>
+</div>
+
+<section class="sss-new-about-section">
+  <div class="sss-about-inner">
+
+    <div class="sss-about-text">
+      <span class="sss-about-label">→ ABOUT US</span>
+      <h2>Healthcare With Care &amp; Compassion</h2>
+      <p>
+        SAMUI SEVA SADAN NURSING HOME provides healthcare support for
+        patients and families in a caring and professional environment.
+      </p>
+
+      <a href="about.html" class="sss-about-more">
+        Know More <span>→</span>
+      </a>
+    </div>
+
+    <div class="sss-about-image">
+      <img src="samui-about-building.jpg"
+           alt="SAMUI SEVA SADAN NURSING HOME">
+    </div>
+
+  </div>
+
+  <div class="sss-about-bottom-colour">
+    <span></span><span></span><span></span>
+  </div>
+</section>
+
+
+
+
+<style>
+.sss-new-about-section{
+  width:100%;
+  margin:90px 0 0;
+  padding:35px 18px 0;
+  background:linear-gradient(180deg,#ffffff 0%,#f7fbff 100%);
+  box-sizing:border-box;
+}
+
+.sss-about-inner{
+  max-width:1100px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:28px;
+  align-items:center;
+}
+
+.sss-about-text{
+  padding:25px 10px 30px;
+}
+
+.sss-about-label{
+  display:block;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  margin-bottom:12px;
+}
+
+.sss-about-text h2{
+  margin:0 0 15px;
+  font-size:30px;
+  line-height:1.2;
+}
+
+.sss-about-text p{
+  margin:0 0 22px;
+  font-size:16px;
+  line-height:1.7;
+  color:#555;
+}
+
+.sss-about-more{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:11px 20px;
+  border-radius:25px;
+  text-decoration:none;
+  font-weight:700;
+  background:#1565c0;
+  color:#fff;
+  box-shadow:0 5px 14px rgba(21,101,192,.22);
+}
+
+.sss-about-image{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
+
+.sss-about-image img{
+  width:100%;
+  max-width:480px;
+  height:280px;
+  object-fit:cover;
+  border-radius:18px;
+  display:block;
+  box-shadow:0 8px 25px rgba(0,0,0,.14);
+}
+
+.sss-about-bottom-colour{
+  width:100%;
+  height:7px;
+  margin-top:25px;
+  display:flex;
+  overflow:hidden;
+}
+
+.sss-about-bottom-colour span{
+  flex:1;
+}
+
+.sss-about-bottom-colour span:nth-child(1){
+  background:#e53935;
+}
+
+.sss-about-bottom-colour span:nth-child(2){
+  background:#2e9d50;
+}
+
+.sss-about-bottom-colour span:nth-child(3){
+  background:#1565c0;
+}
+
+@media(max-width:700px){
+  .sss-new-about-section{
+    padding:25px 14px 0;
+  }
+
+  .sss-about-inner{
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+
+  .sss-about-text{
+    padding:20px 8px 10px;
+  }
+
+  .sss-about-text h2{
+    font-size:25px;
+  }
+
+  .sss-about-image{
+    padding:8px 4px 20px;
+  }
+
+  .sss-about-image img{
+    height:230px;
+  }
+}
+</style>
+
+<style>
+.sss-new-about-section{
+  width:calc(100% - 32px);
+  max-width:1250px;
+  margin:38px auto;
+  padding:24px;
+  border-radius:24px;
+  background:linear-gradient(135deg,#eefaff,#f8ffff);
+  box-shadow:0 8px 30px rgba(0,70,100,.10);
+}
+
+.sss-about-content{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:28px;
+  align-items:center;
+}
+
+.sss-about-text{
+  padding:8px 12px;
+}
+
+.sss-about-kicker{
+  color:#078ca0;
+  font-size:15px;
+  font-weight:700;
+  margin-bottom:12px;
+}
+
+.sss-about-text h2{
+  margin:0 0 15px;
+  color:#063f67;
+  font-size:34px;
+  line-height:1.12;
+}
+
+.sss-about-text p{
+  margin:0;
+  color:#5d7180;
+  font-size:16px;
+  line-height:1.75;
+  max-width:590px;
+}
+
+.sss-about-button{
+  display:inline-block;
+  margin-top:20px;
+  padding:12px 22px;
+  border-radius:25px;
+  background:#0796ad;
+  color:white;
+  text-decoration:none;
+  font-weight:700;
+}
+
+.sss-about-image{
+  width:100%;
+  overflow:hidden;
+  border-radius:18px;
+}
+
+.sss-about-image img{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+}
+
+.sss-about-stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  margin-top:22px;
+  background:white;
+  border-radius:18px;
+  box-shadow:0 4px 18px rgba(0,70,100,.08);
+  overflow:hidden;
+}
+
+.sss-stat{
+  text-align:center;
+  padding:17px 10px;
+  border-right:1px solid #dcebef;
+}
+
+.sss-stat:last-child{
+  border-right:0;
+}
+
+.sss-stat-icon{
+  font-size:25px;
+  color:#0796ad;
+  margin-bottom:3px;
+}
+
+.sss-stat strong{
+  display:block;
+  color:#07507d;
+  font-size:25px;
+  line-height:1.2;
+}
+
+.sss-stat span{
+  display:block;
+  margin-top:5px;
+  color:#687b87;
+  font-size:13px;
+}
+
+@media(max-width:700px){
+
+  .sss-new-about-section{
+    width:calc(100% - 20px);
+    margin:25px auto;
+    padding:15px;
+    border-radius:18px;
+  }
+
+  .sss-about-content{
+    grid-template-columns:1fr;
+    gap:18px;
+  }
+
+  .sss-about-text h2{
+    font-size:27px;
+  }
+
+  .sss-about-text p{
+    font-size:14px;
+  }
+
+  .sss-about-image{
+    order:2;
+  }
+
+  .sss-about-stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .sss-stat{
+    border-bottom:1px solid #dcebef;
+  }
+
+  .sss-stat:nth-child(2){
+    border-right:0;
+  }
+
+  .sss-stat strong{
+    font-size:22px;
+  }
+}
+</style>
+<!-- END NEW ABOUT / STATS SECTION -->
+
+
+
+<section class="emergency-banner">
+    <div>
+        <div class="emergency-icon">🚑</div>
+        <div>
+            <h2>Need Emergency Assistance?</h2>
+            <p>Contact SAMUI SEVA SADAN directly.</p>
+        </div>
+    </div>
+
+    <div class="emergency-actions">
+        <a href="tel:+919733595341">📞 Call</a>
+        <a href="https://wa.me/919733595341">💬 WhatsApp</a>
+    </div>
+</section>
+
+<section class="clean-about" id="contact">
+    <div>
+        <span class="section-kicker">→ CONTACT</span>
+        <h2>SAMUI SEVA SADAN NURSING HOME</h2>
+        <p>
+            📍 Khanakul, Hooghly, West Bengal 712417
+        </p>
+        <p>
+            📞 +91 97335 95341
+        </p>
+
+        <a href="contact.html" class="btn btn-primary">
+            Contact Details →
+        </a>
+    </div>
+</section>
+
+</main>
+
+
+<!-- BOTTOM 4 PAGE NAVIGATION -->
+<div class="sss-bottom-pages">
+  <a href="#home">⌂<span>Home</span></a>
+  <a href="#services">☰<span>Services</span></a>
+  <a href="#about">ℹ<span>About</span></a>
+  <a href="#contact">☎<span>Contact</span></a>
+</div>
+<!-- END BOTTOM 4 PAGE NAVIGATION -->
+
+
+<!-- SIDE MENU -->
+<div class="sss-menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+
+<aside class="sss-side-menu" id="sideMenu">
+    <div class="sss-menu-header">
+        <div class="sss-menu-title">🏥 SAMUI SEVA SADAN</div>
+        <button class="sss-menu-close" type="button" onclick="document.getElementById('sideMenu').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open')">×</button>
+    </div>
+
+    <div class="sss-menu-list">
+        <a href="#home" onclick="closeMenu()">
+            <span>🏠</span><b>Home</b>
+        </a>
+
+        <a href="notice.html" onclick="closeMenu()">
+            <span>🔔</span><b>Notice</b>
+        </a>
+
+        <a href="weather.html" onclick="closeMenu()">
+            <span>🌤️</span><b>Live Weather</b>
+        </a>
+
+        <a href="age-calculator.html" onclick="closeMenu()">
+            <span>🎂</span><b>Age Calculator</b>
+        </a>
+
+        <a href="calculator.html" onclick="closeMenu()">
+            <span>🧮</span><b>Calculator</b>
+        </a>
+
+        <a href="calendar.html" onclick="closeMenu()">
+            <span>📅</span><b>Calendar</b>
+        </a>
+
+        <a href="help.html" onclick="closeMenu()">
+            <span>❓</span><b>Help</b>
+        </a>
+
+        <a href="#" onclick="shareWebsite(); closeMenu(); return false;">
+            <span>📤</span><b>Share Website</b>
+        </a>
+
+        <a href="contact.html" onclick="closeMenu()">
+            <span>📞</span><b>Contact</b>
+        </a></span>
+</div>
+<a href="settings.html">
+            <span>⚙️</span><b>Settings</b>
+        </a>
+        <a href="admin-login.html" class="sss-menu-item">
+            <span>🔐</span><b>Admin Panel</b>
+        </a>
+
+    </div>
+</aside>
+
+
+
+
+
+<style id="sss-header-search-style">
+.sss-header-search{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:999999;
+}
+.sss-header-search input{
+  width:190px;
+  height:38px;
+  border:1px solid #d5e1e8;
+  border-radius:22px;
+  padding:0 42px 0 15px;
+  outline:none;
+  background:#fff;
+  color:#183b4d;
+  font-size:14px;
+  box-sizing:border-box;
+}
+.sss-header-search input:focus{
+  border-color:#1595a5;
+  box-shadow:0 0 0 3px rgba(21,149,165,.12);
+}
+.sss-search-icon{
+  position:absolute;
+  right:14px;
+  top:9px;
+  font-size:17px;
+  pointer-events:none;
+}
+.sss-search-results{
+  position:absolute;
+  top:45px;
+  right:0;
+  width:310px;
+  max-height:380px;
+  overflow:auto;
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 8px 25px rgba(0,0,0,.20);
+  display:none;
+  padding:7px;
+}
+.sss-search-results.show{
+  display:block;
+}
+.sss-search-result{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:8px;
+  border-radius:9px;
+  color:#173d50;
+  text-decoration:none;
+  font-size:13px;
+}
+.sss-search-result:hover{
+  background:#eef8fa;
+}
+.sss-search-result img{
+  width:55px;
+  height:45px;
+  object-fit:cover;
+  border-radius:7px;
+  flex:none;
+}
+.sss-search-empty{
+  padding:12px;
+  color:#777;
+  font-size:13px;
+}
+@media(max-width:700px){
+  .sss-header-search{
+    right:8px;
+  }
+  .sss-header-search input{
+    width:145px;
+    height:34px;
+  }
+  .sss-search-results{
+    width:270px;
+  }
+}
+</style>
+
+<script id="sss-header-search-script">
+(function(){
+  function setupSearch(){
+    if(document.getElementById("sssHeaderSearch")) return;
+
+    const header=document.querySelector("header.site-header");
+    if(!header) return;
+
+    if(getComputedStyle(header).position==="static"){
+      header.style.position="relative";
+    }
+
+    const box=document.createElement("div");
+    box.className="sss-header-search";
+    box.id="sssHeaderSearch";
+
+    box.innerHTML=`
+      <input id="sssSearchInput"
+             type="search"
+             placeholder="Search..."
+             autocomplete="off"
+             aria-label="Search">
+      <span class="sss-search-icon">🔍</span>
+      <div id="sssSearchResults" class="sss-search-results"></div>
+    `;
+
+    header.appendChild(box);
+
+    const input=document.getElementById("sssSearchInput");
+    const results=document.getElementById("sssSearchResults");
+
+    const images=[
+      {
+        name:"General Surgery Kit",
+        url:"https://ik.imagekit.io/samuisevasadan/General-Surgery-kit-O-T-Kit.jpg?updatedAt=1789109002723",
+        link:"#"
+      },
+      {
+        name:"Laboratory",
+        url:"https://ik.imagekit.io/samuisevasadan/lab2-2.jpg?updatedAt=1789108327681",
+        link:"#"
+      },
+      {
+        name:"Emergency Ambulance",
+        url:"https://ik.imagekit.io/samuisevasadan/modern-white-ambulance-with-flashing-emergency-lights-on-wet-pavement-at-night-photo.jpeg?updatedAt=1789108306245",
+        link:"#"
+      },
+      {
+        name:"Medical Image 1",
+        url:"https://ik.imagekit.io/samuisevasadan/images%20(1).jpeg?updatedAt=1789290863218",
+        link:"#"
+      },
+      {
+        name:"Medical Image 2",
+        url:"https://ik.imagekit.io/samuisevasadan/images%20(2).jpeg?updatedAt=1789290799173",
+        link:"#"
+      },
+      {
+        name:"Medical Image",
+        url:"https://ik.imagekit.io/samuisevasadan/images.jpeg?updatedAt=1789108351557",
+        link:"#"
+      }
+    ];
+
+    function getItems(){
+      const arr=[];
+
+      document.querySelectorAll("a[href]").forEach(a=>{
+        if(a.closest("#sssHeaderSearch")) return;
+
+        const text=(a.innerText || a.textContent || "")
+          .trim().replace(/\s+/g," ");
+
+        const href=a.getAttribute("href");
+
+        if(!text || !href || href==="#" ||
+           href.startsWith("javascript:")) return;
+
+        if(!arr.some(x=>x.href===href && x.text===text)){
+          arr.push({
+            text:text,
+            href:href,
+            image:""
+          });
+        }
+      });
+
+      images.forEach(x=>{
+        arr.push({
+          text:x.name,
+          href:x.link,
+          image:x.url
+        });
+      });
+
+      return arr;
+    }
+
+    function search(){
+      const q=input.value.trim().toLowerCase();
+      results.innerHTML="";
+
+      const allItems=getItems();
+
+      if(!q){
+        results.innerHTML="";
+        allItems.filter(x=>x.image).forEach(x=>{
+          const a=document.createElement("a");
+          a.className="sss-search-result";
+          a.href=x.image;
+          a.target="_blank";
+          a.rel="noopener";
+
+          a.innerHTML=
+            '<img src="'+x.image+'" alt="'+x.text+'">'+
+            '<span>🖼️ '+x.text+'</span>';
+
+          results.appendChild(a);
+        });
+
+        results.classList.add("show");
+        return;
+      }
+
+      const matches=allItems.filter(x=>
+        x.text.toLowerCase().includes(q) ||
+        x.href.toLowerCase().includes(q)
+      ).slice(0,20);
+
+      if(!matches.length){
+        results.innerHTML=
+          '<div class="sss-search-empty">কোনো ফলাফল পাওয়া যায়নি</div>';
+      }else{
+        matches.forEach(x=>{
+          const a=document.createElement("a");
+          a.className="sss-search-result";
+          a.href=x.href;
+
+          if(x.image){
+            a.innerHTML=
+              '<img src="'+x.image+'" alt="">'+
+              '<span>🔎 '+x.text+'</span>';
+          }else{
+            a.textContent="🔎  "+x.text;
+          }
+
+          results.appendChild(a);
+        });
+      }
+
+      results.classList.add("show");
+    }
+
+    input.addEventListener("input",search);
+    input.addEventListener("focus",search);
+
+    document.addEventListener("click",function(e){
+      if(!box.contains(e.target)){
+        results.classList.remove("show");
+      }
+    });
+  }
+
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded",setupSearch);
+  }else{
+    setupSearch();
+  }
+})();
+</script>
+
+
+<style id="sss-professional-theme">
+/* ===== SAMUI SEVA SADAN — PROFESSIONAL HOME THEME ===== */
+:root{
+  --sss-primary:#087f8c;
+  --sss-primary-dark:#075766;
+  --sss-accent:#f59e0b;
+  --sss-bg:#f4f9fa;
+  --sss-card:#ffffff;
+  --sss-text:#16343b;
+  --sss-muted:#668087;
+  --sss-border:rgba(8,127,140,.13);
+  --sss-shadow:0 12px 35px rgba(7,87,102,.10);
+}
+
+/* Main page */
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:
+    radial-gradient(circle at 10% 5%,rgba(8,127,140,.07),transparent 28%),
+    radial-gradient(circle at 90% 18%,rgba(245,158,11,.055),transparent 25%),
+    var(--sss-bg) !important;
+  color:var(--sss-text);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+/* Header */
+.site-header{
+  position:sticky !important;
+  top:0;
+  z-index:10000 !important;
+  background:rgba(255,255,255,.94) !important;
+  border-bottom:1px solid var(--sss-border) !important;
+  box-shadow:0 7px 28px rgba(7,87,102,.09) !important;
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+
+.site-header::after{
+  content:"";
+  display:block;
+  height:3px;
+  background:linear-gradient(90deg,
+    var(--sss-primary),
+    #16a6a8,
+    var(--sss-accent));
+  opacity:.9;
+}
+
+/* Navigation */
+.main-nav{
+  gap:8px !important;
+}
+
+.main-nav a{
+  border-radius:12px !important;
+  padding:9px 13px !important;
+  transition:all .22s ease !important;
+}
+
+.main-nav a:hover{
+  background:rgba(8,127,140,.08) !important;
+  color:var(--sss-primary-dark) !important;
+  transform:translateY(-1px);
+}
+
+/* Service area */
+.clean-service-grid{
+  gap:20px !important;
+}
+
+.clean-service-grid > *{
+  border:1px solid var(--sss-border) !important;
+  border-radius:20px !important;
+  background:rgba(255,255,255,.94) !important;
+  box-shadow:var(--sss-shadow) !important;
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease !important;
+  overflow:hidden;
+}
+
+.clean-service-grid > *:hover{
+  transform:translateY(-5px);
+  box-shadow:0 18px 42px rgba(7,87,102,.16) !important;
+  border-color:rgba(8,127,140,.28) !important;
+}
+
+/* General sections on Home */
+body > section,
+main section{
+  position:relative;
+}
+
+section h1,
+section h2,
+section h3{
+  color:var(--sss-primary-dark);
+  letter-spacing:-.02em;
+}
+
+section p{
+  color:var(--sss-muted);
+}
+
+/* Buttons */
+button,
+.btn,
+a.button,
+input[type="button"],
+input[type="submit"]{
+  border-radius:12px !important;
+  transition:all .22s ease !important;
+}
+
+button:hover,
+.btn:hover,
+a.button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover{
+  transform:translateY(-1px);
+  box-shadow:0 8px 20px rgba(8,127,140,.16);
+}
+
+/* Images */
+main img{
+  border-radius:16px;
+}
+
+main img:hover{
+  filter:saturate(1.04);
+}
+
+/* Search box — keep existing functionality */
+.sss-header-search{
+  filter:drop-shadow(0 6px 15px rgba(7,87,102,.12));
+}
+
+.sss-header-search input{
+  border:1px solid rgba(8,127,140,.18) !important;
+  border-radius:14px !important;
+  background:rgba(255,255,255,.97) !important;
+  box-shadow:0 7px 22px rgba(7,87,102,.09) !important;
+}
+
+.sss-header-search input:focus{
+  outline:none !important;
+  border-color:var(--sss-primary) !important;
+  box-shadow:0 0 0 4px rgba(8,127,140,.10),
+             0 8px 24px rgba(7,87,102,.12) !important;
+}
+
+/* Three-dot side menu — visual only, functionality unchanged */
+.sss-side-menu{
+  border-left:1px solid var(--sss-border) !important;
+  background:rgba(255,255,255,.98) !important;
+  box-shadow:-15px 0 45px rgba(7,87,102,.15) !important;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+
+.sss-side-menu a,
+.sss-side-menu button{
+  border-radius:12px !important;
+  transition:all .2s ease !important;
+}
+
+.sss-side-menu a:hover,
+.sss-side-menu button:hover{
+  background:rgba(8,127,140,.08) !important;
+  color:var(--sss-primary-dark) !important;
+}
+
+/* Cards / common content blocks */
+.card,
+.service-card,
+.facility-card,
+.info-card,
+.feature-card{
+  border:1px solid var(--sss-border);
+  border-radius:20px;
+  background:rgba(255,255,255,.96);
+  box-shadow:var(--sss-shadow);
+}
+
+/* Notice / information areas */
+.notice,
+.notification,
+.alert{
+  border-radius:16px !important;
+}
+
+/* Footer if present */
+footer{
+  border-top:1px solid var(--sss-border);
+  background:#073f4c !important;
+}
+
+/* Mobile */
+@media(max-width:768px){
+  .site-header{
+    box-shadow:0 5px 22px rgba(7,87,102,.10) !important;
+  }
+
+  .main-nav{
+    gap:5px !important;
+  }
+
+  .main-nav a{
+    padding:8px 9px !important;
+    font-size:13px;
+  }
+
+  .clean-service-grid{
+    grid-template-columns:repeat(1,minmax(0,1fr));
+    gap:15px !important;
+  }
+
+  .clean-service-grid > *{
+    border-radius:17px !important;
+  }
+
+  main img{
+    border-radius:13px;
+  }
+}
+
+/* Accessibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible{
+  outline:3px solid rgba(245,158,11,.45) !important;
+  outline-offset:2px;
+}
+</style>
+<section id="sss-medical-facilities"><h2>Modern Medical Facilities</h2><div class="sss-medical-gallery"><img src="https://ik.imagekit.io/samuisevasadan/images%20(1).jpeg?updatedAt=1789290863218"><img src="https://ik.imagekit.io/samuisevasadan/images%20(2).jpeg?updatedAt=1789290799173"><img src="https://ik.imagekit.io/samuisevasadan/lab2-2.jpg?updatedAt=1789108327681"><img src="https://ik.imagekit.io/samuisevasadan/modern-white-ambulance-with-flashing-emergency-lights-on-wet-pavement-at-night-photo.jpeg?updatedAt=1789108306245"><img src="https://ik.imagekit.io/samuisevasadan/images.jpeg?updatedAt=1789108351557"><img src="https://ik.imagekit.io/samuisevasadan/General-Surgery-kit-O-T-Kit.jpg?updatedAt=1789109002723"></div></section><style id="sss-medical-gallery-css">#sss-medical-facilities{max-width:1200px;margin:45px auto;padding:25px 16px;text-align:center}#sss-medical-facilities h2{color:#075766;font-size:30px;margin-bottom:25px}.sss-medical-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.sss-medical-gallery img{width:100%;height:220px;object-fit:cover;border-radius:20px;display:block;box-shadow:0 10px 30px rgba(7,87,102,.12);transition:.3s}.sss-medical-gallery img:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 18px 38px rgba(7,87,102,.2)}@media(max-width:768px){.sss-medical-gallery{grid-template-columns:repeat(2,1fr);gap:12px}.sss-medical-gallery img{height:150px}}@media(max-width:430px){.sss-medical-gallery{grid-template-columns:1fr}.sss-medical-gallery img{height:210px}}</style><section id="sss-main-intro" class="sss-main-intro"><div class="sss-logo"><div class="sss-logo-mark">✚</div><div><b>SAMUI SEVA SADAN</b><small>NURSING HOME</small></div></div><h2>Amolladi Dayla</h2><h3>Naggaarle Dakaatir</h3><p>24/7 dayli hanaawi</p><p>Qawwalaylah Udduurih Ayfaafayitte</p><p>limo kee gaso saytunnos</p><p><b>Ni caagid</b></p><p>Racmattale hanaawi, Mehrat xagni</p><p>Qaafiyat dacayri Adan dayli buxa fayyale mexxat le racmattaay, massakaxxa kee massakaxxah xayyossuh gulguluh tan. Ni farmo nagaytaniina kee kulli daylimah raacat</p><div class="sss-stats"><div><b>10K</b><span>Patients</span></div><div><b>500K</b><span>Services</span></div><div><b>15M</b><span>Care</span></div><div><b>24/7</b><span>Available</span></div></div></section><style id="sss-main-intro-style">#sss-main-intro{max-width:1100px;margin:35px auto;padding:30px 20px;text-align:center;background:linear-gradient(145deg,#fff,#eef9fa);border:1px solid rgba(8,127,140,.14);border-radius:28px;box-shadow:0 15px 40px rgba(7,87,102,.10)}.sss-logo{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:22px;color:#075766}.sss-logo-mark{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,#087f8c,#075766);color:#fff;font-size:32px;box-shadow:0 8px 20px rgba(8,127,140,.25)}.sss-logo b{display:block;font-size:21px;letter-spacing:1px}.sss-logo small{display:block;color:#087f8c;letter-spacing:2px;margin-top:3px}.sss-main-intro h2{margin:8px 0;color:#075766;font-size:30px}.sss-main-intro h3{margin:5px 0;color:#087f8c}.sss-main-intro p{color:#607980;line-height:1.7;margin:7px auto;max-width:800px}.sss-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:25px}.sss-stats div{padding:17px 8px;border-radius:16px;background:#fff;border:1px solid rgba(8,127,140,.12)}.sss-stats b{display:block;color:#087f8c;font-size:25px}.sss-stats span{font-size:12px;color:#71868b}@media(max-width:600px){.sss-stats{grid-template-columns:repeat(2,1fr)}.sss-main-intro{margin:25px 12px;padding:25px 15px}.sss-logo b{font-size:17px}}</style>
+<style id="sss-custom-skin-engine">
+.sss-side-menu.sss-custom-skin-active{
+  touch-action:none;
+}
+
+.sss-side-menu .sss-skin-draggable{
+  position:relative !important;
+  touch-action:none !important;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+}
+
+.sss-side-menu .sss-skin-draggable.sss-dragging{
+  z-index:99999 !important;
+  opacity:.85;
+}
+</style>
+
+<script id="sss-custom-skin-engine-js">
+(function(){
+
+const SKIN_KEY="sssCustomSkin";
+const POS_KEY="sssCustomSkinPositions";
+
+function read(key,fallback){
+  try{
+    return JSON.parse(localStorage.getItem(key)) || fallback;
+  }catch(e){
+    return fallback;
+  }
+}
+
+function applyCustomSkin(){
+
+  const menu=document.querySelector(".sss-side-menu");
+  if(!menu) return;
+
+  const skin=read(SKIN_KEY,{});
+
+  if(!skin.enabled){
+    menu.classList.remove("sss-custom-skin-active");
+    return;
+  }
+
+  menu.classList.add("sss-custom-skin-active");
+
+  if(skin.menuBg)
+    menu.style.background=skin.menuBg;
+
+  if(skin.menuBorder)
+    menu.style.borderColor=skin.menuBorder;
+
+  const items=menu.querySelectorAll(
+    "a,button,.sss-menu-item,[role='button']"
+  );
+
+  items.forEach(function(el,index){
+
+    el.classList.add("sss-skin-draggable");
+
+    if(skin.menuText)
+      el.style.color=skin.menuText;
+
+    const positions=read(POS_KEY,{});
+    const pos=positions[index];
+
+    if(pos){
+      el.style.transform=
+        "translate("+pos.x+"px,"+pos.y+"px)";
+    }
+
+    enableDrag(el,index);
+  });
+}
+
+function enableDrag(el,index){
+
+  if(el.dataset.sssDragReady==="1") return;
+
+  el.dataset.sssDragReady="1";
+
+  let timer=null;
+  let dragging=false;
+
+  let startX=0;
+  let startY=0;
+  let baseX=0;
+  let baseY=0;
+
+  el.addEventListener("pointerdown",function(e){
+
+    if(e.pointerType==="mouse" && e.button!==0)
+      return;
+
+    const positions=read(POS_KEY,{});
+    const pos=positions[index] || {x:0,y:0};
+
+    startX=e.clientX;
+    startY=e.clientY;
+
+    baseX=pos.x;
+    baseY=pos.y;
+
+    timer=setTimeout(function(){
+
+      dragging=true;
+
+      el.classList.add("sss-dragging");
+
+      try{
+        el.setPointerCapture(e.pointerId);
+      }catch(err){}
+
+    },400);
+  });
+
+  el.addEventListener("pointermove",function(e){
+
+    if(!dragging){
+
+      if(
+        Math.abs(e.clientX-startX)>10 ||
+        Math.abs(e.clientY-startY)>10
+      ){
+        clearTimeout(timer);
+      }
+
+      return;
+    }
+
+    e.preventDefault();
+
+    const x=baseX+(e.clientX-startX);
+    const y=baseY+(e.clientY-startY);
+
+    el.style.transform=
+      "translate("+x+"px,"+y+"px)";
+
+    const positions=read(POS_KEY,{});
+
+    positions[index]={
+      x:x,
+      y:y
+    };
+
+    localStorage.setItem(
+      POS_KEY,
+      JSON.stringify(positions)
+    );
+
+  });
+
+  function finish(){
+
+    clearTimeout(timer);
+
+    if(dragging){
+      dragging=false;
+      el.classList.remove("sss-dragging");
+    }
+  }
+
+  el.addEventListener("pointerup",finish);
+  el.addEventListener("pointercancel",finish);
+}
+
+function startCustomSkin(){
+
+  setTimeout(applyCustomSkin,300);
+  setTimeout(applyCustomSkin,1000);
+  setTimeout(applyCustomSkin,2000);
+}
+
+if(document.readyState==="loading"){
+  document.addEventListener(
+    "DOMContentLoaded",
+    startCustomSkin
+  );
+}else{
+  startCustomSkin();
+}
+
+window.addEventListener("storage",function(e){
+
+  if(
+    e.key===SKIN_KEY ||
+    e.key===POS_KEY
+  ){
+    applyCustomSkin();
+  }
+
+});
+
+})();
+</script>
+
+<script id="sss-customize-engine">
+(function(){
+
+function applySSSCustomize(){
+
+  let skin=null;
+
+  try{
+    skin=JSON.parse(localStorage.getItem("sssCustomSkin")||"null");
+  }catch(e){
+    skin=null;
+  }
+
+  if(!skin) return;
+
+  const menu=document.querySelector(".sss-menu-list");
+  const side=document.querySelector(".sss-side-menu");
+
+  if(!menu) return;
+
+  /* MENU COLORS */
+  if(side){
+    if(skin.menuBg)
+      side.style.setProperty("background",skin.menuBg,"important");
+
+    if(skin.menuBorder)
+      side.style.setProperty("border-color",skin.menuBorder,"important");
+  }
+
+  /* FIND MENU ITEMS */
+  const elements=[...menu.querySelectorAll("a,button,.sss-menu-item")];
+
+  /* SAVE ORIGINAL IDs */
+  elements.forEach((el,i)=>{
+    if(!el.dataset.sssOriginalIndex)
+      el.dataset.sssOriginalIndex=String(i);
+  });
+
+  /* APPLY ORDER */
+  if(Array.isArray(skin.order)){
+
+    const byId={};
+
+    elements.forEach(el=>{
+
+      const text=(el.innerText||"").trim().toLowerCase();
+
+      let id="";
+
+      if(text.includes("home")) id="home";
+      else if(text.includes("about")) id="about";
+      else if(text.includes("service")) id="services";
+      else if(text.includes("doctor")) id="doctors";
+      else if(text.includes("facilit")) id="facilities";
+      else if(text.includes("contact")) id="contact";
+      else if(text.includes("ask ai")) id="ask-ai";
+      else if(text.includes("setting")) id="settings";
+      else if(text.includes("admin")) id="admin";
+
+      if(id) byId[id]=el;
+    });
+
+    skin.order.forEach(id=>{
+      if(byId[id])
+        menu.appendChild(byId[id]);
+    });
+  }
+
+  /* APPLY NAME + SHOW/HIDE */
+  if(skin.items){
+
+    Object.keys(skin.items).forEach(id=>{
+
+      const data=skin.items[id];
+
+      let el=null;
+
+      const candidates=[...menu.querySelectorAll("a,button,.sss-menu-item")];
+
+      candidates.some(x=>{
+        const text=(x.innerText||"").trim().toLowerCase();
+
+        let match=false;
+
+        if(id==="home" && text.includes("home")) match=true;
+        if(id==="about" && text.includes("about")) match=true;
+        if(id==="services" && text.includes("service")) match=true;
+        if(id==="doctors" && text.includes("doctor")) match=true;
+        if(id==="facilities" && text.includes("facilit")) match=true;
+        if(id==="contact" && text.includes("contact")) match=true;
+        if(id==="ask-ai" && text.includes("ask ai")) match=true;
+        if(id==="settings" && text.includes("setting")) match=true;
+        if(id==="admin" && text.includes("admin")) match=true;
+
+        if(match){
+          el=x;
+          return true;
+        }
+
+        return false;
+      });
+
+      if(!el) return;
+
+      if(data.visible===false)
+        el.style.display="none";
+      else
+        el.style.display="";
+
+      if(data.name){
+
+        const textNodes=[];
+
+        const walker=document.createTreeWalker(
+          el,
+          NodeFilter.SHOW_TEXT
+        );
+
+        let node;
+
+        while(node=walker.nextNode()){
+          textNodes.push(node);
+        }
+
+        if(textNodes.length){
+          textNodes[textNodes.length-1].nodeValue=
+            " "+data.name;
+        }
+      }
+
+      if(skin.menuText)
+        el.style.setProperty("color",skin.menuText,"important");
+    });
+  }
+
+  /* ICON COLOR */
+  if(skin.menuIcon){
+
+    menu.querySelectorAll("i,span").forEach(x=>{
+      x.style.setProperty(
+        "color",
+        skin.menuIcon,
+        "important"
+      );
+    });
+  }
+
+}
+
+if(document.readyState==="loading"){
+  document.addEventListener(
+    "DOMContentLoaded",
+    applySSSCustomize
+  );
+}else{
+  applySSSCustomize();
+}
+
+})();
+</script>
+
+
+<style id="sss-homepage-layout-css">
+/* SSS HOMEPAGE LAYOUT FORCE */
+
+.sss-side-menu.sss-layout-vertical .sss-menu-list{
+  display:flex !important;
+  flex-direction:column !important;
+}
+
+.sss-side-menu.sss-layout-compact .sss-menu-list{
+  display:flex !important;
+  flex-direction:column !important;
+}
+
+.sss-side-menu.sss-layout-compact .sss-menu-list > *{
+  min-height:38px !important;
+  padding-top:6px !important;
+  padding-bottom:6px !important;
+}
+
+.sss-side-menu.sss-layout-grid .sss-menu-list{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:var(--sss-menu-spacing,10px) !important;
+}
+
+.sss-side-menu.sss-layout-grid .sss-menu-list > *{
+  width:100% !important;
+  min-width:0 !important;
+  box-sizing:border-box !important;
+}
+
+.sss-side-menu.sss-layout-fullwidth .sss-menu-list > *{
+  width:100% !important;
+  box-sizing:border-box !important;
+}
+</style>
+
+<script id="sss-homepage-layout-engine">
+(function(){
+
+function sssApplyHomepageLayout(){
+
+  let skin={};
+
+  try{
+    skin=JSON.parse(
+      localStorage.getItem("sssCustomSkin") || "{}"
+    );
+  }catch(e){
+    skin={};
+  }
+
+  const layout=skin.layout || {};
+
+  const side=document.querySelector(".sss-side-menu");
+  const menu=document.querySelector(".sss-menu-list");
+
+  if(!side || !menu){
+    return;
+  }
+
+  const mode=layout.mode || "vertical";
+  const spacing=Number(layout.spacing || 10);
+  const width=Number(layout.width || 310);
+  const full=layout.fullWidth === true;
+
+  /* Remove previous classes */
+  side.classList.remove(
+    "sss-layout-vertical",
+    "sss-layout-compact",
+    "sss-layout-grid",
+    "sss-layout-fullwidth"
+  );
+
+  /* Apply selected layout */
+  side.classList.add(
+    "sss-layout-"+mode
+  );
+
+  if(full){
+    side.classList.add(
+      "sss-layout-fullwidth"
+    );
+  }
+
+  /* Apply spacing directly */
+  menu.style.setProperty(
+    "gap",
+    spacing+"px",
+    "important"
+  );
+
+  menu.style.setProperty(
+    "--sss-menu-spacing",
+    spacing+"px"
+  );
+
+  /* Apply menu width directly */
+  if(width > 0){
+
+    side.style.setProperty(
+      "width",
+      width+"px",
+      "important"
+    );
+
+    side.style.setProperty(
+      "max-width",
+      "90vw",
+      "important"
+    );
+  }
+
+  /* Apply option width */
+  const items=menu.querySelectorAll(
+    "a,button,.sss-menu-item"
+  );
+
+  items.forEach(function(el){
+
+    if(full){
+
+      el.style.setProperty(
+        "width",
+        "100%",
+        "important"
+      );
+
+      el.style.setProperty(
+        "box-sizing",
+        "border-box",
+        "important"
+      );
+
+    }else{
+
+      el.style.removeProperty("width");
+
+    }
+
+  });
+
+  console.log(
+    "SSS Layout Applied:",
+    mode,
+    spacing,
+    width,
+    full
+  );
+}
+
+
+/* Apply immediately */
+sssApplyHomepageLayout();
+
+/* Apply again after menu is fully loaded */
+setTimeout(
+  sssApplyHomepageLayout,
+  300
+);
+
+setTimeout(
+  sssApplyHomepageLayout,
+  800
+);
+
+setTimeout(
+  sssApplyHomepageLayout,
+  1500
+);
+
+
+/* Also observe menu changes */
+const observer=new MutationObserver(function(){
+
+  sssApplyHomepageLayout();
+
+});
+
+const menu=document.querySelector(".sss-menu-list");
+
+if(menu){
+
+  observer.observe(
+    menu,
+    {
+      childList:true,
+      subtree:true
+    }
+  );
+
+}
+
+})();
+</script>
+
+
+
+
+
+<script id="sss-home-scroll-publish-engine">
+(function(){
+
+  function loadPublishedScrollText(){
+
+    const wrap = document.getElementById("sssHomeScrollWrap");
+    const track = document.getElementById("sssHomeScrollTrack");
+    const textEl = document.getElementById("sssHomeScrollText");
+
+    if(!wrap || !track || !textEl) return;
+
+    const text = localStorage.getItem("sss_scroll_text") || "";
+    const published = localStorage.getItem("sss_scroll_published") === "1";
+
+    if(!published || !text.trim()){
+      wrap.style.display = "none";
+      textEl.textContent = "";
+      textEl.classList.remove("sss-scroll-running");
+      return;
+    }
+
+    wrap.style.display = "block";
+    textEl.textContent = text.trim();
+
+    textEl.classList.remove("sss-scroll-running");
+    void textEl.offsetWidth;
+    textEl.classList.add("sss-scroll-running");
+  }
+
+  function startScroll(){
+    loadPublishedScrollText();
+
+    window.addEventListener("storage", function(e){
+      if(e.key === "sss_scroll_text" ||
+         e.key === "sss_scroll_published"){
+        loadPublishedScrollText();
+      }
+    });
+
+    setTimeout(loadPublishedScrollText,300);
+    setTimeout(loadPublishedScrollText,1000);
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded",startScroll);
+  }else{
+    startScroll();
+  }
+
+})();
+</script>

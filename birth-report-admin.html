@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Birth Report Management</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,"Noto Sans Bengali",sans-serif;
+ background:#eef3f7;
+ color:#222
+}
+header{
+ background:#075e54;
+ color:#fff;
+ padding:14px;
+ position:sticky;
+ top:0;
+ z-index:20
+}
+.head{
+ max-width:1200px;
+ margin:auto;
+ display:flex;
+ justify-content:space-between;
+ align-items:center
+}
+.container{
+ max-width:1200px;
+ margin:auto;
+ padding:15px
+}
+.card{
+ background:#fff;
+ border-radius:12px;
+ padding:15px;
+ margin-bottom:15px;
+ box-shadow:0 2px 10px #0001
+}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:10px
+}
+.full{grid-column:1/-1}
+label{
+ display:block;
+ font-weight:bold;
+ margin-bottom:4px
+}
+input,select,textarea{
+ width:100%;
+ padding:10px;
+ border:1px solid #aaa;
+ border-radius:7px;
+ font-size:15px
+}
+textarea{min-height:75px}
+.btn{
+ border:0;
+ border-radius:7px;
+ padding:10px 14px;
+ margin:4px;
+ cursor:pointer
+}
+.save{background:#1565c0;color:white}
+.publish{background:#198754;color:white}
+.delete{background:#dc3545;color:white}
+.print{background:#6f42c1;color:white}
+.new{background:#075e54;color:white}
+.home{background:#555;color:white}
+table{
+ width:100%;
+ border-collapse:collapse;
+ background:#fff
+}
+th,td{
+ border:1px solid #ddd;
+ padding:8px;
+ text-align:left
+}
+th{background:#eee}
+@media(max-width:700px){
+ .grid{grid-template-columns:1fr}
+ .full{grid-column:auto}
+ table{font-size:13px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="head">
+ <b>👶 Birth Report Management</b>
+ <a href="index.html" style="color:white">Home</a>
+</div>
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>জন্ম প্রতিবেদন Form</h2>
+
+<div class="grid">
+
+<div>
+<label>১. জন্ম তারিখ</label>
+<input id="dob" type="date">
+</div>
+
+<div>
+<label>২. লিঙ্গ</label>
+<select id="gender">
+<option value="">Select</option>
+<option>পুরুষ / Male</option>
+<option>স্ত্রী / Female</option>
+<option>অন্যান্য / Other</option>
+</select>
+</div>
+
+<div class="full">
+<label>৩. শিশুর নাম</label>
+<input id="babyName">
+</div>
+
+<div class="full">
+<label>৪. পিতার নাম</label>
+<input id="fatherName">
+</div>
+
+<div>
+<label>পিতার আধার/পরিচয় নম্বর</label>
+<input id="fatherId">
+</div>
+
+<div>
+<label>পিতার ফোন নম্বর</label>
+<input id="fatherPhone">
+</div>
+
+<div class="full">
+<label>৫. মাতার নাম</label>
+<input id="motherName">
+</div>
+
+<div>
+<label>মাতার আধার/পরিচয় নম্বর</label>
+<input id="motherId">
+</div>
+
+<div>
+<label>মাতার ফোন নম্বর</label>
+<input id="motherPhone">
+</div>
+
+<div class="full">
+<label>৬. শিশুর জন্মের সময় পিতা-মাতার ঠিকানা</label>
+<textarea id="parentAddress"></textarea>
+</div>
+
+<div class="full">
+<label>৭. পিতা-মাতার স্থায়ী ঠিকানা</label>
+<textarea id="permanentAddress"></textarea>
+</div>
+
+<div class="full">
+<label>৮. জন্মের স্থান</label>
+<input id="birthPlace">
+</div>
+
+<div class="full">
+<label>৯. সংবাদদাতার নাম ও ঠিকানা</label>
+<textarea id="informant"></textarea>
+</div>
+
+<div>
+<label>১০(ক). মাতার বর্তমান গ্রাম/শহর</label>
+<input id="motherVillage">
+</div>
+
+<div>
+<label>১০(খ). শহর/গ্রাম</label>
+<input id="cityVillage">
+</div>
+
+<div>
+<label>১০(গ). জেলা</label>
+<input id="district">
+</div>
+
+<div>
+<label>১০(ঘ). রাজ্য</label>
+<input id="state">
+</div>
+
+<div class="full">
+<label>১১. পরিবারের ধর্ম</label>
+<input id="religion">
+</div>
+
+<div class="full">
+<label>১২. পিতার শিক্ষাগত মান</label>
+<input id="fatherEducation">
+</div>
+
+<div class="full">
+<label>১৩. মাতার শিক্ষাগত মান</label>
+<input id="motherEducation">
+</div>
+
+<div>
+<label>১৪. পিতার পেশা</label>
+<input id="fatherOccupation">
+</div>
+
+<div>
+<label>১৫. মাতার পেশা</label>
+<input id="motherOccupation">
+</div>
+
+<div>
+<label>১৬. প্রথম বিবাহের সময় মাতার বয়স</label>
+<input id="motherMarriageAge">
+</div>
+
+<div>
+<label>১৭. সন্তানের জন্মের সময় মাতার বয়স</label>
+<input id="motherAge">
+</div>
+
+<div class="full">
+<label>১৮. মাতার জীবিত পুত্র সন্তান সংখ্যা</label>
+<input id="livingSons">
+</div>
+
+<div class="full">
+<label>পরিসংখ্যান / মন্তব্য</label>
+<textarea id="statistics"></textarea>
+</div>
+
+</div>
+
+<div style="margin-top:15px">
+<button class="btn new" onclick="newReport()">New</button>
+<button class="btn save" onclick="saveReport()">💾 Save</button>
+<button class="btn publish" onclick="publishReport()">✓ Publish</button>
+<button class="btn delete" onclick="deleteReport()">Delete</button>
+<button class="btn print" onclick="printCurrent()">🖨 Print</button>
+</div>
+
+<div id="msg"></div>
+
+</div>
+
+<div class="card">
+<h3>Saved Birth Reports</h3>
+<div id="list"></div>
+</div>
+
+</div>
+
+<script>
+const KEY="sssBirthReports";
+let currentId=null;
+
+const fields=[
+"dob","gender","babyName","fatherName","fatherId","fatherPhone",
+"motherName","motherId","motherPhone","parentAddress",
+"permanentAddress","birthPlace","informant","motherVillage",
+"cityVillage","district","state","religion","fatherEducation",
+"motherEducation","fatherOccupation","motherOccupation",
+"motherMarriageAge","motherAge","livingSons","statistics"
+];
+
+function all(){
+ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}
+ catch(e){return[]}
+}
+
+function saveAll(x){
+ localStorage.setItem(KEY,JSON.stringify(x));
+}
+
+function val(id){
+ return document.getElementById(id).value;
+}
+
+function setval(id,v){
+ document.getElementById(id).value=v||"";
+}
+
+function readForm(){
+ const d={};
+ fields.forEach(f=>d[f]=val(f));
+ return d;
+}
+
+function newReport(){
+ currentId=null;
+ fields.forEach(f=>setval(f,""));
+ document.getElementById("dob").valueAsDate=new Date();
+ msg("New Birth Report ready.");
+}
+
+function saveReport(){
+ const d=readForm();
+
+ if(!d.dob){
+   alert("Baby DOB দিতে হবে.");
+   return;
+ }
+
+ let arr=all();
+
+ if(!currentId){
+   currentId="BR-"+Date.now();
+   arr.push({
+     id:currentId,
+     dob:d.dob,
+     babyName:d.babyName,
+     gender:d.gender,
+     status:"draft",
+     data:d,
+     createdAt:new Date().toISOString()
+   });
+ }else{
+   const i=arr.findIndex(x=>x.id===currentId);
+   if(i>=0){
+     arr[i].dob=d.dob;
+     arr[i].babyName=d.babyName;
+     arr[i].gender=d.gender;
+     arr[i].data=d;
+   }
+ }
+
+ saveAll(arr);
+ renderList();
+ msg("Report saved.");
+}
+
+function publishReport(){
+ saveReport();
+
+ let arr=all();
+ const i=arr.findIndex(x=>x.id===currentId);
+
+ if(i>=0){
+   arr[i].status="published";
+   arr[i].publishedAt=new Date().toISOString();
+   saveAll(arr);
+ }
+
+ renderList();
+ msg("Birth Report Published. Homepage-এ DOB folder-এ যাবে.");
+}
+
+function deleteReport(){
+ if(!currentId){
+   alert("আগে একটি report select করুন.");
+   return;
+ }
+
+ if(!confirm("এই Birth Report delete করবেন?"))return;
+
+ let arr=all().filter(x=>x.id!==currentId);
+ saveAll(arr);
+
+ currentId=null;
+ fields.forEach(f=>setval(f,""));
+ renderList();
+ msg("Deleted.");
+}
+
+function editReport(id){
+ const r=all().find(x=>x.id===id);
+ if(!r)return;
+
+ currentId=id;
+
+ fields.forEach(f=>setval(f,(r.data||{})[f]));
+
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function printReport(id){
+ const r=all().find(x=>x.id===id);
+ if(!r)return;
+
+ const d=r.data||{};
+
+ const w=window.open("","_blank");
+
+ w.document.write(`
+ <!doctype html>
+ <html>
+ <head>
+ <meta charset="UTF-8">
+ <title>Birth Report</title>
+ <style>
+ body{font-family:Arial,"Noto Sans Bengali",sans-serif;padding:25px}
+ h1{text-align:center}
+ table{width:100%;border-collapse:collapse}
+ td{border:1px solid #555;padding:8px}
+ .k{font-weight:bold;width:35%}
+ </style>
+ </head>
+ <body>
+ <h1>জন্ম প্রতিবেদন</h1>
+ <table>
+ ${fields.map(f=>`
+ <tr>
+ <td class="k">${label(f)}</td>
+ <td>${safe((d[f]||""))}</td>
+ </tr>`).join("")}
+ </table>
+ <br><br>
+ <table>
+ <tr>
+ <td style="text-align:center;height:70px">পিতা/মাতার স্বাক্ষর</td>
+ <td style="text-align:center">সেবা প্রদানকারীর স্বাক্ষর</td>
+ <td style="text-align:center">নিবন্ধকের স্বাক্ষর</td>
+ </tr>
+ </table>
+ </body>
+ </html>
+ `);
+
+ w.document.close();
+ w.focus();
+ setTimeout(()=>w.print(),300);
+}
+
+function printCurrent(){
+ if(currentId) printReport(currentId);
+ else alert("আগে Save করুন.");
+}
+
+function renderList(){
+ const arr=all();
+
+ if(!arr.length){
+  document.getElementById("list").innerHTML="<p>No report.</p>";
+  return;
+ }
+
+ document.getElementById("list").innerHTML=`
+ <table>
+ <tr>
+  <th>DOB</th>
+  <th>Baby</th>
+  <th>Status</th>
+  <th>Action</th>
+ </tr>
+ ${arr.map(r=>`
+ <tr>
+  <td>${safe(r.dob)}</td>
+  <td>${safe(r.babyName)}</td>
+  <td>${safe(r.status)}</td>
+  <td>
+   <button class="btn save" onclick="editReport('${r.id}')">Edit</button>
+   <button class="btn print" onclick="printReport('${r.id}')">Print</button>
+  </td>
+ </tr>
+ `).join("")}
+ </table>`;
+}
+
+function label(f){
+ const m={
+ dob:"জন্ম তারিখ",
+ gender:"লিঙ্গ",
+ babyName:"শিশুর নাম",
+ fatherName:"পিতার নাম",
+ fatherId:"পিতার পরিচয় নম্বর",
+ fatherPhone:"পিতার ফোন",
+ motherName:"মাতার নাম",
+ motherId:"মাতার পরিচয় নম্বর",
+ motherPhone:"মাতার ফোন",
+ parentAddress:"জন্মের সময় পিতা-মাতার ঠিকানা",
+ permanentAddress:"স্থায়ী ঠিকানা",
+ birthPlace:"জন্মের স্থান",
+ informant:"সংবাদদাতা",
+ motherVillage:"মাতার বর্তমান গ্রাম/শহর",
+ cityVillage:"শহর/গ্রাম",
+ district:"জেলা",
+ state:"রাজ্য",
+ religion:"পরিবারের ধর্ম",
+ fatherEducation:"পিতার শিক্ষাগত মান",
+ motherEducation:"মাতার শিক্ষাগত মান",
+ fatherOccupation:"পিতার পেশা",
+ motherOccupation:"মাতার পেশা",
+ motherMarriageAge:"প্রথম বিবাহের সময় মাতার বয়স",
+ motherAge:"সন্তানের জন্মের সময় মাতার বয়স",
+ livingSons:"জীবিত পুত্র সন্তান সংখ্যা",
+ statistics:"পরিসংখ্যান / মন্তব্য"
+ };
+ return m[f]||f;
+}
+
+function safe(x){
+ return String(x??"")
+ .replace(/&/g,"&amp;")
+ .replace(/</g,"&lt;")
+ .replace(/>/g,"&gt;")
+ .replace(/"/g,"&quot;");
+}
+
+function msg(t){
+ document.getElementById("msg").innerHTML=
+ `<div style="padding:10px;margin-top:10px;background:#e8f5e9;border-radius:7px">${t}</div>`;
+}
+
+renderList();
+newReport();
+</script>
+
+</body>
+</html>

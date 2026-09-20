@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Blood Report - SAMUI SEVA SADAN</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f4f7fb;
+ color:#17202a;
+}
+header{
+ background:linear-gradient(135deg,#075e54,#128c7e);
+ color:white;
+ padding:20px 15px;
+ text-align:center;
+}
+header h1{margin:0}
+.wrap{max-width:900px;margin:auto;padding:15px}
+
+.search{
+ background:white;
+ padding:14px;
+ border-radius:15px;
+ box-shadow:0 2px 10px #0002;
+ margin-bottom:15px;
+}
+.search input{
+ width:100%;
+ padding:13px;
+ border:1px solid #ccd5df;
+ border-radius:10px;
+ font-size:16px;
+}
+
+.folder{
+ background:white;
+ border-radius:15px;
+ margin:12px 0;
+ box-shadow:0 2px 10px #0001;
+ overflow:hidden;
+}
+.folder-head{
+ padding:15px;
+ font-weight:bold;
+ font-size:17px;
+ cursor:pointer;
+ background:#fff;
+}
+.folder-body{
+ padding:0 15px 15px;
+ display:none;
+}
+.report{
+ border:1px solid #ddd;
+ border-radius:10px;
+ padding:12px;
+ margin-top:10px;
+ background:#fafcff;
+}
+.report button{
+ border:0;
+ border-radius:8px;
+ padding:9px 12px;
+ margin-top:8px;
+ cursor:pointer;
+}
+.empty{
+ background:white;
+ padding:25px;
+ border-radius:15px;
+ text-align:center;
+ color:#777;
+}
+.small{font-size:12px;color:#666}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🔬 Blood Report</h1>
+<div>Published Laboratory Reports</div>
+</header>
+
+<div class="wrap">
+
+<div class="search">
+<input id="search"
+placeholder="🔍 Search by Mother / Patient Name or Aadhaar No."
+oninput="render()">
+</div>
+
+<div id="list"></div>
+
+</div>
+
+<script>
+
+const KEY="sss_blood_reports";
+
+function getAll(){
+
+ try{
+   return JSON.parse(localStorage.getItem(KEY)||"[]")
+     .filter(x=>x && x.status==="published");
+ }catch(e){
+   return [];
+ }
+
+}
+
+function norm(v){
+ return String(v||"")
+ .toLowerCase()
+ .replace(/\s+/g,"")
+ .replace(/\D/g,"");
+}
+
+function maskAadhaar(a){
+
+ const d=String(a||"").replace(/\D/g,"");
+
+ if(d.length===12)
+   return "XXXX XXXX "+d.slice(-4);
+
+ return a||"";
+}
+
+function esc(v){
+
+ return String(v??"")
+ .replace(/&/g,"&amp;")
+ .replace(/</g,"&lt;")
+ .replace(/>/g,"&gt;")
+ .replace(/"/g,"&quot;");
+}
+
+function render(){
+
+ const box=document.getElementById("list");
+ const q=document.getElementById("search").value.trim();
+
+ let arr=getAll();
+
+ if(q){
+
+   const q1=q.toLowerCase();
+   const q2=norm(q);
+
+   arr=arr.filter(r=>
+     String(r.patientName||"").toLowerCase().includes(q1) ||
+     norm(r.aadhaar).includes(q2) ||
+     String(r.reportType||"").toLowerCase().includes(q1)
+   );
+
+ }
+
+ const groups={};
+
+ arr.forEach(r=>{
+
+   const key=(r.patientName||"Unknown Patient")
+     .trim()
+     .toLowerCase();
+
+   if(!groups[key])groups[key]={
+     name:r.patientName||"Unknown Patient",
+     aadhaar:r.aadhaar||"",
+     reports:[]
+   };
+
+   groups[key].reports.push(r);
+
+ });
+
+ const names=Object.keys(groups);
+
+ if(!names.length){
+
+   box.innerHTML=
+   '<div class="empty">No published Blood Report found.</div>';
+
+   return;
+ }
+
+ box.innerHTML=names.map((key,index)=>{
+
+   const g=groups[key];
+
+   return `
+   <div class="folder">
+
+     <div class="folder-head"
+          onclick="toggleFolder('${index}')">
+
+       📁 ${esc(g.name)}
+
+       <span style="float:right">
+       ${g.reports.length} Report${g.reports.length>1?"s":""}
+       </span>
+
+       <div class="small">
+       Aadhaar: ${maskAadhaar(g.aadhaar)}
+       </div>
+
+     </div>
+
+     <div class="folder-body" id="folder-${index}">
+
+       ${g.reports.map(r=>`
+
+       <div class="report">
+
+         <b>🔬 ${esc(r.reportType)}</b>
+
+         <div class="small">
+         Sample Date: ${esc(r.sampleDate||"")}
+         </div>
+
+         <div class="small">
+         Lab No: ${esc(r.labNo||"")}
+         </div>
+
+         <button onclick="viewReport('${r.id}')">
+         👁️ View Report
+         </button>
+
+       </div>
+
+       `).join("")}
+
+     </div>
+
+   </div>
+   `;
+
+ }).join("");
+
+}
+
+function toggleFolder(i){
+
+ const x=document.getElementById("folder-"+i);
+
+ if(x)
+ x.style.display=x.style.display==="block"?"none":"block";
+
+}
+
+function viewReport(id){
+
+ const r=getAll().find(x=>x.id===id);
+
+ if(!r)return;
+
+ const tests=Object.entries(r.results||{}).map(([k,v])=>
+ `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`
+ ).join("");
+
+ const w=window.open("","_blank","width=900,height=700");
+
+ if(!w){
+   alert("Please allow pop-ups.");
+   return;
+ }
+
+ w.document.write(`
+<!DOCTYPE html>
+<html>
+<head>
+<title>${esc(r.reportType)}</title>
+<style>
+body{font-family:Arial;padding:25px}
+h1,h2{text-align:center}
+table{width:100%;border-collapse:collapse;margin-top:20px}
+td,th{border:1px solid #999;padding:9px}
+</style>
+</head>
+<body>
+
+<h1>SAMUI SEVA SADAN</h1>
+<h2>${esc(r.reportType)}</h2>
+
+<p>
+<b>Mother / Patient:</b> ${esc(r.patientName)}<br>
+<b>Aadhaar:</b> ${maskAadhaar(r.aadhaar)}<br>
+<b>Age:</b> ${esc(r.age)}<br>
+<b>Sex:</b> ${esc(r.sex)}<br>
+<b>Sample Date:</b> ${esc(r.sampleDate)}<br>
+<b>Lab No:</b> ${esc(r.labNo)}<br>
+<b>Doctor:</b> ${esc(r.doctor)}
+</p>
+
+<table>
+<tr><th>Test</th><th>Result</th></tr>
+${tests}
+</table>
+
+<p><b>Remarks:</b><br>${esc(r.remarks)}</p>
+
+<button onclick="window.print()">🖨️ Print</button>
+
+</body>
+</html>
+`);
+
+ w.document.close();
+
+}
+
+render();
+
+window.addEventListener("storage",render);
+setInterval(render,1500);
+
+</script>
+
+</body>
+</html>

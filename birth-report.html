@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Birth Report - SAMUI SEVA SADAN</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,"Noto Sans Bengali",sans-serif;
+ background:#f3f6f9;
+ color:#222
+}
+header{
+ background:#075e54;
+ color:white;
+ padding:14px;
+ position:sticky;
+ top:0;
+ z-index:10;
+ box-shadow:0 2px 8px #0002
+}
+.header-row{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:10px
+}
+h1{font-size:20px;margin:0}
+.back{
+ color:white;
+ text-decoration:none;
+ background:#0003;
+ padding:8px 12px;
+ border-radius:7px
+}
+.container{
+ max-width:1200px;
+ margin:auto;
+ padding:15px
+}
+.search{
+ width:100%;
+ padding:12px;
+ border:1px solid #bbb;
+ border-radius:8px;
+ margin-bottom:15px;
+ font-size:16px
+}
+.folder-grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+ gap:12px
+}
+.folder{
+ background:white;
+ border-radius:12px;
+ padding:18px;
+ box-shadow:0 2px 10px #0001;
+ cursor:pointer;
+ border:1px solid #ddd
+}
+.folder:hover{transform:translateY(-2px)}
+.folder-icon{font-size:38px}
+.folder-date{
+ font-size:17px;
+ font-weight:bold;
+ margin-top:7px
+}
+.folder-count{
+ color:#666;
+ margin-top:5px
+}
+.report-list{display:none}
+.report{
+ background:white;
+ margin:12px 0;
+ padding:15px;
+ border-radius:10px;
+ box-shadow:0 2px 8px #0001
+}
+.report-title{
+ font-size:18px;
+ font-weight:bold
+}
+.report-meta{
+ color:#666;
+ margin-top:5px
+}
+.btn{
+ border:0;
+ border-radius:7px;
+ padding:9px 13px;
+ margin:5px 3px;
+ cursor:pointer
+}
+.print{background:#1565c0;color:white}
+.back2{background:#555;color:white}
+
+#reportView{
+ display:none;
+ background:white;
+ padding:20px;
+ margin-top:15px
+}
+.paper{
+ border:2px solid #444;
+ padding:15px
+}
+.paper-title{
+ text-align:center;
+ font-size:24px;
+ font-weight:bold;
+ margin-bottom:4px
+}
+.paper-sub{
+ text-align:center;
+ margin-bottom:15px
+}
+.section-title{
+ background:#eee;
+ border:1px solid #777;
+ padding:7px;
+ font-weight:bold
+}
+.form-grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:0;
+ border-left:1px solid #777
+}
+.field{
+ border-right:1px solid #777;
+ border-bottom:1px solid #777;
+ padding:8px;
+ min-height:48px
+}
+.field label{
+ display:block;
+ font-weight:bold;
+ margin-bottom:5px
+}
+.field input,.field textarea{
+ width:100%;
+ border:0;
+ border-bottom:1px dotted #555;
+ outline:none;
+ padding:5px;
+ background:transparent
+}
+.full{grid-column:1/-1}
+.signature{
+ margin-top:35px;
+ display:grid;
+ grid-template-columns:1fr 1fr 1fr;
+ gap:15px;
+ text-align:center
+}
+.signature div{
+ border-top:1px solid #444;
+ padding-top:6px
+}
+.empty{
+ text-align:center;
+ padding:35px;
+ color:#777
+}
+@media(max-width:700px){
+ .form-grid{grid-template-columns:1fr}
+ .full{grid-column:auto}
+ .signature{grid-template-columns:1fr}
+}
+@media print{
+ header,.search,.folder-grid,#reportListButtons,.btn{display:none!important}
+ body{background:white}
+ #reportView{display:block!important;margin:0;padding:0}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="header-row">
+  <h1>👶 Birth Report</h1>
+  <a class="back" href="index.html">Home</a>
+ </div>
+</header>
+
+<div class="container">
+
+<input id="search" class="search"
+ placeholder="Search Baby DOB / Baby Name..."
+ oninput="renderFolders()">
+
+<div id="folders" class="folder-grid"></div>
+
+<div id="reports" class="report-list"></div>
+
+<div id="reportView"></div>
+
+</div>
+
+<script>
+const KEY="sssBirthReports";
+
+function getReports(){
+ try{
+  return JSON.parse(localStorage.getItem(KEY)||"[]");
+ }catch(e){return []}
+}
+
+function renderFolders(){
+ const q=(document.getElementById("search").value||"").toLowerCase();
+ const all=getReports().filter(x=>x.status==="published");
+
+ const groups={};
+
+ all.forEach(r=>{
+   const dob=r.dob||"Unknown DOB";
+   if(
+     !q ||
+     dob.toLowerCase().includes(q) ||
+     (r.babyName||"").toLowerCase().includes(q)
+   ){
+     if(!groups[dob]) groups[dob]=[];
+     groups[dob].push(r);
+   }
+ });
+
+ const box=document.getElementById("folders");
+
+ const dates=Object.keys(groups).sort((a,b)=>{
+   return b.localeCompare(a);
+ });
+
+ if(!dates.length){
+   box.innerHTML='<div class="empty">No published Birth Report found.</div>';
+   return;
+ }
+
+ box.innerHTML=dates.map(d=>`
+   <div class="folder" onclick="openFolder(${JSON.stringify(d)})">
+     <div class="folder-icon">📁</div>
+     <div class="folder-date">Baby DOB: ${esc(d)}</div>
+     <div class="folder-count">${groups[d].length} Report(s)</div>
+   </div>
+ `).join("");
+}
+
+function openFolder(dob){
+ const all=getReports().filter(x=>x.status==="published" && x.dob===dob);
+ const box=document.getElementById("reports");
+
+ box.style.display="block";
+
+ box.innerHTML=`
+   <button class="btn back2" onclick="closeFolder()">← DOB Folders</button>
+   <h2>📁 Baby DOB: ${esc(dob)}</h2>
+   ${all.map(r=>`
+     <div class="report">
+       <div class="report-title">👶 ${esc(r.babyName||"Baby Birth Report")}</div>
+       <div class="report-meta">
+         DOB: ${esc(r.dob||"")} |
+         Gender: ${esc(r.gender||"")}
+       </div>
+       <button class="btn print" onclick="viewReport('${r.id}')">
+         View / Print
+       </button>
+     </div>
+   `).join("")}
+ `;
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function closeFolder(){
+ document.getElementById("reports").style.display="none";
+ document.getElementById("reportView").style.display="none";
+ renderFolders();
+}
+
+function viewReport(id){
+ const r=getReports().find(x=>x.id===id);
+ if(!r)return;
+
+ const d=r.data||{};
+ const box=document.getElementById("reportView");
+
+ box.style.display="block";
+
+ box.innerHTML=`
+ <div class="paper" id="printPaper">
+
+  <div class="paper-title">জন্ম প্রতিবেদন</div>
+  <div class="paper-sub">(সরকারি/প্রতিষ্ঠানের ব্যবহারের জন্য)</div>
+
+  <div class="section-title">আইনগত তথ্য</div>
+
+  <div class="form-grid">
+
+   <div class="field">
+    <label>১. জন্ম তারিখ</label>
+    ${esc(d.dob||r.dob||"")}
+   </div>
+
+   <div class="field">
+    <label>২. লিঙ্গ</label>
+    ${esc(d.gender||r.gender||"")}
+   </div>
+
+   <div class="field full">
+    <label>৩. শিশুর নাম (যদি থাকে)</label>
+    ${esc(d.babyName||r.babyName||"")}
+   </div>
+
+   <div class="field full">
+    <label>৪. পিতার নাম</label>
+    ${esc(d.fatherName||"")}
+   </div>
+
+   <div class="field">
+    <label>পিতার আধার/পরিচয় নম্বর</label>
+    ${esc(d.fatherId||"")}
+   </div>
+
+   <div class="field">
+    <label>পিতার ফোন নম্বর</label>
+    ${esc(d.fatherPhone||"")}
+   </div>
+
+   <div class="field full">
+    <label>৫. মাতার নাম</label>
+    ${esc(d.motherName||"")}
+   </div>
+
+   <div class="field">
+    <label>মাতার আধার/পরিচয় নম্বর</label>
+    ${esc(d.motherId||"")}
+   </div>
+
+   <div class="field">
+    <label>মাতার ফোন নম্বর</label>
+    ${esc(d.motherPhone||"")}
+   </div>
+
+   <div class="field full">
+    <label>৬. শিশুর জন্মের সময় পিতা-মাতার ঠিকানা</label>
+    ${esc(d.parentAddress||"")}
+   </div>
+
+   <div class="field full">
+    <label>৭. পিতা-মাতার স্থায়ী ঠিকানা</label>
+    ${esc(d.permanentAddress||"")}
+   </div>
+
+   <div class="field full">
+    <label>৮. জন্মের স্থান</label>
+    ${esc(d.birthPlace||"")}
+   </div>
+
+   <div class="field full">
+    <label>৯. সংবাদদাতার নাম ও ঠিকানা</label>
+    ${esc(d.informant||"")}
+   </div>
+
+   <div class="field">
+    <label>১০(ক). মাতার বর্তমান গ্রাম/শহরের নাম</label>
+    ${esc(d.motherVillage||"")}
+   </div>
+
+   <div class="field">
+    <label>১০(খ). শহর/গ্রাম</label>
+    ${esc(d.cityVillage||"")}
+   </div>
+
+   <div class="field">
+    <label>১০(গ). জেলা</label>
+    ${esc(d.district||"")}
+   </div>
+
+   <div class="field">
+    <label>১০(ঘ). রাজ্য</label>
+    ${esc(d.state||"")}
+   </div>
+
+   <div class="field full">
+    <label>১১. পরিবারের ধর্ম</label>
+    ${esc(d.religion||"")}
+   </div>
+
+   <div class="field full">
+    <label>১২. পিতার শিক্ষাগত মান</label>
+    ${esc(d.fatherEducation||"")}
+   </div>
+
+   <div class="field full">
+    <label>১৩. মাতার শিক্ষাগত মান</label>
+    ${esc(d.motherEducation||"")}
+   </div>
+
+   <div class="field">
+    <label>১৪. পিতার পেশা</label>
+    ${esc(d.fatherOccupation||"")}
+   </div>
+
+   <div class="field">
+    <label>১৫. মাতার পেশা</label>
+    ${esc(d.motherOccupation||"")}
+   </div>
+
+   <div class="field">
+    <label>১৬. প্রথম বিবাহের সময় মাতার বয়স</label>
+    ${esc(d.motherMarriageAge||"")}
+   </div>
+
+   <div class="field">
+    <label>১৭. এই সন্তানের জন্মের সময় মাতার বয়স</label>
+    ${esc(d.motherAge||"")}
+   </div>
+
+   <div class="field full">
+    <label>১৮. মাতার জীবিত পুত্র সন্তান সংখ্যা</label>
+    ${esc(d.livingSons||"")}
+   </div>
+
+   <div class="field full">
+    <label>পরিসংখ্যান সংক্রান্ত তথ্য / মন্তব্য</label>
+    ${esc(d.statistics||"")}
+   </div>
+
+  </div>
+
+  <div class="signature">
+   <div>পিতা/মাতার স্বাক্ষর</div>
+   <div>সেবা প্রদানকারীর স্বাক্ষর</div>
+   <div>নিবন্ধকের স্বাক্ষর</div>
+  </div>
+
+ </div>
+
+ <div id="reportListButtons">
+   <button class="btn print" onclick="window.print()">🖨 Print</button>
+   <button class="btn back2" onclick="document.getElementById('reportView').style.display='none'">Close</button>
+ </div>
+ `;
+
+ window.scrollTo({top:document.getElementById("reportView").offsetTop-10,behavior:"smooth"});
+}
+
+function esc(x){
+ return String(x??"")
+ .replace(/&/g,"&amp;")
+ .replace(/</g,"&lt;")
+ .replace(/>/g,"&gt;")
+ .replace(/"/g,"&quot;");
+}
+
+renderFolders();
+</script>
+
+</body>
+</html>

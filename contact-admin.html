@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact Management - SAMUI SEVA SADAN</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#eef7ff;color:#123}
+.wrap{max-width:700px;margin:auto;padding:18px}
+.card{background:#fff;border-radius:18px;padding:20px;margin-bottom:16px;box-shadow:0 4px 18px #0002}
+h1{text-align:center}
+input,select{width:100%;padding:13px;margin:7px 0;border:1px solid #ccc;border-radius:10px;font-size:16px}
+button{padding:10px 14px;border:0;border-radius:9px;margin:4px;cursor:pointer}
+.save{background:#1976d2;color:white}
+.edit{background:#ffb300}
+.del{background:#e53935;color:white}
+.pub{background:#2e7d32;color:white}
+.item{border:1px solid #ddd;border-radius:12px;padding:14px;margin-top:10px}
+.status{font-weight:bold}
+a{display:block;text-align:center;margin:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="card">
+<h1>📞 Contact Management</h1>
+
+<select id="type">
+<option value="whatsapp">🟢 WhatsApp</option>
+<option value="sms">💬 SMS</option>
+<option value="phone">☎️ Phone</option>
+<option value="email">✉️ Email</option>
+</select>
+
+<input id="value" placeholder="Number / Email">
+<input id="label" placeholder="Display name (optional)">
+
+<button class="save" onclick="saveContact()">Add New Contact</button>
+<button onclick="cancelEdit()">Cancel</button>
+</div>
+
+<div class="card">
+<h2>Published / Unpublished Contacts</h2>
+<div id="list"></div>
+</div>
+
+<a href="admin-dashboard.html">← Back to Admin Panel</a>
+<a href="contact.html">View Contact Page →</a>
+
+</div>
+
+<script>
+const KEY="sssContactRecords";
+let editId=null;
+
+function get(){
+ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}
+ catch(e){return[]}
+}
+
+function save(){
+ localStorage.setItem(KEY,JSON.stringify(arguments[0]));
+}
+
+function saveContact(){
+ const type=document.getElementById("type").value;
+ const value=document.getElementById("value").value.trim();
+ const label=document.getElementById("label").value.trim();
+
+ if(!value){alert("Number / Email লিখুন");return}
+
+ let a=get();
+
+ if(editId){
+   const x=a.find(z=>z.id===editId);
+   if(x){x.type=type;x.value=value;x.label=label}
+ }else{
+   a.push({
+     id:Date.now().toString(),
+     type:type,
+     value:value,
+     label:label,
+     published:false
+   });
+ }
+
+ save(a);
+ editId=null;
+ document.getElementById("value").value="";
+ document.getElementById("label").value="";
+ render();
+}
+
+function editContact(id){
+ const x=get().find(z=>z.id===id);
+ if(!x)return;
+ editId=id;
+ document.getElementById("type").value=x.type;
+ document.getElementById("value").value=x.value;
+ document.getElementById("label").value=x.label||"";
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function deleteContact(id){
+ if(!confirm("Delete this contact?"))return;
+ save(get().filter(x=>x.id!==id));
+ render();
+}
+
+function togglePublish(id){
+ const a=get();
+ const x=a.find(z=>z.id===id);
+ if(x)x.published=!x.published;
+ save(a);
+ render();
+}
+
+function cancelEdit(){
+ editId=null;
+ document.getElementById("value").value="";
+ document.getElementById("label").value="";
+}
+
+function render(){
+ const list=document.getElementById("list");
+ const a=get();
+
+ if(!a.length){
+   list.innerHTML="<p>No contacts added yet.</p>";
+   return;
+ }
+
+ list.innerHTML=a.map(x=>{
+   const icon={
+     whatsapp:"🟢",
+     sms:"💬",
+     phone:"☎️",
+     email:"✉️"
+   }[x.type]||"📞";
+
+   return `
+   <div class="item">
+     <b>${icon} ${x.type.toUpperCase()}</b>
+     ${x.label?`<div>${esc(x.label)}</div>`:""}
+     <div>${esc(x.value)}</div>
+     <div class="status">
+       ${x.published?"🟢 PUBLISHED":"⚪ UNPUBLISHED"}
+     </div>
+     <button class="edit" onclick="editContact('${x.id}')">Edit</button>
+     <button class="del" onclick="deleteContact('${x.id}')">Delete</button>
+     <button class="pub" onclick="togglePublish('${x.id}')">
+       ${x.published?"Unpublish":"Publish"}
+     </button>
+   </div>`;
+ }).join("");
+}
+
+function esc(s){
+ return String(s).replace(/[&<>"']/g,m=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",
+ '"':"&quot;","'":"&#039;"
+ }[m]));
+}
+
+if(localStorage.getItem("sssAdminLoggedIn")!=="true"){
+ location.href="admin-login.html";
+}else{
+ render();
+}
+</script>
+</body>
+</html>

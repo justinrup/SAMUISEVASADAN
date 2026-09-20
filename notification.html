@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Notification - SAMUI SEVA SADAN</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  color:#222;
+}
+.header{
+  background:#fff;
+  padding:18px;
+  text-align:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.1);
+}
+.container{
+  max-width:650px;
+  margin:25px auto;
+  padding:0 15px;
+}
+.card{
+  background:#fff;
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+h2{margin-top:0}
+label{
+  display:block;
+  font-weight:bold;
+  margin-top:15px;
+}
+input,textarea{
+  width:100%;
+  padding:12px;
+  margin-top:7px;
+  border:1px solid #ccc;
+  border-radius:10px;
+  font-size:16px;
+}
+textarea{resize:vertical}
+.buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:18px;
+}
+button{
+  border:0;
+  border-radius:10px;
+  padding:12px 18px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.save{background:#e8f1ff}
+.edit{background:#fff3cd}
+.publish{background:#dff5e5}
+.delete{background:#ffe1e1}
+.back{
+  display:block;
+  text-align:center;
+  margin-top:18px;
+  text-decoration:none;
+  background:#222;
+  color:#fff;
+  padding:12px;
+  border-radius:10px;
+}
+.status{
+  margin-top:12px;
+  font-weight:bold;
+}
+.record{
+  margin-top:12px;
+  padding:14px;
+  border:1px solid #ddd;
+  border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h2>🔔 Notification</h2>
+</div>
+
+<div class="container">
+<div class="card">
+
+<label>Title</label>
+<input id="noticeTitle" type="text" placeholder="Enter Notification Title">
+
+<label>Message</label>
+<textarea id="noticeMessage" rows="7" placeholder="Write Notification Message..."></textarea>
+
+<div class="buttons">
+<button class="save" onclick="saveNotice()">Save</button>
+<button class="edit" onclick="editNotice()">Edit</button>
+<button class="publish" onclick="publishNotice()">Publish</button>
+<button class="delete" onclick="deleteNotice()">Delete</button>
+</div>
+
+<div id="noticeStatus" class="status"></div>
+<div id="noticeRecords"></div>
+
+<a class="back" href="admin-dashboard.html">← Back to Admin Panel</a>
+
+</div>
+</div>
+
+<script>
+let editingId=null;
+
+function getRecords(){
+  try{
+    const x=JSON.parse(localStorage.getItem("sss_notices")||"[]");
+    return Array.isArray(x)?x:[];
+  }catch(e){
+    return [];
+  }
+}
+
+function setRecords(x){
+  localStorage.setItem("sss_notices",JSON.stringify(x));
+}
+
+function render(){
+  const box=document.getElementById("noticeRecords");
+  const records=getRecords();
+
+  if(!records.length){
+    box.innerHTML="<p>No notification saved yet.</p>";
+    return;
+  }
+
+  box.innerHTML=records.map(r=>`
+    <div class="record">
+      <b>${esc(r.title)}</b>
+      <p>${esc(r.message||r.text||"")}</p>
+      <small>${r.published?"🟢 Published":"⚪ Not Published"}</small>
+      <br><br>
+      <button class="edit" onclick="loadNotice('${r.id}')">Edit This</button>
+    </div>
+  `).join("");
+}
+
+function esc(v){
+  return String(v??"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function saveNotice(){
+  const title=document.getElementById("noticeTitle").value.trim();
+  const message=document.getElementById("noticeMessage").value.trim();
+
+  if(!title||!message){
+    document.getElementById("noticeStatus").textContent=
+      "Please enter Title and Message.";
+    return;
+  }
+
+  let records=getRecords();
+
+  if(editingId!==null){
+    const r=records.find(x=>String(x.id)===String(editingId));
+    if(r){
+      r.title=title;
+      r.message=message;
+    }
+  }else{
+    records.push({
+      id:Date.now(),
+      title:title,
+      message:message,
+      published:false,
+      createdAt:new Date().toISOString()
+    });
+  }
+
+  setRecords(records);
+  editingId=null;
+  document.getElementById("noticeStatus").textContent="Notification Saved.";
+  render();
+}
+
+function loadNotice(id){
+  const r=getRecords().find(x=>String(x.id)===String(id));
+  if(!r)return;
+
+  editingId=r.id;
+  document.getElementById("noticeTitle").value=r.title||"";
+  document.getElementById("noticeMessage").value=r.message||r.text||"";
+  document.getElementById("noticeStatus").textContent="Editing notification.";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function editNotice(){
+  const records=getRecords();
+  if(!records.length){
+    document.getElementById("noticeStatus").textContent="No notification available.";
+    return;
+  }
+
+  loadNotice(records[records.length-1].id);
+}
+
+function publishNotice(){
+  const title=document.getElementById("noticeTitle").value.trim();
+  const message=document.getElementById("noticeMessage").value.trim();
+
+  if(!title||!message){
+    document.getElementById("noticeStatus").textContent=
+      "Enter Title and Message first.";
+    return;
+  }
+
+  let records=getRecords();
+
+  if(editingId===null){
+    records.push({
+      id:Date.now(),
+      title:title,
+      message:message,
+      published:false,
+      createdAt:new Date().toISOString()
+    });
+    editingId=records[records.length-1].id;
+  }
+
+  records.forEach(r=>{
+    r.published=String(r.id)===String(editingId);
+  });
+
+  setRecords(records);
+  document.getElementById("noticeStatus").textContent="Notification Published.";
+  render();
+}
+
+function deleteNotice(){
+  let records=getRecords();
+
+  if(editingId===null && records.length){
+    editingId=records[records.length-1].id;
+  }
+
+  records=records.filter(r=>String(r.id)!==String(editingId));
+  setRecords(records);
+
+  editingId=null;
+  document.getElementById("noticeTitle").value="";
+  document.getElementById("noticeMessage").value="";
+  document.getElementById("noticeStatus").textContent="Notification Deleted.";
+  render();
+}
+
+render();
+</script>
+
+</body>
+</html>

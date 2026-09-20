@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calendar - SAMUI SEVA SADAN</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f1f8ff;color:#123}
+.wrap{max-width:600px;margin:auto;padding:20px}
+.card{background:white;border-radius:18px;padding:20px;box-shadow:0 4px 18px #0002}
+h1{text-align:center}.top{text-align:center;margin-bottom:15px}
+input,button{padding:12px;border-radius:10px;border:1px solid #ccc;font-size:16px}
+input{width:100%;margin:8px 0}button{background:#1976d2;color:white;border:0}
+a{display:block;text-align:center;margin-top:18px;color:#1565c0}
+</style>
+</head>
+<body>
+<div class="wrap"><div class="card">
+<div class="top">📅</div>
+<h1>Calendar</h1>
+<input type="date" id="date">
+<p id="show" style="text-align:center;font-size:18px"></p>
+<a href="/">← Back to Home</a>
+</div></div>
+<script>
+const d=document.getElementById('date'),s=document.getElementById('show');
+d.value=new Date().toISOString().slice(0,10);
+function show(){
+ const x=new Date(d.value+'T00:00:00');
+ s.textContent=x.toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+}
+d.onchange=show;show();
+</script>
+</body>
+</html>

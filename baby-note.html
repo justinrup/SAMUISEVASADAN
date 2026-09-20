@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baby Note - SAMUI SEVA SADAN</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#f5f8fb;color:#222}
+header{background:#0b6b78;color:white;padding:18px;text-align:center}
+main{max-width:900px;margin:25px auto;padding:20px}
+.card{background:white;border-radius:14px;padding:25px;box-shadow:0 3px 15px #0001}
+h1{margin:0;font-size:25px}
+#content{white-space:pre-wrap;line-height:1.7}
+.empty{text-align:center;color:#777;padding:30px}
+.back{display:inline-block;margin-bottom:20px;text-decoration:none;color:#0b6b78;font-weight:bold}
+</style>
+</head>
+<body>
+<header>
+<h1>Baby Note</h1>
+<div>SAMUI SEVA SADAN NURSING HOME</div>
+</header>
+
+<main>
+<a class="back" href="index.html">← Back to Main Page</a>
+<div class="card">
+<h2>Baby Note Details</h2>
+<div id="content" class="empty">No Baby Note has been published yet.</div>
+</div>
+</main>
+
+<script>
+const saved = localStorage.getItem("sss_baby_note_published");
+const content = document.getElementById("content");
+
+if(saved){
+  try{
+    const data = JSON.parse(saved);
+    if(data.published && data.text){
+      content.className = "";
+      content.textContent = data.text;
+    }
+  }catch(e){}
+}
+</script>
+</body>
+</html>

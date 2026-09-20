@@ -1,0 +1,23 @@
+__pycache__/
+*.pyc
+.admin_password
+.session_secret
+.env
+*.log
+
+# Local backup files
+*.before-*.html
+*.backup
+*.bak
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+
+# Additional local backup copies
+*.before-*
+*.broken-*
+*.current-*
+index.after-*
+index.html.before-*
+app.py.before-*

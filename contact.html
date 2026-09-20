@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact - SAMUI SEVA SADAN</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#f1f8ff;color:#123}
+.wrap{max-width:650px;margin:auto;padding:20px}
+.card{background:#fff;border-radius:20px;padding:22px;box-shadow:0 4px 18px #0002}
+h1{text-align:center}
+.contact{
+ display:flex;align-items:center;gap:15px;
+ padding:16px;margin:12px 0;
+ border-radius:15px;background:#f7fbff;
+ text-decoration:none;color:#123;
+ border:1px solid #ddd;
+}
+.icon{font-size:34px}
+.name{font-weight:bold;font-size:18px}
+.value{margin-top:5px;color:#555}
+.home{display:block;text-align:center;margin-top:20px;color:#1565c0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="card">
+<h1>📞 Contact Us</h1>
+<div id="contacts"></div>
+<div id="empty" style="text-align:center;display:none">
+No published contact available.
+</div>
+<a class="home" href="/">← Back to Home</a>
+</div>
+</div>
+
+<script>
+const KEY="sssContactRecords";
+
+function get(){
+ try{return JSON.parse(localStorage.getItem(KEY)||"[]")}
+ catch(e){return[]}
+}
+
+function esc(s){
+ return String(s).replace(/[&<>"']/g,m=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",
+ '"':"&quot;","'":"&#039;"
+ }[m]));
+}
+
+function render(){
+ const box=document.getElementById("contacts");
+ const empty=document.getElementById("empty");
+
+ const a=get().filter(x=>x.published);
+
+ if(!a.length){
+   empty.style.display="block";
+   return;
+ }
+
+ const icons={
+   whatsapp:"🟢",
+   sms:"💬",
+   phone:"☎️",
+   email:"✉️"
+ };
+
+ box.innerHTML=a.map(x=>{
+   let href="#";
+
+   if(x.type==="whatsapp"){
+     href="https://wa.me/"+x.value.replace(/\D/g,"");
+   }else if(x.type==="sms"){
+     href="sms:"+x.value;
+   }else if(x.type==="phone"){
+     href="tel:"+x.value;
+   }else if(x.type==="email"){
+     href="mailto:"+x.value;
+   }
+
+   return `
+   <a class="contact" href="${esc(href)}">
+     <div class="icon">${icons[x.type]||"📞"}</div>
+     <div>
+       <div class="name">${esc(x.label||x.type)}</div>
+       <div class="value">${esc(x.value)}</div>
+     </div>
+   </a>`;
+ }).join("");
+}
+
+render();
+</script>
+</body>
+</html>

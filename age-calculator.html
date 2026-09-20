@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Age Calculator & জ্যোতিষ শাস্ত্র - SAMUI SEVA SADAN</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,"Noto Sans Bengali",sans-serif;
+  background:linear-gradient(135deg,#eef7ff,#fff8ec);
+  color:#222;
+}
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:16px;
+}
+.card{
+  background:#fff;
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 5px 20px rgba(0,0,0,.10);
+}
+h1,h2,h3{text-align:center}
+h1{color:#1769aa}
+h2{color:#8b4b00}
+label{
+  display:block;
+  font-weight:bold;
+  margin-top:12px;
+}
+input,select,button{
+  width:100%;
+  padding:12px;
+  margin-top:6px;
+  border:1px solid #ccc;
+  border-radius:10px;
+  font-size:16px;
+}
+button{
+  background:#1769aa;
+  color:white;
+  border:0;
+  font-weight:bold;
+  cursor:pointer;
+}
+button:hover{opacity:.9}
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+.menu-grid button{
+  background:#fff3dc;
+  color:#6d3d00;
+  border:1px solid #e3bd79;
+}
+.result{
+  background:#f7fbff;
+  padding:15px;
+  border-radius:12px;
+  margin-top:15px;
+  line-height:1.8;
+}
+.kundli{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border:3px solid #8b4b00;
+  max-width:500px;
+  margin:20px auto;
+}
+.house{
+  min-height:85px;
+  border:1px solid #8b4b00;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:5px;
+  background:#fffaf0;
+}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.small{
+  font-size:13px;
+  color:#666;
+}
+.print-btn{background:#287a35}
+.back-btn{background:#555}
+@media(max-width:600px){
+  .menu-grid{grid-template-columns:1fr}
+  .kundli{grid-template-columns:repeat(4,1fr)}
+  .house{min-height:70px;font-size:12px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+<h1>🧮 Age Calculator</h1>
+
+<label>জন্মতারিখ</label>
+<input id="ageDob" type="text" placeholder="DD/MM/YYYY"
+       inputmode="numeric" maxlength="10">
+
+<label>Current Date</label>
+<input id="currentDate" type="text" readonly>
+
+<button onclick="calculateAge()">বয়স হিসাব করুন</button>
+
+<div id="ageResult" class="result"></div>
+</div>
+
+
+<div class="card">
+<h2>🔮 জ্যোতিষ শাস্ত্র / ঠিকুজিকুষ্ঠি</h2>
+
+<div class="menu-grid">
+<button onclick="showTab('kundli')">🪔 কুষ্ঠী</button>
+<button onclick="showTab('match')">💞 কুষ্ঠী মিলান</button>
+<button onclick="showTab('daily')">☀️ দৈনিক রাশিফল</button>
+<button onclick="showTab('year')">📅 রাশিফল ২০২৬</button>
+<button onclick="showTab('panchang')">🌙 পঞ্জিকা</button>
+<button onclick="showTab('nakshatra')">⭐ নক্ষত্র</button>
+<button onclick="showTab('weekly')">📖 সাপ্তাহিক রাশিফল</button>
+<button onclick="showTab('monthly')">📚 মাসিক রাশিফল</button>
+</div>
+</div>
+
+
+<div id="kundli" class="card tab-content active">
+<h2>🪔 আপনার জন্ম কুণ্ডলী</h2>
+
+<label>নাম</label>
+<input id="kName" type="text" placeholder="আপনার নাম">
+
+<label>লিঙ্গ</label>
+<select id="kGender">
+<option value="পুরুষ">পুরুষ</option>
+<option value="স্ত্রী">স্ত্রী</option>
+</select>
+
+<label>জন্মতারিখ (DD/MM/YYYY)</label>
+<input id="kDob" type="text" placeholder="DD/MM/YYYY"
+       inputmode="numeric" maxlength="10">
+
+<label>জন্মসময় (24 ঘণ্টার বিন্যাস)</label>
+<input id="kTime" type="time">
+
+<label>জন্মস্থান</label>
+<input id="kPlace" type="text" placeholder="জন্মস্থান">
+
+<button onclick="makeKundli()">🔮 কুষ্ঠি তৈরি / হিসাব করুন</button>
+
+<div id="kundliResult" class="result"></div>
+</div>
+
+
+<div id="match" class="card tab-content">
+<h2>💞 কুষ্ঠী মিলান</h2>
+
+<label>প্রথম ব্যক্তির নাম</label>
+<input id="mName1">
+
+<label>প্রথম ব্যক্তির জন্মতারিখ</label>
+<input id="mDob1" placeholder="DD/MM/YYYY">
+
+<label>দ্বিতীয় ব্যক্তির নাম</label>
+<input id="mName2">
+
+<label>দ্বিতীয় ব্যক্তির জন্মতারিখ</label>
+<input id="mDob2" placeholder="DD/MM/YYYY">
+
+<button onclick="matchKundli()">💞 মিলান হিসাব করুন</button>
+
+<div id="matchResult" class="result"></div>
+</div>
+
+
+<div id="daily" class="card tab-content">
+<h2>☀️ দৈনিক রাশিফল</h2>
+<div class="result">
+আজকের রাশিফল আপনার জন্মরাশি অনুযায়ী দেখানো হবে।<br>
+আপনার জন্মতারিখ দিয়ে কুষ্ঠী তৈরি করলে রাশির তথ্য ব্যবহার করা যাবে।
+</div>
+</div>
+
+
+<div id="year" class="card tab-content">
+<h2>📅 রাশিফল ২০২৬</h2>
+<div class="result">
+২০২৬ সালের রাশিফল বিভাগ।<br><br>
+মেষ • বৃষ • মিথুন • কর্কট • সিংহ • কন্যা<br>
+তুলা • বৃশ্চিক • ধনু • মকর • কুম্ভ • মীন
+</div>
+</div>
+
+
+<div id="panchang" class="card tab-content">
+<h2>🌙 পঞ্জিকা</h2>
+<div class="result" id="panchangResult"></div>
+</div>
+
+
+<div id="nakshatra" class="card tab-content">
+<h2>⭐ নক্ষত্র</h2>
+<div class="result">
+জন্মতারিখ ও জন্মসময় অনুযায়ী নক্ষত্র নির্ণয়ের বিভাগ।<br><br>
+কুষ্ঠী তৈরি করার সময় আপনার জন্মের তথ্য ব্যবহার করা হবে।
+</div>
+</div>
+
+
+<div id="weekly" class="card tab-content">
+<h2>📖 সাপ্তাহিক রাশিফল</h2>
+<div class="result">
+এই বিভাগে রাশি অনুযায়ী সাপ্তাহিক ফলাফল দেখানো যাবে।
+</div>
+</div>
+
+
+<div id="monthly" class="card tab-content">
+<h2>📚 মাসিক রাশিফল</h2>
+<div class="result">
+এই বিভাগে রাশি অনুযায়ী মাসিক ফলাফল দেখানো যাবে।
+</div>
+</div>
+
+<div class="card">
+<button class="print-btn" onclick="window.print()">🖨️ Print</button>
+</div>
+
+</div>
+
+<script>
+function today(){
+  const d=new Date();
+  const dd=String(d.getDate()).padStart(2,'0');
+  const mm=String(d.getMonth()+1).padStart(2,'0');
+  const yy=d.getFullYear();
+  return dd+'/'+mm+'/'+yy;
+}
+
+document.getElementById('currentDate').value=today();
+
+function showTab(id){
+  document.querySelectorAll('.tab-content').forEach(x=>{
+    x.classList.remove('active');
+  });
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function parseDate(s){
+  const p=s.split('/');
+  if(p.length!==3)return null;
+  const d=Number(p[0]),m=Number(p[1]),y=Number(p[2]);
+  const dt=new Date(y,m-1,d);
+  if(dt.getFullYear()!=y || dt.getMonth()!=m-1 || dt.getDate()!=d)return null;
+  return dt;
+}
+
+function calculateAge(){
+  const dob=parseDate(document.getElementById('ageDob').value);
+  if(!dob){
+    document.getElementById('ageResult').innerHTML=
+      '⚠️ সঠিক জন্মতারিখ দিন: DD/MM/YYYY';
+    return;
+  }
+
+  const now=new Date();
+  let y=now.getFullYear()-dob.getFullYear();
+  let m=now.getMonth()-dob.getMonth();
+  let d=now.getDate()-dob.getDate();
+
+  if(d<0){
+    m--;
+    d+=new Date(now.getFullYear(),now.getMonth(),0).getDate();
+  }
+  if(m<0){
+    y--;
+    m+=12;
+  }
+
+  document.getElementById('ageResult').innerHTML=
+    '<b>আপনার বয়স:</b><br>'+
+    y+' বছর '+m+' মাস '+d+' দিন';
+}
+
+function makeKundli(){
+  const name=document.getElementById('kName').value.trim()||'নাম দেওয়া হয়নি';
+  const gender=document.getElementById('kGender').value;
+  const dob=document.getElementById('kDob').value.trim();
+  const time=document.getElementById('kTime').value||'সময় দেওয়া হয়নি';
+  const place=document.getElementById('kPlace').value.trim()||'জন্মস্থান দেওয়া হয়নি';
+
+  if(!parseDate(dob)){
+    document.getElementById('kundliResult').innerHTML=
+      '⚠️ সঠিক জন্মতারিখ দিন: DD/MM/YYYY';
+    return;
+  }
+
+  const signs=[
+    'মেষ','বৃষ','মিথুন','কর্কট',
+    'সিংহ','কন্যা','তুলা','বৃশ্চিক',
+    'ধনু','মকর','কুম্ভ','মীন'
+  ];
+
+  const date=parseDate(dob);
+  const seed=(date.getFullYear()+date.getMonth()+date.getDate()+
+             Number((time||'00:00').replace(':',''))) % 12;
+
+  let html=
+    '<b>নাম:</b> '+name+'<br>'+
+    '<b>লিঙ্গ:</b> '+gender+'<br>'+
+    '<b>জন্মতারিখ:</b> '+dob+'<br>'+
+    '<b>জন্মসময়:</b> '+time+'<br>'+
+    '<b>জন্মস্থান:</b> '+place+'<br><br>'+
+    '<b>জন্মরাশি:</b> '+signs[seed]+'<br>'+
+    '<b>লগ্ন:</b> '+signs[(seed+3)%12]+'<br>'+
+    '<b>নক্ষত্র:</b> '+['অশ্বিনী','ভরণী','কৃত্তিকা','রোহিণী',
+    'মৃগশিরা','আর্দ্রা','পুনর্বসু','পুষ্যা',
+    'আশ্লেষা','মঘা','পূর্বফাল্গুনী','উত্তরফাল্গুনী'][seed];
+
+  html+='<div class="kundli">';
+  for(let i=1;i<=12;i++){
+    html+='<div class="house"><b>ঘর '+i+'</b><br>'+
+          signs[(seed+i-1)%12]+'</div>';
+  }
+  html+='</div>';
+
+  html+='<div class="small">নোট: এটি একটি স্থানীয় জ্যোতিষ/কুষ্ঠি ইন্টারফেস। নির্ভুল গ্রহের astronomical অবস্থান দেখাতে পূর্ণ ephemeris calculation engine প্রয়োজন।</div>';
+
+  document.getElementById('kundliResult').innerHTML=html;
+}
+
+function matchKundli(){
+  const d1=parseDate(document.getElementById('mDob1').value);
+  const d2=parseDate(document.getElementById('mDob2').value);
+
+  if(!d1||!d2){
+    document.getElementById('matchResult').innerHTML=
+      '⚠️ দুজনের জন্মতারিখ DD/MM/YYYY ফরম্যাটে দিন।';
+    return;
+  }
+
+  const n1=document.getElementById('mName1').value||'প্রথম ব্যক্তি';
+  const n2=document.getElementById('mName2').value||'দ্বিতীয় ব্যক্তি';
+
+  const score=Math.abs(
+    (d1.getFullYear()+d1.getMonth()+d1.getDate())-
+    (d2.getFullYear()+d2.getMonth()+d2.getDate())
+  )%36;
+
+  const points=36-score;
+
+  document.getElementById('matchResult').innerHTML=
+    '<b>'+n1+'</b> ❤️ <b>'+n2+'</b><br><br>'+
+    'কুষ্ঠী মিলান পয়েন্ট: <b>'+points+'/36</b><br><br>'+
+    'গণনার বিস্তারিত ফলাফল এখানে দেখানো হবে।';
+}
+
+const months=[
+'জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন',
+'জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'
+];
+
+document.getElementById('panchangResult').innerHTML=
+  '<b>আজ:</b> '+today()+'<br><br>'+
+  '<b>মাস:</b> '+months[new Date().getMonth()]+'<br>'+
+  '<b>বছর:</b> '+new Date().getFullYear()+
+  '<br><br>তিথি, নক্ষত্র, যোগ, করণ ও সূর্যোদয়/সূর্যাস্তের পূর্ণ হিসাব যোগ করা যাবে।';
+</script>
+
+</body>
+</html>

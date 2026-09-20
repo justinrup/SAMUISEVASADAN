@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Live Weather - SAMUI SEVA SADAN</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,"Noto Sans Bengali",sans-serif;
+ color:#073b66;
+ min-height:100vh;
+ background:#bfeaff;
+ transition:.5s;
+}
+body.sun{background:#aee8ff}
+body.rain{background:#a9c9df}
+body.night{background:#182b52}
+
+.header{
+ padding:18px 15px;
+ color:white;
+ text-align:center;
+ background:linear-gradient(135deg,#087f8c,#168bd0);
+}
+.header h1{margin:0;font-size:24px}
+.header p{margin:5px 0 0}
+
+.search{
+ display:flex;
+ gap:8px;
+ padding:15px;
+ max-width:700px;
+ margin:auto;
+}
+.search input{
+ flex:1;
+ border:0;
+ border-radius:30px;
+ padding:14px 18px;
+ font-size:16px;
+ outline:none;
+ box-shadow:0 3px 12px #0002;
+}
+.search button{
+ border:0;
+ border-radius:30px;
+ padding:0 20px;
+ background:#087f8c;
+ color:white;
+ font-size:16px;
+ font-weight:bold;
+}
+
+.container{
+ max-width:720px;
+ margin:auto;
+ padding:0 12px 30px;
+}
+
+.weather-card{
+ position:relative;
+ overflow:hidden;
+ border-radius:28px;
+ color:white;
+ min-height:390px;
+ box-shadow:0 10px 30px #0003;
+ background:linear-gradient(#1597d5,#56c6e8);
+}
+
+.scenery{
+ position:absolute;
+ inset:0;
+ overflow:hidden;
+ pointer-events:none;
+}
+
+.sky{
+ position:absolute;
+ inset:0;
+ background:linear-gradient(#63c9f5,#d6f5ff 58%,#80c9d8);
+}
+
+.sunshape{
+ position:absolute;
+ width:95px;
+ height:95px;
+ border-radius:50%;
+ background:#ffe87a;
+ right:45px;
+ top:35px;
+ box-shadow:0 0 35px #fff3;
+}
+
+.mountain1{
+ position:absolute;
+ bottom:105px;
+ left:-50px;
+ width:430px;
+ height:210px;
+ background:#579a82;
+ clip-path:polygon(0 100%,45% 15%,62% 45%,78% 25%,100% 100%);
+}
+
+.mountain2{
+ position:absolute;
+ bottom:100px;
+ right:-90px;
+ width:450px;
+ height:220px;
+ background:#3f806f;
+ clip-path:polygon(0 100%,38% 30%,55% 50%,76% 15%,100% 100%);
+}
+
+.water{
+ position:absolute;
+ bottom:0;
+ width:100%;
+ height:125px;
+ background:linear-gradient(#55bfd0,#248ca8);
+}
+
+.tree{
+ position:absolute;
+ bottom:78px;
+ left:22px;
+ font-size:95px;
+ filter:drop-shadow(2px 3px 2px #0004);
+}
+
+.tree2{
+ position:absolute;
+ bottom:70px;
+ right:15px;
+ font-size:80px;
+}
+
+.overlay{
+ position:absolute;
+ inset:0;
+ background:linear-gradient(180deg,#0066aa22,#003f6655);
+}
+
+.rainlines{
+ display:none;
+ position:absolute;
+ inset:0;
+ background:repeating-linear-gradient(
+  110deg,
+  transparent 0px,
+  transparent 14px,
+  #ffffff66 15px,
+  transparent 17px
+ );
+}
+
+body.rain .rainlines{display:block}
+body.rain .sunshape{opacity:.35}
+body.rain .sky{background:linear-gradient(#708da2,#b5c9d5 60%,#63899b)}
+body.rain .mountain1{background:#496f69}
+body.rain .mountain2{background:#355b58}
+
+/* ===== AUTOMATIC WEATHER SCENERY ===== */
+
+body.cloudy .sky{
+ background:linear-gradient(#829eaf,#c8d8df 58%,#8fb1bd);
+}
+
+body.cloudy .sunshape{
+ opacity:.25;
+}
+
+body.cloudy .mountain1{
+ background:#52756f;
+}
+
+body.cloudy .mountain2{
+ background:#405f5c;
+}
+
+body.fog .sky{
+ background:linear-gradient(#b7c5c9,#e1e7e5 58%,#9fb5b8);
+}
+
+body.fog .sunshape{
+ opacity:.12;
+ filter:blur(8px);
+}
+
+body.fog .mountain1,
+body.fog .mountain2{
+ opacity:.45;
+ filter:blur(4px);
+}
+
+body.rain .sky{
+ background:linear-gradient(#637c91,#aebfc9 55%,#587582);
+}
+
+body.rain .sunshape{
+ opacity:.12;
+}
+
+body.rain .mountain1{
+ background:#3e6662;
+}
+
+body.rain .mountain2{
+ background:#2e504f;
+}
+
+body.shower .sky{
+ background:linear-gradient(#668fa5,#b4ccd5 58%,#628997);
+}
+
+body.shower .sunshape{
+ opacity:.2;
+}
+
+body.storm .sky{
+ background:linear-gradient(#26384b,#536879 55%,#293e4b);
+}
+
+body.storm .sunshape{
+ opacity:0;
+}
+
+body.storm .mountain1{
+ background:#263f40;
+}
+
+body.storm .mountain2{
+ background:#1d3033;
+}
+
+body.storm .rainlines{
+ display:block;
+ background:
+ repeating-linear-gradient(
+  110deg,
+  transparent 0px,
+  transparent 12px,
+  #ffffff88 13px,
+  transparent 16px
+ );
+}
+
+body.night .weather-card{
+ background:linear-gradient(#081b3b,#214c70);
+}
+
+body.night .sky{
+ background:
+  radial-gradient(circle at 75% 18%,#fff 0 2px,transparent 3px),
+  radial-gradient(circle at 20% 25%,#fff 0 1px,transparent 2px),
+  radial-gradient(circle at 45% 12%,#fff 0 2px,transparent 3px),
+  linear-gradient(#07142f,#193c5b 60%,#285b68);
+}
+
+body.night .sunshape{
+ width:72px;
+ height:72px;
+ background:#f5f1c7;
+ opacity:1;
+ box-shadow:0 0 25px #fff8;
+}
+
+body.night .mountain1{
+ background:#142f36;
+}
+
+body.night .mountain2{
+ background:#0d252c;
+}
+
+body.night .water{
+ background:linear-gradient(#216070,#123f50);
+}
+
+body.night .tree,
+body.night .tree2{
+ filter:brightness(.45);
+}
+
+body.night .overlay{
+ background:linear-gradient(180deg,#00142c44,#000c1f66);
+}
+
+
+.content{
+ position:relative;
+ z-index:5;
+ padding:23px 20px 0;
+ text-shadow:0 2px 4px #0005;
+}
+
+.place{font-size:24px;font-weight:bold}
+.date{font-size:14px;margin-top:5px}
+.temp{font-size:70px;font-weight:bold;margin-top:15px}
+.condition{font-size:21px;font-weight:bold}
+.feels{font-size:14px;margin-top:4px}
+
+.hourly{
+ position:absolute;
+ z-index:6;
+ bottom:0;
+ left:0;
+ right:0;
+ display:flex;
+ overflow-x:auto;
+ padding:10px 8px;
+ background:#004d6c99;
+}
+.hour{
+ min-width:78px;
+ text-align:center;
+ padding:5px;
+}
+.hour .icon{font-size:27px;margin:5px}
+.hour span{font-size:12px}
+
+.days{
+ display:flex;
+ overflow-x:auto;
+ gap:8px;
+ margin-top:15px;
+ padding-bottom:3px;
+}
+.day{
+ min-width:88px;
+ background:#ffffffee;
+ color:#174d6d;
+ border-radius:17px;
+ padding:12px 5px;
+ text-align:center;
+ box-shadow:0 4px 14px #0002;
+ cursor:pointer;
+ transition:.2s;
+}
+.day:active{transform:scale(.94)}
+.day.selected{
+ background:#087f8c;
+ color:white;
+ transform:translateY(-3px);
+}
+.day .icon{font-size:28px;margin:8px 0}
+
+.details{
+ background:#ffffffee;
+ margin-top:15px;
+ border-radius:20px;
+ padding:5px 15px;
+ box-shadow:0 5px 20px #0002;
+}
+.detail{
+ display:flex;
+ align-items:center;
+ gap:13px;
+ padding:14px 4px;
+ border-bottom:1px solid #d8e7ef;
+}
+.detail:last-child{border:0}
+.detail-icon{
+ width:44px;
+ height:44px;
+ border-radius:13px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:#e5f5ff;
+ font-size:24px;
+}
+.detail-name{flex:1;font-weight:bold}
+.detail-value{font-weight:bold}
+
+.loading{
+ text-align:center;
+ padding:50px;
+ background:#ffffffdd;
+ border-radius:20px;
+}
+
+.footer{
+ text-align:center;
+ margin-top:18px;
+ color:#47718c;
+ font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+ <h1>🌤️ Live Weather</h1>
+ <p>SAMUI SEVA SADAN NURSING HOME</p>
+</div>
+
+<div class="search">
+ <input id="searchBox" placeholder="কোনো জায়গার নাম লিখে খুঁজুন...">
+ <button onclick="searchWeather()">খুঁজুন</button>
+</div>
+
+<div class="container">
+ <div id="weatherBox" class="loading">আবহাওয়া লোড হচ্ছে...</div>
+ <div class="footer">📍 SAMUI SEVA SADAN · Live Weather</div>
+</div>
+
+<script>
+let lat=22.7250;
+let lon=87.9900;
+let place="Khanakul, Hooghly";
+let weatherData=null;
+let selectedDay=0;
+
+function icon(c){
+ if(c===0)return "☀️";
+ if(c<=3)return "🌤️";
+ if(c<=48)return "🌫️";
+ if(c<=67)return "🌧️";
+ if(c<=77)return "❄️";
+ if(c<=82)return "🌦️";
+ return "⛈️";
+}
+
+function condition(c){
+ if(c===0)return "পরিষ্কার আকাশ";
+ if(c<=3)return "আংশিক মেঘলা";
+ if(c<=48)return "কুয়াশা";
+ if(c<=67)return "বৃষ্টি";
+ if(c<=77)return "তুষার";
+ if(c<=82)return "বৃষ্টির ঝাপটা";
+ return "বজ্রঝড়";
+}
+
+function setTheme(c){
+ document.body.className="";
+
+ if(c===0){
+   document.body.classList.add("sun");
+ }
+ else if(c<=3){
+   document.body.classList.add("cloudy");
+ }
+ else if(c<=48){
+   document.body.classList.add("fog");
+ }
+ else if(c<=67){
+   document.body.classList.add("rain");
+ }
+ else if(c<=82){
+   document.body.classList.add("shower");
+ }
+ else{
+   document.body.classList.add("storm");
+ }
+
+ const hour = new Date().getHours();
+ if(hour >= 19 || hour < 6){
+   document.body.classList.add("night");
+ }
+}
+
+function dayName(date,i){
+ if(i===0)return "আজ";
+ return new Date(date+"T00:00:00").toLocaleDateString(
+  "bn-IN",{weekday:"short"}
+ );
+}
+
+function render(day=0){
+ selectedDay=day;
+ const d=weatherData;
+ const daily=d.daily;
+
+ const code=daily.weather_code[day];
+ const max=Math.round(daily.temperature_2m_max[day]);
+ const min=Math.round(daily.temperature_2m_min[day]);
+
+ setTheme(code);
+
+ let html=`
+ <div class="weather-card">
+
+  <div class="scenery">
+   <div class="sky"></div>
+   <div class="sunshape"></div>
+   <div class="mountain1"></div>
+   <div class="mountain2"></div>
+   <div class="water"></div>
+   <div class="tree">🌴</div>
+   <div class="tree2">🌴</div>
+   <div class="overlay"></div>
+   <div class="rainlines"></div>
+  </div>
+
+  <div class="content">
+   <div class="place">📍 ${place}</div>
+   <div class="date">
+    ${dayName(daily.time[day],day)} ·
+    ${new Date(daily.time[day]+"T00:00:00").toLocaleDateString(
+      "bn-IN",{day:"numeric",month:"long"}
+    )}
+   </div>
+
+   <div class="temp">${max}°</div>
+   <div class="condition">${icon(code)} ${condition(code)}</div>
+   <div class="feels">সর্বনিম্ন ${min}° · সর্বোচ্চ ${max}°</div>
+  </div>
+
+  <div class="hourly">`;
+
+ let start=0;
+ if(day===0){
+  start=d.hourly.time.findIndex(x=>new Date(x)>=new Date());
+  if(start<0)start=0;
+ }
+
+ for(let i=start;i<Math.min(start+8,d.hourly.time.length);i++){
+  const t=new Date(d.hourly.time[i]);
+  html+=`
+   <div class="hour">
+    <b>${i===start&&day===0?"এখন":t.toLocaleTimeString(
+      "en-IN",{hour:"numeric"})}</b>
+    <div class="icon">${icon(d.hourly.weather_code[i])}</div>
+    <span>${d.hourly.precipitation_probability[i]}%</span><br>
+    ${Math.round(d.hourly.temperature_2m[i])}°
+   </div>`;
+ }
+
+ html+=`
+  </div>
+ </div>
+
+ <div class="days">`;
+
+ for(let i=0;i<7;i++){
+  html+=`
+   <div class="day ${i===day?"selected":""}"
+        onclick="render(${i})">
+    <b>${dayName(daily.time[i],i)}</b>
+    <div class="icon">${icon(daily.weather_code[i])}</div>
+    <b>${Math.round(daily.temperature_2m_max[i])}°</b>
+    /
+    ${Math.round(daily.temperature_2m_min[i])}°
+   </div>`;
+ }
+
+ html+=`
+ </div>
+
+ <div class="details">
+  <div class="detail">
+   <div class="detail-icon">🌧️</div>
+   <div class="detail-name">বৃষ্টির সম্ভাবনা</div>
+   <div class="detail-value">${daily.precipitation_probability_max[day]}%</div>
+  </div>
+
+  <div class="detail">
+   <div class="detail-icon">💨</div>
+   <div class="detail-name">বাতাস</div>
+   <div class="detail-value">${Math.round(d.current.wind_speed_10m)} km/h</div>
+  </div>
+
+  <div class="detail">
+   <div class="detail-icon">💧</div>
+   <div class="detail-name">আর্দ্রতা</div>
+   <div class="detail-value">${d.current.relative_humidity_2m}%</div>
+  </div>
+
+  <div class="detail">
+   <div class="detail-icon">${icon(code)}</div>
+   <div class="detail-name">Weather</div>
+   <div class="detail-value">${condition(code)}</div>
+  </div>
+ </div>`;
+
+ document.getElementById("weatherBox").innerHTML=html;
+}
+
+async function loadWeather(a,b,p){
+ document.getElementById("weatherBox").innerHTML=
+  '<div class="loading">🌤️ Weather লোড হচ্ছে...</div>';
+
+ try{
+  lat=a;lon=b;place=p;
+
+  const url=
+   "https://api.open-meteo.com/v1/forecast"+
+   "?latitude="+a+
+   "&longitude="+b+
+   "&current=temperature_2m,relative_humidity_2m,wind_speed_10m"+
+   "&hourly=temperature_2m,precipitation_probability,weather_code"+
+   "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max"+
+   "&timezone=Asia%2FKolkata&forecast_days=7";
+
+  const r=await fetch(url);
+  weatherData=await r.json();
+
+  render(0);
+
+ }catch(e){
+  document.getElementById("weatherBox").innerHTML=
+   '<div class="loading">⚠️ Weather data পাওয়া যাচ্ছে না।<br>Internet connection পরীক্ষা করুন।</div>';
+ }
+}
+
+async function searchWeather(){
+ const q=document.getElementById("searchBox").value.trim();
+ if(!q)return;
+
+ document.getElementById("weatherBox").innerHTML=
+  '<div class="loading">🔍 জায়গা খোঁজা হচ্ছে...</div>';
+
+ try{
+  const r=await fetch(
+   "https://geocoding-api.open-meteo.com/v1/search?name="+
+   encodeURIComponent(q)+"&count=1&language=en&format=json"
+  );
+
+  const d=await r.json();
+
+  if(!d.results||!d.results.length){
+   document.getElementById("weatherBox").innerHTML=
+    '<div class="loading">❌ জায়গাটি পাওয়া যায়নি</div>';
+   return;
+  }
+
+  const x=d.results[0];
+
+  loadWeather(
+   x.latitude,
+   x.longitude,
+   x.name+(x.admin1?", "+x.admin1:"")
+  );
+
+ }catch(e){
+  document.getElementById("weatherBox").innerHTML=
+   '<div class="loading">⚠️ Search করা যাচ্ছে না</div>';
+ }
+}
+
+document.getElementById("searchBox").addEventListener(
+ "keydown",e=>{
+  if(e.key==="Enter")searchWeather();
+ }
+);
+
+loadWeather(lat,lon,place);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pregnancy Calculator - SAMUI SEVA SADAN</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#eee8ff,#dcd0ff);
+  color:#30245d;
+}
+.wrap{
+  max-width:720px;
+  margin:auto;
+  padding:18px 14px 35px;
+}
+.top{
+  background:white;
+  border-radius:20px;
+  padding:18px;
+  box-shadow:0 6px 20px #0002;
+  text-align:center;
+}
+h1{
+  margin:0 0 5px;
+  font-size:24px;
+}
+.sub{
+  color:#666;
+  font-size:14px;
+  margin-bottom:18px;
+}
+.datebox{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:15px;
+}
+.box{
+  background:#f7f4ff;
+  border:1px solid #d8cff7;
+  border-radius:14px;
+  padding:12px;
+}
+.box label{
+  display:block;
+  font-size:13px;
+  margin-bottom:7px;
+  font-weight:bold;
+}
+.box input{
+  width:100%;
+  border:1px solid #c8bee9;
+  border-radius:9px;
+  padding:11px;
+  font-size:16px;
+  text-align:center;
+}
+.result{
+  margin-top:12px;
+  background:#eee9ff;
+  border-radius:14px;
+  padding:13px;
+  font-size:18px;
+  font-weight:bold;
+}
+.wheelbox{
+  margin:18px auto 0;
+  max-width:620px;
+  touch-action:none;
+}
+svg{
+  width:100%;
+  height:auto;
+  display:block;
+  user-select:none;
+}
+#needle{
+  cursor:grab;
+}
+#needle:active{cursor:grabbing}
+.controls{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:10px;
+}
+button{
+  border:0;
+  border-radius:12px;
+  padding:11px 18px;
+  background:#4a347f;
+  color:white;
+  font-size:16px;
+}
+.back{
+  display:inline-block;
+  margin-bottom:12px;
+  text-decoration:none;
+  color:#4a347f;
+  font-weight:bold;
+}
+@media(max-width:500px){
+  .datebox{grid-template-columns:1fr}
+  h1{font-size:21px}
+}
+</style>
+
+<style id="pregnancy-color-fix">
+body{
+  background:#87CEEB !important;
+}
+
+.month-label{
+  fill:#008000 !important;
+  color:#008000 !important;
+}
+
+.date-text,
+#lmpDate,
+#eddDate,
+#result,
+.result{
+  color:#008000 !important;
+}
+
+#needle,
+.needle{
+  stroke:#000000 !important;
+  fill:#000000 !important;
+}
+</style>
+
+
+<style id="pregnancy-final-design">
+html,
+body{
+  width:100% !important;
+  min-height:100% !important;
+  height:auto !important;
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+  -webkit-overflow-scrolling:touch !important;
+}
+
+body{
+  background:#87CEEB !important;
+  position:relative !important;
+}
+
+.month-label{
+  fill:#008000 !important;
+  color:#008000 !important;
+}
+
+.date-text,
+#lmpDate,
+#eddDate,
+#result,
+.result{
+  color:#008000 !important;
+}
+
+#needle,
+.needle{
+  stroke:#000000 !important;
+  fill:#000000 !important;
+}
+
+.pregnancy-page,
+.container,
+.wrapper,
+.main{
+  height:auto !important;
+  max-height:none !important;
+  overflow:visible !important;
+}
+</style>
+
+</head>
+
+<body>
+<div class="wrap">
+
+<a class="back" href="index.html">← Back to Home</a>
+
+<div class="top">
+<h1>🤰 Pregnancy Calculator</h1>
+<div class="sub">Due Date Calculator by Last Menstrual Period</div>
+
+<div class="datebox">
+  <div class="box">
+    <label>LMP DATE</label>
+    <input id="lmp" type="text" inputmode="numeric"
+           maxlength="10" placeholder="DD.MM.YYYY">
+  </div>
+
+  <div class="box">
+    <label>EDD DATE</label>
+    <input id="edd" type="text" readonly>
+  </div>
+</div>
+
+<div class="result" id="result">
+  LMP Date: --.--.---- &nbsp; | &nbsp; EDD Date: --.--.----
+</div>
+
+<div class="wheelbox">
+<svg id="wheel" viewBox="0 0 600 600">
+
+  <circle cx="300" cy="300" r="275"
+          fill="#fafafa" stroke="#ddd" stroke-width="5"/>
+
+  <circle cx="300" cy="300" r="225"
+          fill="#f5f2fb" stroke="#4a347f" stroke-width="4"/>
+
+  <circle cx="300" cy="300" r="185"
+          fill="#fff" stroke="#4a347f" stroke-width="3"/>
+
+  <g id="months"
+     fill="#4a347f"
+     font-size="18"
+     font-weight="bold"
+     text-anchor="middle"></g>
+
+  <g id="ticks"
+     stroke="#4a347f"
+     stroke-width="2"></g>
+
+  <text x="300" y="278"
+        text-anchor="middle"
+        fill="#4a347f"
+        font-size="19"
+        font-weight="bold">
+    LMP
+  </text>
+
+  <text x="300" y="305"
+        text-anchor="middle"
+        fill="#777"
+        font-size="13">
+    Rotate the needle
+  </text>
+
+  <g id="needle">
+    <line x1="300" y1="300"
+          x2="300" y2="65"
+          stroke="#30245d"
+          stroke-width="9"
+          stroke-linecap="round"/>
+    <polygon points="300,45 286,78 314,78"
+             fill="#30245d"/>
+    <circle cx="300" cy="300" r="25"
+            fill="#30245d"/>
+    <circle cx="300" cy="300" r="10"
+            fill="#fff"/>
+  </g>
+
+</svg>
+</div>
+
+<div class="controls">
+  <button type="button" id="minus">− 1 Day</button>
+  <button type="button" id="today">Today</button>
+  <button type="button" id="plus">+ 1 Day</button>
+</div>
+
+</div>
+</div>
+
+<script>
+const lmpInput=document.getElementById("lmp");
+const eddInput=document.getElementById("edd");
+const result=document.getElementById("result");
+const needle=document.getElementById("needle");
+const wheel=document.getElementById("wheel");
+
+const months=[
+"JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE",
+"JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"
+];
+
+const monthsG=document.getElementById("months");
+const ticks=document.getElementById("ticks");
+
+for(let i=0;i<12;i++){
+  const a=(i*30-90)*Math.PI/180;
+  const x=300+235*Math.cos(a);
+  const y=300+235*Math.sin(a)+6;
+  const t=document.createElementNS("http://www.w3.org/2000/svg","text");
+  t.setAttribute("x",x);
+  t.setAttribute("y",y);
+  t.textContent=months[i];
+  monthsG.appendChild(t);
+}
+
+for(let i=0;i<60;i++){
+  const a=(i*6-90)*Math.PI/180;
+  const r1=i%5===0?198:207;
+  const r2=218;
+  const x1=300+r1*Math.cos(a);
+  const y1=300+r1*Math.sin(a);
+  const x2=300+r2*Math.cos(a);
+  const y2=300+r2*Math.sin(a);
+
+  const line=document.createElementNS(
+    "http://www.w3.org/2000/svg","line"
+  );
+  line.setAttribute("x1",x1);
+  line.setAttribute("y1",y1);
+  line.setAttribute("x2",x2);
+  line.setAttribute("y2",y2);
+  ticks.appendChild(line);
+}
+
+function pad(n){
+  return String(n).padStart(2,"0");
+}
+
+function formatDate(d){
+  return pad(d.getDate())+"."+pad(d.getMonth()+1)+"."+d.getFullYear();
+}
+
+function parseDate(s){
+  const m=s.trim().match(/^(\d{2})[.\/-](\d{2})[.\/-](\d{4})$/);
+  if(!m)return null;
+
+  const d=new Date(
+    Number(m[3]),
+    Number(m[2])-1,
+    Number(m[1])
+  );
+
+  if(
+    d.getFullYear()!=Number(m[3]) ||
+    d.getMonth()!=Number(m[2])-1 ||
+    d.getDate()!=Number(m[1])
+  ) return null;
+
+  return d;
+}
+
+function calculate(){
+  const d=parseDate(lmpInput.value);
+
+  if(!d){
+    eddInput.value="";
+    result.textContent="Please enter LMP Date as DD.MM.YYYY";
+    return;
+  }
+
+  const e=new Date(d);
+  e.setDate(e.getDate()+280);
+
+  eddInput.value=formatDate(e);
+  result.textContent=
+    "LMP Date: "+formatDate(d)+
+    "  |  EDD Date: "+formatDate(e);
+
+  const day=d.getDate();
+  const month=d.getMonth();
+  const angle=(month*30)+(day-1)*0.96;
+  needle.setAttribute(
+    "transform",
+    "rotate("+angle+" 300 300)"
+  );
+}
+
+lmpInput.addEventListener("input",function(){
+  let v=this.value.replace(/[^0-9]/g,"");
+  if(v.length>2)v=v.slice(0,2)+"."+v.slice(2);
+  if(v.length>5)v=v.slice(0,5)+"."+v.slice(5,9);
+  this.value=v;
+  calculate();
+});
+
+function changeDay(n){
+  let d=parseDate(lmpInput.value);
+  if(!d)d=new Date();
+  d.setDate(d.getDate()+n);
+  lmpInput.value=formatDate(d);
+  calculate();
+}
+
+document.getElementById("minus")
+  .addEventListener("click",()=>changeDay(-1));
+
+document.getElementById("plus")
+  .addEventListener("click",()=>changeDay(1));
+
+document.getElementById("today")
+  .addEventListener("click",()=>{
+    lmpInput.value=formatDate(new Date());
+    calculate();
+  });
+
+let dragging=false;
+
+function getAngle(ev){
+  const p=wheel.createSVGPoint();
+  p.x=ev.clientX;
+  p.y=ev.clientY;
+  const q=p.matrixTransform(wheel.getScreenCTM().inverse());
+
+  let a=Math.atan2(q.y-300,q.x-300)*180/Math.PI+90;
+  if(a<0)a+=360;
+  return a;
+}
+
+function angleToDate(a){
+  const totalDays=Math.round((a/360)*365);
+  const base=new Date(new Date().getFullYear(),0,1);
+  base.setDate(base.getDate()+totalDays);
+  return base;
+}
+
+needle.addEventListener("pointerdown",e=>{
+  dragging=true;
+  needle.setPointerCapture(e.pointerId);
+});
+
+needle.addEventListener("pointermove",e=>{
+  if(!dragging)return;
+  const a=getAngle(e);
+  const d=angleToDate(a);
+  lmpInput.value=formatDate(d);
+  calculate();
+});
+
+needle.addEventListener("pointerup",()=>{
+  dragging=false;
+});
+
+needle.addEventListener("pointercancel",()=>{
+  dragging=false;
+});
+
+const now=new Date();
+lmpInput.value=formatDate(now);
+calculate();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Birth Report Settings</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,"Noto Sans Bengali",sans-serif;background:#eef3f7}
+header{background:#075e54;color:white;padding:15px}
+.container{max-width:900px;margin:auto;padding:15px}
+.card{background:white;padding:18px;border-radius:12px;margin-bottom:15px;box-shadow:0 2px 10px #0001}
+label{display:block;font-weight:bold;margin:12px 0 5px}
+select,input{width:100%;padding:11px;border:1px solid #aaa;border-radius:7px}
+button{padding:11px 16px;border:0;border-radius:7px;margin:5px;cursor:pointer}
+.save{background:#198754;color:white}
+.reset{background:#dc3545;color:white}
+.home{background:#555;color:white}
+.preview{padding:20px;border:2px solid #555;margin-top:15px}
+</style>
+</head>
+
+<body>
+
+<header>
+<b>⚙️ Birth Report Settings</b>
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Birth Report Form Settings</h2>
+
+<label>Form Layout</label>
+<select id="layout">
+<option value="classic">Classic Government Form</option>
+<option value="compact">Compact</option>
+<option value="modern">Modern</option>
+</select>
+
+<label>Language</label>
+<select id="language">
+<option>English</option>
+<option selected>বাংলা</option>
+<option>हिन्दी</option>
+<option>অসমীয়া</option>
+<option>ଓଡ଼ିଆ</option>
+<option>தமிழ்</option>
+<option>తెలుగు</option>
+<option>ಕನ್ನಡ</option>
+<option>മലയാളം</option>
+<option>मराठी</option>
+<option>ગુજરાતી</option>
+<option>ਪੰਜਾਬੀ</option>
+</select>
+
+<label>Text Style</label>
+<select id="font">
+<option value="normal">Normal</option>
+<option value="bold">Bold</option>
+<option value="serif">Serif</option>
+<option value="mono">Monospace</option>
+</select>
+
+<label>Text / Border Colour</label>
+<input id="color" type="color" value="#222222">
+
+<label>Signature Style</label>
+<select id="signature">
+<option value="three">3 Signature</option>
+<option value="two">2 Signature</option>
+<option value="one">1 Signature</option>
+</select>
+
+<label>Form Menu / Field Size</label>
+<select id="size">
+<option value="small">Small</option>
+<option value="medium" selected>Medium</option>
+<option value="large">Large</option>
+</select>
+
+<br>
+
+<button class="save" onclick="save()">💾 Save Settings</button>
+<button class="reset" onclick="resetSettings()">↺ Reset</button>
+<button class="home" onclick="location.href='index.html'">Home</button>
+
+</div>
+
+<div class="card">
+<h3>Preview</h3>
+<div id="preview" class="preview">
+জন্ম প্রতিবেদন — Birth Report
+</div>
+</div>
+
+</div>
+
+<script>
+const KEY="sssBirthReportSettings";
+
+const defaults={
+ layout:"classic",
+ language:"বাংলা",
+ font:"normal",
+ color:"#222222",
+ signature:"three",
+ size:"medium"
+};
+
+function load(){
+ let x={...defaults};
+
+ try{
+  x={...x,...JSON.parse(localStorage.getItem(KEY)||"{}")}
+ }catch(e){}
+
+ Object.keys(x).forEach(k=>{
+  const el=document.getElementById(k);
+  if(el)el.value=x[k];
+ });
+
+ preview();
+}
+
+function save(){
+ const x={};
+
+ ["layout","language","font","color","signature","size"].forEach(k=>{
+  x[k]=document.getElementById(k).value;
+ });
+
+ localStorage.setItem(KEY,JSON.stringify(x));
+ preview();
+
+ alert("Birth Report Settings saved.");
+}
+
+function resetSettings(){
+ if(!confirm("সব Birth Report setting default করতে চান?"))return;
+
+ localStorage.setItem(KEY,JSON.stringify(defaults));
+ load();
+
+ alert("Settings reset হয়েছে.");
+}
+
+function preview(){
+ const p=document.getElementById("preview");
+
+ const font=document.getElementById("font").value;
+ const size=document.getElementById("size").value;
+ const color=document.getElementById("color").value;
+
+ p.style.color=color;
+
+ if(font==="bold")p.style.fontWeight="bold";
+ else{
+  p.style.fontWeight="normal";
+  p.style.fontFamily=
+   font==="serif"?"Georgia":
+   font==="mono"?"monospace":
+   'Arial,"Noto Sans Bengali",sans-serif';
+ }
+
+ p.style.fontSize=
+   size==="small"?"14px":
+   size==="large"?"22px":"17px";
+}
+
+["layout","language","font","color","signature","size"]
+.forEach(k=>{
+ document.getElementById(k).addEventListener("change",preview);
+});
+
+load();
+</script>
+
+</body>
+</html>

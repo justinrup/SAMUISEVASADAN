@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Notice - SAMUI SEVA SADAN</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f8fb;
+  color:#1f2937;
+}
+.header{
+  background:#0b6e4f;
+  color:white;
+  padding:18px 15px;
+  text-align:center;
+}
+.header h1{
+  margin:0;
+  font-size:22px;
+}
+.container{
+  max-width:700px;
+  margin:25px auto;
+  padding:15px;
+}
+.card{
+  background:white;
+  border-radius:14px;
+  padding:20px;
+  box-shadow:0 3px 12px rgba(0,0,0,.10);
+}
+.notice{
+  border-left:5px solid #0b6e4f;
+  padding:12px 15px;
+  margin-top:15px;
+  background:#f8fffb;
+  border-radius:8px;
+}
+.back{
+  display:inline-block;
+  margin-top:20px;
+  padding:11px 18px;
+  background:#0b6e4f;
+  color:white;
+  text-decoration:none;
+  border-radius:8px;
+}
+.empty{
+  text-align:center;
+  padding:30px 10px;
+  color:#666;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h1>🔔 Notice</h1>
+  <div>SAMUI SEVA SADAN NURSING HOME</div>
+</div>
+
+<div class="container">
+  <div class="card">
+    <h2>📢 Latest Notice</h2>
+
+    <div id="noticeList">
+      <div class="empty">
+        No notice published yet.
+      </div>
+    </div>
+
+    <a href="index.html" class="back">← Back to Home</a>
+  </div>
+</div>
+
+<script>
+function loadNotices(){
+  const box=document.getElementById("noticeList");
+
+  try{
+    const notices=JSON.parse(
+      localStorage.getItem("sss_notices") || "[]"
+    );
+
+    if(!Array.isArray(notices) || notices.length===0){
+      return;
+    }
+
+    const published=notices.filter(n => n.published === true);
+
+    if(published.length===0){
+      return;
+    }
+
+    box.innerHTML=published.map(n => `
+      <div class="notice">
+        <h3>${escapeHtml(n.title || "Notice")}</h3>
+        <p>${escapeHtml(n.text || n.message || "")}</p>
+      </div>
+    `).join("");
+
+  }catch(e){}
+}
+
+function escapeHtml(v){
+  return String(v ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+loadNotices();
+</script>
+
+</body>
+</html>

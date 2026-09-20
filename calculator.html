@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculator - SAMUI SEVA SADAN</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#eef7ff}
+.wrap{max-width:420px;margin:auto;padding:20px}.card{background:white;padding:20px;border-radius:20px;box-shadow:0 4px 18px #0002}
+input{width:100%;padding:15px;font-size:24px;text-align:right;border:1px solid #ccc;border-radius:10px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+button{padding:18px 5px;font-size:20px;border:0;border-radius:10px;background:#e3f2fd}
+.op{background:#90caf9}.eq{background:#1976d2;color:white}
+a{display:block;text-align:center;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="wrap"><div class="card">
+<h1>🧮 Calculator</h1>
+<input id="display" readonly>
+<div class="grid">
+<button onclick="clr()">C</button><button onclick="add('(')">(</button><button onclick="add(')')">)</button><button class="op" onclick="add('/')">÷</button>
+<button onclick="add('7')">7</button><button onclick="add('8')">8</button><button onclick="add('9')">9</button><button class="op" onclick="add('*')">×</button>
+<button onclick="add('4')">4</button><button onclick="add('5')">5</button><button onclick="add('6')">6</button><button class="op" onclick="add('-')">−</button>
+<button onclick="add('1')">1</button><button onclick="add('2')">2</button><button onclick="add('3')">3</button><button class="op" onclick="add('+')">+</button>
+<button onclick="add('0')">0</button><button onclick="add('.')">.</button><button onclick="back()">⌫</button><button class="eq" onclick="calc()">=</button>
+</div>
+<a href="/">← Back to Home</a>
+</div></div>
+<script>
+const x=document.getElementById('display');
+function add(v){x.value+=v}function clr(){x.value=''}function back(){x.value=x.value.slice(0,-1)}
+function calc(){try{x.value=Function('return '+x.value)()}catch(e){x.value='Error'}}
+</script>
+</body>
+</html>

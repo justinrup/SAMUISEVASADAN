@@ -1,0 +1,4781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Admin Dashboard - SAMUI SEVA SADAN</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f3f6f8;
+  color:#222
+}
+header{
+  background:#0b6b78;
+  color:#fff;
+  padding:18px;
+  text-align:center
+}
+main{
+  max-width:900px;
+  margin:auto;
+  padding:20px
+}
+.card{
+  background:#fff;
+  border-radius:15px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 3px 15px #0002
+}
+textarea{
+  width:100%;
+  min-height:180px;
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:10px;
+  font-size:16px;
+  resize:vertical
+}
+button{
+  border:0;
+  border-radius:9px;
+  padding:12px 18px;
+  margin:8px 5px 0 0;
+  font-size:15px;
+  cursor:pointer
+}
+.edit{
+  background:#1976d2;
+  color:white
+}
+.save{
+  background:#388e3c;
+  color:white
+}
+.publish{
+  background:#0b6b78;
+  color:white
+}
+.unpublish{
+  background:#777;
+  color:white
+}
+.print{
+  background:#6a1b9a;
+  color:white
+}
+.logout{
+  background:#b3261e;
+  color:white
+}
+.status{
+  margin-top:10px;
+  font-weight:bold
+}
+</style>
+
+<style>
+.sss-hidden-admin-form{
+  display:none !important;
+}
+</style>
+
+
+<style>
+.admin-section{
+  display:none !important;
+}
+.admin-section.sss-active{
+  display:block !important;
+}
+#adminHomeOptions{
+  display:block;
+}
+</style>
+<label style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+    <input type="checkbox" id="adminAskAiToggle" checked>
+    <span>Ask AI ON / OFF</span>
+  </label>
+
+  <a href="ask-ai.html"
+     style="display:block;padding:9px 10px;border-radius:8px;text-decoration:none;">
+     🤖 Open Ask AI
+  </a>
+
+  <button type="button" id="adminLanguageButton"
+          style="width:100%;margin-top:7px;padding:9px;border:0;border-radius:8px;">
+     🌐 LANGUAGE
+  </button>
+</div>
+
+<style id="sss-scroll-system-css">
+.sss-scroll-admin-box{
+  margin:20px 0;
+  padding:20px;
+  border-radius:18px;
+  background:#f7faff;
+  border:1px solid #dbe7f5;
+  box-shadow:0 4px 16px rgba(0,0,0,.07);
+}
+.sss-scroll-admin-box h2{
+  margin:0 0 8px;
+  color:#1565c0;
+}
+.sss-scroll-admin-box textarea{
+  width:100%;
+  min-height:110px;
+  padding:12px;
+  border:1px solid #ccd7e5;
+  border-radius:12px;
+  font-size:16px;
+  resize:vertical;
+  box-sizing:border-box;
+}
+.sss-scroll-btn{
+  border:0;
+  border-radius:10px;
+  padding:11px 17px;
+  margin:8px 5px 0 0;
+  font-weight:700;
+  cursor:pointer;
+}
+.sss-scroll-publish{background:#1565c0;color:#fff}
+.sss-scroll-clear{background:#e53935;color:#fff}
+.sss-scroll-settings{background:#2e9d50;color:#fff}
+
+.sss-scroll-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  background:rgba(0,0,0,.55);
+  padding:18px;
+  overflow:auto;
+}
+.sss-scroll-modal-box{
+  max-width:620px;
+  margin:30px auto;
+  background:#fff;
+  border-radius:20px;
+  padding:22px;
+  box-shadow:0 12px 40px rgba(0,0,0,.25);
+}
+.sss-scroll-modal-box h2{
+  margin-top:0;
+  color:#1565c0;
+}
+.sss-scroll-setting-row{
+  margin:15px 0;
+}
+.sss-scroll-setting-row label{
+  display:block;
+  font-weight:700;
+  margin-bottom:7px;
+}
+.sss-scroll-setting-row input[type="range"],
+.sss-scroll-setting-row select,
+.sss-scroll-setting-row input[type="text"]{
+  width:100%;
+  box-sizing:border-box;
+  padding:10px;
+  border:1px solid #ccd7e5;
+  border-radius:10px;
+}
+.sss-scroll-colour-row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.sss-scroll-colour-row input[type="color"]{
+  width:55px;
+  height:42px;
+  border:0;
+  padding:0;
+  background:none;
+}
+.sss-scroll-preview{
+  margin-top:18px;
+  padding:14px;
+  border-radius:12px;
+  text-align:center;
+  font-size:18px;
+}
+.sss-scroll-lang-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+@media(max-width:600px){
+  .sss-scroll-lang-row{grid-template-columns:1fr}
+}
+</style>
+
+
+<style id="sss-professional-admin-theme">
+
+/* =========================================
+   SAMUI SEVA SADAN
+   PROFESSIONAL ADMIN DASHBOARD THEME
+   ========================================= */
+
+:root{
+  --sss-primary:#087f8c;
+  --sss-primary-dark:#05636e;
+  --sss-secondary:#0ea5a4;
+  --sss-light:#f0fbfc;
+  --sss-card:#ffffff;
+  --sss-text:#17323a;
+  --sss-muted:#64777d;
+  --sss-border:#d9eaed;
+  --sss-shadow:0 8px 24px rgba(15,65,75,.10);
+  --sss-radius:18px;
+}
+
+/* PAGE */
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0 !important;
+  background:
+    linear-gradient(
+      180deg,
+      #eef9fa 0%,
+      #f8fcfd 45%,
+      #f2f7f8 100%
+    ) !important;
+
+  color:var(--sss-text) !important;
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif !important;
+}
+
+/* MAIN ADMIN HEADER */
+body > header,
+.admin-header,
+header{
+  border-radius:0 0 24px 24px !important;
+  background:
+    linear-gradient(
+      135deg,
+      #05636e 0%,
+      #087f8c 48%,
+      #0ea5a4 100%
+    ) !important;
+
+  box-shadow:
+    0 8px 25px rgba(0,95,105,.20) !important;
+
+  color:white !important;
+}
+
+/* HEADER TITLE */
+header h1,
+.admin-header h1{
+  font-weight:800 !important;
+  letter-spacing:.2px !important;
+}
+
+/* SUBTITLE */
+header p,
+.admin-header p{
+  opacity:.92 !important;
+}
+
+/* ALL MAIN CONTAINERS */
+main,
+.container,
+.dashboard,
+.admin-container{
+  max-width:1100px !important;
+}
+
+/* CARD SYSTEM */
+section,
+.card,
+.admin-card,
+.panel,
+.box{
+  border:1px solid var(--sss-border) !important;
+  border-radius:var(--sss-radius) !important;
+  background:rgba(255,255,255,.96) !important;
+  box-shadow:var(--sss-shadow) !important;
+}
+
+/* CUSTOM SKIN CARD */
+#sssCustomSkinAdminButton,
+#sssAdminCustomizeOption,
+#sssDirectLayoutOption{
+  border:1px solid #b8e3e8 !important;
+  border-radius:18px !important;
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff,
+      #eefbfc
+    ) !important;
+
+  box-shadow:
+    0 8px 22px rgba(8,127,140,.10) !important;
+}
+
+/* CUSTOMIZE / LAYOUT BUTTONS */
+#sssAdminCustomizeOption button,
+#sssDirectLayoutOption button{
+  border-radius:13px !important;
+  background:
+    linear-gradient(
+      135deg,
+      #087f8c,
+      #0ea5a4
+    ) !important;
+
+  color:white !important;
+  box-shadow:
+    0 5px 14px rgba(8,127,140,.20) !important;
+
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease !important;
+}
+
+#sssAdminCustomizeOption button:active,
+#sssDirectLayoutOption button:active{
+  transform:scale(.98);
+}
+
+/* SECTION HEADINGS */
+h2,h3,h4{
+  color:var(--sss-primary-dark) !important;
+  font-weight:800 !important;
+}
+
+/* SCROLL TEXT AREA */
+textarea{
+  border:1px solid #d4e6e9 !important;
+  border-radius:13px !important;
+  background:#f8fcfd !important;
+  color:#17323a !important;
+  padding:12px !important;
+  outline:none !important;
+  transition:.2s ease !important;
+}
+
+textarea:focus{
+  border-color:#0ea5a4 !important;
+  box-shadow:
+    0 0 0 3px rgba(14,165,164,.12) !important;
+}
+
+/* BUTTON BASE */
+button{
+  border-radius:11px !important;
+  font-weight:700 !important;
+  transition:
+    transform .16s ease,
+    box-shadow .16s ease,
+    opacity .16s ease !important;
+}
+
+button:active{
+  transform:scale(.97) !important;
+}
+
+/* SAVE */
+button{
+  box-shadow:0 3px 8px rgba(0,0,0,.06);
+}
+
+/* ADMIN OPTION GRID */
+#adminPanel,
+.admin-panel,
+#adminMenu,
+.admin-menu{
+  gap:14px !important;
+}
+
+/* COMMON MENU CARDS */
+.admin-panel a,
+.admin-panel button,
+.admin-menu a,
+.admin-menu button,
+.dashboard a,
+.dashboard button{
+  border-radius:15px !important;
+}
+
+/* INPUTS */
+input,
+select{
+  border:1px solid #cfe3e6 !important;
+  border-radius:10px !important;
+  background:white !important;
+  color:#17323a !important;
+  min-height:40px;
+}
+
+input:focus,
+select:focus{
+  outline:none !important;
+  border-color:#0ea5a4 !important;
+  box-shadow:
+    0 0 0 3px rgba(14,165,164,.10) !important;
+}
+
+/* NOTIFICATION */
+#notification,
+.notification{
+  border-radius:14px !important;
+  border:1px solid #f0d889 !important;
+  box-shadow:0 5px 15px rgba(160,120,0,.08) !important;
+}
+
+/* CONTACT */
+#contact,
+.contact{
+  border-radius:14px !important;
+}
+
+/* LOGOUT */
+button[onclick*="logout"],
+.logout,
+#logout{
+  border-radius:10px !important;
+  background:
+    linear-gradient(
+      135deg,
+      #c0392b,
+      #e04b3e
+    ) !important;
+
+  color:white !important;
+  border:0 !important;
+  box-shadow:
+    0 5px 12px rgba(192,57,43,.18) !important;
+}
+
+/* EMERGENCY BAR */
+#emergency,
+.emergency,
+.emergency-section{
+  border-radius:14px !important;
+  box-shadow:
+    0 7px 18px rgba(0,120,110,.13) !important;
+}
+
+/* LINK */
+a{
+  transition:.15s ease;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{
+  width:7px;
+}
+
+::-webkit-scrollbar-track{
+  background:#edf6f7;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#8bcbd0;
+  border-radius:20px;
+}
+
+/* MOBILE */
+@media(max-width:700px){
+
+  body{
+    font-size:14px !important;
+  }
+
+  main,
+  .container,
+  .dashboard,
+  .admin-container{
+    width:100% !important;
+    max-width:100% !important;
+    padding-left:10px !important;
+    padding-right:10px !important;
+    box-sizing:border-box !important;
+  }
+
+  section,
+  .card,
+  .admin-card,
+  .panel,
+  .box{
+    border-radius:16px !important;
+    margin-bottom:12px !important;
+  }
+
+  /* ADMIN MENU CARDS */
+  .admin-panel,
+  .admin-menu,
+  #adminPanel,
+  #adminMenu{
+    display:grid !important;
+    grid-template-columns:
+      repeat(2,minmax(0,1fr)) !important;
+    gap:10px !important;
+  }
+
+  .admin-panel > *,
+  .admin-menu > *,
+  #adminPanel > *,
+  #adminMenu > *{
+    min-width:0 !important;
+  }
+
+}
+
+/* VERY SMALL PHONES */
+@media(max-width:390px){
+
+  .admin-panel,
+  .admin-menu,
+  #adminPanel,
+  #adminMenu{
+    grid-template-columns:
+      1fr 1fr !important;
+    gap:8px !important;
+  }
+
+}
+
+/* PROFESSIONAL LABEL */
+.sss-professional-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#e6f7f8;
+  color:#087f8c;
+  font-size:12px;
+  font-weight:800;
+}
+
+/* SUBTLE CARD HOVER */
+.card:hover,
+.admin-card:hover,
+.panel:hover{
+  box-shadow:
+    0 12px 28px rgba(15,65,75,.13) !important;
+}
+
+/* REMOVE UGLY DEFAULT OUTLINES */
+button:focus-visible,
+a:focus-visible{
+  outline:3px solid rgba(14,165,164,.25) !important;
+  outline-offset:2px;
+}
+
+</style>
+
+
+<style id="sss-admin-3dot-visible-fix">
+#sssTopBar{
+  position:fixed !important;
+  top:10px !important;
+  right:12px !important;
+  z-index:999999 !important;
+  display:block !important;
+  width:auto !important;
+  height:auto !important;
+  background:transparent !important;
+}
+
+#sssMenuButton{
+  display:flex !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  position:relative !important;
+  z-index:1000000 !important;
+  width:46px !important;
+  height:46px !important;
+  min-width:46px !important;
+  min-height:46px !important;
+  align-items:center !important;
+  justify-content:center !important;
+  border:2px solid #18a9c9 !important;
+  border-radius:50% !important;
+  background:#ffffff !important;
+  color:#087c9b !important;
+  font-size:30px !important;
+  line-height:1 !important;
+  cursor:pointer !important;
+  pointer-events:auto !important;
+  box-shadow:0 4px 14px rgba(0,0,0,.18) !important;
+}
+</style>
+
+</head>
+
+<body>
+
+
+
+
+<!-- SSS 3-DOT SETTINGS -->
+
+<div id="sssTopBar" style="
+position:sticky;
+top:0;
+z-index:9999;
+display:flex;
+justify-content:flex-end;
+align-items:center;
+padding:10px 14px;
+background:linear-gradient(135deg,#ffffff,#eef4ff);
+border-bottom:1px solid #dbe3ef;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+">
+
+  <button
+    id="sssMenuButton"
+    type="button"
+    onclick="sssToggleMenu()"
+    aria-label="Admin Menu"
+    style="
+      border:0;
+      background:#ffffff;
+      border-radius:12px;
+      width:44px;
+      height:44px;
+      font-size:25px;
+      line-height:44px;
+      box-shadow:0 2px 8px rgba(0,0,0,.12);
+      cursor:pointer;
+    "
+  >⋮</button>
+
+</div>
+
+<!-- CUSTOMIZE -->
+<div id="sssAdminCustomizeOption" style="
+  margin:10px 0;
+  padding:12px;
+  border:1px solid #87ceeb;
+  border-radius:12px;
+  background:#f4fbff;
+">
+
+  <button
+    type="button"
+    onclick="location.href='custom-skin.html'"
+    style="
+      width:100%;
+      padding:13px 14px;
+      border:0;
+      border-radius:10px;
+      background:#e8f7ff;
+      color:#075985;
+      font-size:16px;
+      font-weight:700;
+      text-align:left;
+      cursor:pointer;
+    "
+  >🎨 Customize</button>
+
+  <div style="
+    margin-top:6px;
+    font-size:13px;
+    color:#555;
+    line-height:1.4;
+  ">
+    Homepage menu-এর position, color এবং text customize করুন।
+  </div>
+
+</div>
+
+<!-- LAYOUT -->
+<div id="sssDirectLayoutOption" style="
+  margin:10px 0;
+  padding:12px;
+  border:1px solid #87ceeb;
+  border-radius:12px;
+  background:#f4fbff;
+">
+
+  <button
+    type="button"
+    onclick="location.href='custom-skin.html#homepage-layout'"
+    style="
+      width:100%;
+      padding:13px 14px;
+      border:0;
+      border-radius:10px;
+      background:#e8f7ff;
+      color:#075985;
+      font-size:16px;
+      font-weight:800;
+      text-align:left;
+      cursor:pointer;
+    "
+  >📐 Layout</button>
+
+  <div style="
+    margin-top:6px;
+    font-size:13px;
+    color:#555;
+    line-height:1.4;
+  ">
+    Homepage-এর menu/options-এর layout পরিবর্তন করুন।
+  </div>
+
+</div>
+
+<!-- ASK AI -->
+<div class="sss-admin-ai-menu" style="
+  margin-top:10px;
+  padding:10px;
+  border-top:1px solid #ddd;
+">
+  <div style="
+    font-weight:700;
+    margin-bottom:8px;
+  ">🤖 Ask AI</div>
+</div>
+
+<div id="sssMenuOverlay" onclick="sssCloseMenu()" style="
+display:none;position:fixed;inset:0;z-index:9998;
+background:rgba(0,0,0,.25);"></div>
+
+<div id="sssSideMenu" style="
+display:none;position:fixed;right:12px;top:62px;
+width:min(340px,calc(100vw - 24px));
+z-index:10000;background:#fff;border-radius:18px;
+padding:16px;box-shadow:0 12px 35px rgba(0,0,0,.22);
+border:1px solid #e4eaf2;">
+
+<div style="font-size:20px;font-weight:700;margin-bottom:12px;">
+⋮ Admin Menu
+</div>
+
+
+
+<button type="button" onclick="sssOpenLoginSettings();sssCloseMenu()" style="
+width:100%;padding:13px;margin:5px 0;border:0;
+border-radius:12px;background:#f1f5ff;text-align:left;
+font-size:16px;cursor:pointer;">
+👤 Admin Username & Password
+</button>
+
+<button type="button" onclick="sssOpenSettings();sssCloseMenu()" style="
+width:100%;padding:13px;margin:5px 0;border:0;
+border-radius:12px;background:#f1f5ff;text-align:left;
+font-size:16px;cursor:pointer;">
+👶 Baby Note Settings
+</button>
+
+<button type="button" onclick="sssOpenDoctorSettings();sssCloseMenu()" style="
+width:100%;padding:13px;margin:5px 0;border:0;
+border-radius:12px;background:#f1f5ff;text-align:left;
+font-size:16px;cursor:pointer;">
+👨‍⚕️ Doctor Admin Settings
+</button>
+
+<button type="button"
+onclick="location.href='birth-report-admin.html';sssCloseMenu()" style="
+width:100%;padding:13px;margin:5px 0;border:0;
+border-radius:12px;background:#f1f5ff;text-align:left;
+font-size:16px;cursor:pointer;">
+👶 Birth Report
+</button>
+
+<button type="button"
+onclick="location.href='birth-report-settings.html';sssCloseMenu()" style="
+width:100%;padding:13px;margin:5px 0;border:0;
+border-radius:12px;background:#f1f5ff;text-align:left;
+font-size:16px;cursor:pointer;">
+⚙️ Birth Report Settings
+</button>
+
+
+
+
+
+</div>
+
+
+<!-- ADMIN USERNAME & PASSWORD PANEL -->
+<div id="sssLoginSettingsPanel" style="
+display:none;position:fixed;inset:0;z-index:10003;
+background:rgba(245,248,252,.97);overflow:auto;padding:20px;">
+
+<div style="
+max-width:620px;margin:20px auto;background:#fff;
+border-radius:22px;padding:22px;
+box-shadow:0 10px 35px rgba(0,0,0,.15);">
+
+<div style="display:flex;justify-content:space-between;align-items:center;">
+<h2 style="margin:0;">👤 Admin Username & Password</h2>
+<button type="button" onclick="sssCloseLoginSettings()" style="
+border:0;background:#eee;border-radius:50%;
+width:38px;height:38px;font-size:20px;">×</button>
+</div>
+
+<hr>
+
+<label style="font-weight:700;">🔑 Current Password</label>
+<input id="sssCurrentAdminPassword" type="password"
+placeholder="Enter current password"
+style="width:100%;padding:13px;margin:8px 0 15px;border:1px solid #ccc;border-radius:10px;">
+
+<label style="font-weight:700;">👤 New Username</label>
+<input id="sssNewAdminUsername" type="text"
+value="admin"
+placeholder="Enter new username"
+style="width:100%;padding:13px;margin:8px 0 15px;border:1px solid #ccc;border-radius:10px;">
+
+<label style="font-weight:700;">🔐 New Password</label>
+<input id="sssNewAdminPassword" type="password"
+placeholder="Enter new password"
+style="width:100%;padding:13px;margin:8px 0 15px;border:1px solid #ccc;border-radius:10px;">
+
+<label style="font-weight:700;">🔐 Confirm New Password</label>
+<input id="sssConfirmAdminPassword" type="password"
+placeholder="Re-enter new password"
+style="width:100%;padding:13px;margin:8px 0 18px;border:1px solid #ccc;border-radius:10px;">
+
+<button type="button" onclick="sssSaveLoginSettings()" style="
+width:100%;padding:14px;border:0;border-radius:12px;
+background:#087f8c;color:#fff;font-size:16px;font-weight:700;">
+💾 SAVE LOGIN SETTINGS
+</button>
+
+<div id="sssLoginSettingsMessage"
+style="text-align:center;margin-top:14px;font-weight:700;"></div>
+
+</div>
+</div>
+
+<!-- SETTINGS MENU + PANELS -->
+
+<div id="sssSettingsPanel" style="
+display:none;position:fixed;inset:0;z-index:10001;
+background:rgba(245,248,252,.97);overflow:auto;padding:20px;">
+
+<div style="
+max-width:620px;margin:20px auto;background:#fff;
+border-radius:22px;padding:22px;
+box-shadow:0 10px 35px rgba(0,0,0,.15);">
+
+<div style="display:flex;justify-content:space-between;align-items:center;">
+<h2 style="margin:0;">👶 Baby Note Settings</h2>
+<button type="button" onclick="sssCloseSettings()" style="
+border:0;background:#eee;border-radius:50%;
+width:38px;height:38px;font-size:20px;">×</button>
+</div>
+
+<hr>
+
+<label style="font-weight:700;">🌐 Form Language</label>
+<select id="sssBabyLanguage" onchange="sssSaveBabySettings()" style="
+width:100%;padding:12px;margin:8px 0 18px;border-radius:10px;">
+<option value="en">English</option>
+<option value="bn">বাংলা</option>
+<option value="hi">हिन्दी</option>
+<option value="or">ଓଡ଼ିଆ</option>
+<option value="as">অসমীয়া</option>
+<option value="ne">नेपाली</option>
+<option value="ta">தமிழ்</option>
+<option value="te">తెలుగు</option>
+<option value="mr">मराठी</option>
+<option value="gu">ગુજરાતી</option>
+<option value="pa">ਪੰਜਾਬੀ</option>
+<option value="ur">اردو</option>
+</select>
+
+<label style="font-weight:700;">🔤 Text Style</label>
+<select id="sssBabyTextStyle" onchange="sssSaveBabySettings()" style="
+width:100%;padding:12px;margin:8px 0 18px;border-radius:10px;">
+<option value="windows">Windows Style</option>
+<option value="clean">Clean</option>
+<option value="modern">Modern</option>
+<option value="classic">Classic</option>
+</select>
+
+<label style="font-weight:700;">🎨 Form Theme</label>
+<select id="sssBabyTheme" onchange="sssSaveBabySettings()" style="
+width:100%;padding:12px;margin:8px 0 18px;border-radius:10px;">
+<option value="default">Windows Default</option>
+<option value="blue">Windows Blue</option>
+<option value="green">Healthcare Green</option>
+<option value="purple">Modern Purple</option>
+<option value="dark">Dark</option>
+</select>
+
+<label style="font-weight:700;">🔠 Form Text Size</label>
+<input id="sssBabySize" type="range" min="12" max="28" value="16"
+oninput="sssSaveBabySettings()" style="width:100%;">
+<div style="text-align:center;margin:5px 0 18px;">
+<span id="sssBabySizeValue">16px</span>
+</div>
+
+<label style="font-weight:700;">🖍️ Text Color</label>
+<input id="sssBabyColor" type="color" value="#1f2937"
+oninput="sssSaveBabySettings()" style="
+width:100%;height:48px;margin:8px 0 18px;border-radius:10px;">
+
+<button type="button" onclick="sssAddBabyColor()" style="
+width:100%;padding:13px;border:0;border-radius:12px;
+background:#e8eefc;font-size:16px;font-weight:600;">
+➕ ADD NEW COLOR
+</button>
+
+<button type="button" onclick="sssResetBabySettings()" style="
+width:100%;padding:13px;margin-top:10px;border:0;border-radius:12px;
+background:#ffe8e8;font-size:16px;font-weight:600;">
+🔄 RESET BABY NOTE SETTINGS
+</button>
+
+</div>
+</div>
+
+
+<!-- DOCTOR ADMIN SETTINGS -->
+
+<div id="sssDoctorSettingsPanel" style="
+display:none;position:fixed;inset:0;z-index:10002;
+background:rgba(245,248,252,.97);overflow:auto;padding:20px;">
+
+<div style="
+max-width:620px;margin:20px auto;background:#fff;
+border-radius:22px;padding:22px;
+box-shadow:0 10px 35px rgba(0,0,0,.15);">
+
+<div style="display:flex;justify-content:space-between;align-items:center;">
+<h2 style="margin:0;">👨‍⚕️ Doctor Admin Settings</h2>
+<button type="button" onclick="sssCloseDoctorSettings()" style="
+border:0;background:#eee;border-radius:50%;
+width:38px;height:38px;font-size:20px;">×</button>
+</div>
+
+<hr>
+
+<label style="font-weight:700;">🌐 Form Language</label>
+<select id="sssDoctorLanguage" onchange="sssSaveDoctorSettings()" style="
+width:100%;padding:12px;margin:8px 0 18px;border-radius:10px;">
+<option value="en">English</option>
+<option value="bn">বাংলা</option>
+<option value="hi">हिन्दी</option>
+<option value="or">ଓଡ଼ିଆ</option>
+<option value="as">অসমীয়া</option>
+<option value="ne">नेपाली</option>
+<option value="ta">தமிழ்</option>
+<option value="te">తెలుగు</option>
+<option value="mr">मराठी</option>
+<option value="gu">ગુજરાતી</option>
+<option value="pa">ਪੰਜਾਬੀ</option>
+<option value="ur">اردو</option>
+</select>
+
+<label style="font-weight:700;">🔤 Text Style</label>
+<select id="sssDoctorTextStyle" onchange="sssSaveDoctorSettings()" style="
+width:100%;padding:12px;margin:8px 0 18px;border-radius:10px;">
+<option value="windows">Windows Style</option>
+<option value="clean">Clean</option>
+<option value="modern">Modern</option>
+<option value="classic">Classic</option>
+</select>
+
+<label style="font-weight:700;">🎨 Form Theme</label>
+<select id="sssDoctorTheme" onchange="sssSaveDoctorSettings()" style="
+width:100%;padding:12px;margin:8px 0 18px;border-radius:10px;">
+<option value="default">Windows Default</option>
+<option value="blue">Windows Blue</option>
+<option value="green">Healthcare Green</option>
+<option value="purple">Modern Purple</option>
+<option value="dark">Dark</option>
+</select>
+
+<label style="font-weight:700;">🔠 Form Text Size</label>
+<input id="sssDoctorSize" type="range" min="12" max="28" value="16"
+oninput="sssSaveDoctorSettings()" style="width:100%;">
+<div style="text-align:center;margin:5px 0 18px;">
+<span id="sssDoctorSizeValue">16px</span>
+</div>
+
+<label style="font-weight:700;">🖍️ Text Color</label>
+<input id="sssDoctorColor" type="color" value="#1f2937"
+oninput="sssSaveDoctorSettings()" style="
+width:100%;height:48px;margin:8px 0 18px;border-radius:10px;">
+
+<button type="button" onclick="sssAddDoctorColor()" style="
+width:100%;padding:13px;border:0;border-radius:12px;
+background:#e8eefc;font-size:16px;font-weight:600;">
+➕ ADD NEW COLOR
+</button>
+
+<button type="button" onclick="sssResetDoctorSettings()" style="
+width:100%;padding:13px;margin-top:10px;border:0;border-radius:12px;
+background:#ffe8e8;font-size:16px;font-weight:600;">
+🔄 RESET DOCTOR ADMIN SETTINGS
+</button>
+
+</div>
+</div>
+
+
+<script>
+(function(){
+
+const BABY_DEFAULT = {
+  language:"en",
+  textStyle:"windows",
+  theme:"default",
+  size:16,
+  color:"#1f2937"
+};
+
+const DOCTOR_DEFAULT = {
+  language:"en",
+  textStyle:"windows",
+  theme:"default",
+  size:16,
+  color:"#1f2937"
+};
+
+function getSettings(key, defaults){
+  try{
+    return {...defaults,...JSON.parse(localStorage.getItem(key)||"{}")};
+  }catch(e){
+    return {...defaults};
+  }
+}
+
+function applyFormSettings(section, data, sizeId, sizeValueId){
+  if(!section) return;
+
+  section.style.fontSize = data.size + "px";
+  section.style.color = data.color;
+
+  let font = "Segoe UI, Noto Sans, Arial, sans-serif";
+
+  if(data.textStyle === "clean")
+    font = "Inter, Arial, sans-serif";
+
+  if(data.textStyle === "modern")
+    font = "system-ui, sans-serif";
+
+  if(data.textStyle === "classic")
+    font = "Georgia, serif";
+
+  section.style.fontFamily = font;
+
+  if(sizeValueId){
+    const v=document.getElementById(sizeValueId);
+    if(v) v.textContent=data.size+"px";
+  }
+}
+
+window.sssOpenSettings=function(){
+  const panel=document.getElementById("sssSettingsPanel");
+  if(panel) panel.style.display="block";
+
+  const d=getSettings("sss_baby_settings",BABY_DEFAULT);
+
+  document.getElementById("sssBabyLanguage").value=d.language;
+  document.getElementById("sssBabyTextStyle").value=d.textStyle;
+  document.getElementById("sssBabyTheme").value=d.theme;
+  document.getElementById("sssBabySize").value=d.size;
+  document.getElementById("sssBabyColor").value=d.color;
+
+  const section=document.getElementById("babyNoteSection");
+  applyFormSettings(section,d,"sssBabySize","sssBabySizeValue");
+};
+
+window.sssCloseSettings=function(){
+  const panel=document.getElementById("sssSettingsPanel");
+  if(panel) panel.style.display="none";
+};
+
+window.sssSaveBabySettings=function(){
+  const d={
+    language:document.getElementById("sssBabyLanguage").value,
+    textStyle:document.getElementById("sssBabyTextStyle").value,
+    theme:document.getElementById("sssBabyTheme").value,
+    size:Number(document.getElementById("sssBabySize").value),
+    color:document.getElementById("sssBabyColor").value
+  };
+
+  localStorage.setItem("sss_baby_settings",JSON.stringify(d));
+
+  applyFormSettings(
+    document.getElementById("babyNoteSection"),
+    d,
+    "sssBabySize",
+    "sssBabySizeValue"
+  );
+};
+
+window.sssOpenDoctorSettings=function(){
+  const panel=document.getElementById("sssDoctorSettingsPanel");
+  if(panel) panel.style.display="block";
+
+  const d=getSettings("sss_doctor_settings",DOCTOR_DEFAULT);
+
+  document.getElementById("sssDoctorLanguage").value=d.language;
+  document.getElementById("sssDoctorTextStyle").value=d.textStyle;
+  document.getElementById("sssDoctorTheme").value=d.theme;
+  document.getElementById("sssDoctorSize").value=d.size;
+  document.getElementById("sssDoctorColor").value=d.color;
+
+  applyFormSettings(
+    document.getElementById("doctorAdminSection"),
+    d,
+    "sssDoctorSize",
+    "sssDoctorSizeValue"
+  );
+};
+
+window.sssCloseDoctorSettings=function(){
+  const panel=document.getElementById("sssDoctorSettingsPanel");
+  if(panel) panel.style.display="none";
+};
+
+window.sssSaveDoctorSettings=function(){
+  const d={
+    language:document.getElementById("sssDoctorLanguage").value,
+    textStyle:document.getElementById("sssDoctorTextStyle").value,
+    theme:document.getElementById("sssDoctorTheme").value,
+    size:Number(document.getElementById("sssDoctorSize").value),
+    color:document.getElementById("sssDoctorColor").value
+  };
+
+  localStorage.setItem("sss_doctor_settings",JSON.stringify(d));
+
+  applyFormSettings(
+    document.getElementById("doctorAdminSection"),
+    d,
+    "sssDoctorSize",
+    "sssDoctorSizeValue"
+  );
+};
+
+window.sssAddBabyColor=function(){
+  const c=document.getElementById("sssBabyColor").value;
+  navigator.clipboard?.writeText(c).catch(()=>{});
+  alert("Baby Note color saved: "+c);
+};
+
+window.sssAddDoctorColor=function(){
+  const c=document.getElementById("sssDoctorColor").value;
+  navigator.clipboard?.writeText(c).catch(()=>{});
+  alert("Doctor Admin color saved: "+c);
+};
+
+window.sssResetBabySettings=function(){
+  if(!confirm("Baby Note settings reset করবেন?")) return;
+
+  localStorage.removeItem("sss_baby_settings");
+
+  document.getElementById("sssBabyLanguage").value=BABY_DEFAULT.language;
+  document.getElementById("sssBabyTextStyle").value=BABY_DEFAULT.textStyle;
+  document.getElementById("sssBabyTheme").value=BABY_DEFAULT.theme;
+  document.getElementById("sssBabySize").value=BABY_DEFAULT.size;
+  document.getElementById("sssBabyColor").value=BABY_DEFAULT.color;
+
+  applyFormSettings(
+    document.getElementById("babyNoteSection"),
+    BABY_DEFAULT,
+    "sssBabySize",
+    "sssBabySizeValue"
+  );
+};
+
+window.sssResetDoctorSettings=function(){
+  if(!confirm("Doctor Admin settings reset করবেন?")) return;
+
+  localStorage.removeItem("sss_doctor_settings");
+
+  document.getElementById("sssDoctorLanguage").value=DOCTOR_DEFAULT.language;
+  document.getElementById("sssDoctorTextStyle").value=DOCTOR_DEFAULT.textStyle;
+  document.getElementById("sssDoctorTheme").value=DOCTOR_DEFAULT.theme;
+  document.getElementById("sssDoctorSize").value=DOCTOR_DEFAULT.size;
+  document.getElementById("sssDoctorColor").value=DOCTOR_DEFAULT.color;
+
+  applyFormSettings(
+    document.getElementById("doctorAdminSection"),
+    DOCTOR_DEFAULT,
+    "sssDoctorSize",
+    "sssDoctorSizeValue"
+  );
+};
+
+window.sssApplySavedFormSettings=function(){
+  const b=getSettings("sss_baby_settings",BABY_DEFAULT);
+  const d=getSettings("sss_doctor_settings",DOCTOR_DEFAULT);
+
+  applyFormSettings(
+    document.getElementById("babyNoteSection"),
+    b,
+    "sssBabySize",
+    "sssBabySizeValue"
+  );
+
+  applyFormSettings(
+    document.getElementById("doctorAdminSection"),
+    d,
+    "sssDoctorSize",
+    "sssDoctorSizeValue"
+  );
+};
+
+document.addEventListener("DOMContentLoaded",function(){
+  sssApplySavedFormSettings();
+});
+
+})();
+</script>
+
+<header>
+<h1>Admin Dashboard</h1>
+<div>SAMUI SEVA SADAN NURSING HOME</div>
+</header>
+
+<main>
+
+<div id="sssCustomSkinAdminButton" style="
+margin:18px 12px;
+padding:18px;
+background:#ffffff;
+border:2px solid #87ceeb;
+border-radius:16px;
+box-shadow:0 4px 15px rgba(0,0,0,.10);
+">
+
+<div style="
+font-size:20px;
+font-weight:bold;
+color:#087e9b;
+margin-bottom:6px;
+">
+🎨 Custom Skin
+</div>
+
+<div style="
+font-size:14px;
+color:#555;
+line-height:1.5;
+margin-bottom:14px;
+">
+Homepage menu-এর position, color এবং text customize করুন।
+</div>
+
+<a href="custom-skin.html"
+style="
+display:block;
+text-align:center;
+padding:13px;
+background:#087e9b;
+color:#fff;
+border-radius:10px;
+text-decoration:none;
+font-weight:bold;
+font-size:16px;
+">
+⚙️ Open Custom Skin
+</a>
+
+</div>
+
+
+
+
+<!-- ADMIN FORM SELECTOR -->
+<div id="sssFormSelector" style="
+max-width:900px;margin:15px auto;padding:0 20px;">
+  <div style="
+  background:#fff;border-radius:18px;padding:18px;
+  box-shadow:0 3px 15px #0002;">
+
+    <h2 style="margin:0 0 14px;">Admin Panel</h2>
+
+<!-- SCROLL TEXT -->
+<div id="sssScrollTextAdmin" style="
+margin:0 0 15px;
+padding:16px;
+background:#f7fbff;
+border:1px solid #d8e5f2;
+border-radius:15px;
+box-shadow:0 3px 10px rgba(0,0,0,.08);
+">
+<h3 style="margin:0 0 10px;color:#1565c0;">📜 Scroll Text</h3>
+
+<textarea id="sssScrollTextInput"
+placeholder="এখানে Scroll Text লিখুন..."
+style="width:100%;min-height:90px;box-sizing:border-box;
+padding:11px;border:1px solid #ccd7e5;border-radius:10px;
+font-size:16px;"></textarea>
+
+<div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;">
+
+<button type="button" onclick="sssEditScrollText()"
+style="padding:10px 13px;border:0;border-radius:9px;background:#1565c0;color:white;font-weight:bold;">
+✏ Edit</button>
+
+<button type="button" onclick="sssSaveScrollText()"
+style="padding:10px 13px;border:0;border-radius:9px;background:#2e9d50;color:white;font-weight:bold;">
+💾 Save</button>
+
+<button type="button" onclick="sssDeleteScrollText()"
+style="padding:10px 13px;border:0;border-radius:9px;background:#e53935;color:white;font-weight:bold;">
+🗑 Delete</button>
+
+<button type="button" onclick="sssPublishScrollText()"
+style="padding:10px 13px;border:0;border-radius:9px;background:#673ab7;color:white;font-weight:bold;">
+📢 Publish</button>
+
+<button type="button" onclick="sssOpenScrollSettings()"
+style="padding:10px 13px;border:0;border-radius:9px;background:#00897b;color:white;font-weight:bold;">
+⚙ Setting</button>
+
+</div>
+
+<div id="sssScrollAdminStatus"
+style="margin-top:9px;font-weight:700;"></div>
+</div>
+<!-- END SCROLL TEXT -->
+
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+
+      <button type="button" onclick="sssOpenAdminForm('baby')" style="
+      flex:1;min-width:140px;padding:18px;
+      border:0;border-radius:15px;
+      background:#e8f4ff;font-size:17px;font-weight:bold;
+      cursor:pointer;">
+        👶 Baby Note
+      </button>
+
+      <button type="button" onclick="sssOpenAdminForm('doctor')" style="
+      flex:1;min-width:140px;padding:18px;
+      border:0;border-radius:15px;
+      background:#eaf8ef;font-size:17px;font-weight:bold;
+      cursor:pointer;">
+        👨‍⚕️ Doctor Admin
+      </button>
+      <button type="button" onclick="sssOpenAbout()" style="
+      flex:1;min-width:140px;padding:18px;
+      border:0;border-radius:15px;
+      background:#fff3cd;font-size:17px;font-weight:bold;
+      cursor:pointer;">
+      📖 About
+      </button>
+
+      <button type="button" onclick="sssOpenAdminForm('services')" style="
+      flex:1;min-width:140px;padding:18px;
+      border:0;border-radius:15px;
+      background:#e8f4ff;font-size:17px;font-weight:bold;
+      cursor:pointer;">
+      🏥 Healthcare Services
+      </button>
+
+      <button type="button" onclick="sssOpenAdminForm('publicDoctors')" style="
+      flex:1;min-width:140px;padding:18px;
+      border:0;border-radius:15px;
+      background:#f0e8ff;font-size:17px;font-weight:bold;
+      cursor:pointer;">
+      👨‍⚕️ Our Doctors
+      </button>
+
+      <button type="button" onclick="sssOpenAdminForm('facilities')" style="
+      flex:1;min-width:140px;padding:18px;
+      border:0;border-radius:15px;
+      background:#e8fff5;font-size:17px;font-weight:bold;
+      cursor:pointer;">
+      🏢 Facilities
+      </button>
+
+<a href="birth-report-admin.html"
+   class="sss-admin-birth-report"
+   style="
+   display:flex;
+   align-items:center;
+   justify-content:center;
+   text-decoration:none;
+   color:#222;
+   background:linear-gradient(135deg,#e8f5e9,#ffffff);
+   border-radius:12px;
+   padding:15px;
+   min-height:58px;
+   box-shadow:0 2px 8px rgba(0,0,0,.08);
+   font-weight:700;">
+   👶 Birth Report
+</a>
+<a class="clean-service-card" href="blood-report-admin.html">
+    <div class="icon">🔬</div>
+    <h3>Blood Report</h3>
+    <p>LAB REPORTING SOFTWARE</p>
+</a>
+
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- PUBLIC SITE CONTENT MANAGEMENT -->
+<section id="sssSiteContentManagement" style="
+display:none;
+width:100%;
+max-width:900px;
+margin:15px auto;
+padding:0 12px;
+">
+
+  <div style="
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius:16px;
+    padding:18px;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+  ">
+
+    <h2 id="sssContentFormHeading" style="margin-top:0;">
+      Site Content Management
+    </h2>
+
+    <input type="hidden" id="sssContentSection">
+
+    <label style="font-weight:bold;">Title</label>
+    <input id="sssContentTitle"
+      type="text"
+      style="width:100%;padding:12px;margin:7px 0 14px;border:1px solid #ccc;border-radius:10px;">
+
+    <label style="font-weight:bold;">Description</label>
+    <textarea id="sssContentDescription"
+      rows="5"
+      style="width:100%;padding:12px;margin:7px 0 14px;border:1px solid #ccc;border-radius:10px;resize:vertical;"></textarea>
+
+    <label style="font-weight:bold;">Items</label>
+    <textarea id="sssContentItems"
+      rows="8"
+      placeholder="One item per line"
+      style="width:100%;padding:12px;margin:7px 0 14px;border:1px solid #ccc;border-radius:10px;resize:vertical;"></textarea>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+
+      <button type="button" onclick="sssSaveSiteContent(false)"
+        style="padding:12px 18px;border:0;border-radius:10px;background:#e8f4ff;font-weight:bold;cursor:pointer;">
+        💾 Save
+      </button>
+
+      <button type="button" onclick="sssSaveSiteContent(true)"
+        style="padding:12px 18px;border:0;border-radius:10px;background:#dff7e8;font-weight:bold;cursor:pointer;">
+        📢 Save & Publish
+      </button>
+
+      <button type="button" onclick="sssLoadSiteContent()"
+        style="padding:12px 18px;border:0;border-radius:10px;background:#f1f1f1;font-weight:bold;cursor:pointer;">
+        ✏️ Edit / Reload
+      </button>
+
+      <button type="button" onclick="sssCloseSiteContent()"
+        style="padding:12px 18px;border:0;border-radius:10px;background:#ffe5e5;font-weight:bold;cursor:pointer;">
+        ✖ Close
+      </button>
+
+    </div>
+
+    <div id="sssContentMessage"
+      style="margin-top:12px;font-weight:bold;"></div>
+
+  </div>
+</section>
+
+<script>
+async function sssOpenSiteContent(section) {
+  const panel = document.getElementById("sssSiteContentManagement");
+  const heading = document.getElementById("sssContentFormHeading");
+  const sectionInput = document.getElementById("sssContentSection");
+
+  if (!panel || !heading || !sectionInput) {
+    alert("Site content form not found.");
+    return;
+  }
+
+  const names = {
+    services: "🏥 Healthcare Services Management",
+    publicDoctors: "👨‍⚕️ Our Doctors Management",
+    facilities: "🏢 Facilities Management"
+  };
+
+  const apiSection = section === "publicDoctors" ? "doctors" : section;
+
+  heading.textContent = names[section] || "Site Content Management";
+  sectionInput.value = apiSection;
+
+  panel.style.display = "block";
+
+  document.getElementById("sssContentTitle").value = "";
+  document.getElementById("sssContentDescription").value = "";
+  document.getElementById("sssContentItems").value = "";
+  document.getElementById("sssContentMessage").textContent = "";
+
+  await sssLoadSiteContent();
+  panel.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+async function sssLoadSiteContent() {
+  const section = document.getElementById("sssContentSection")?.value;
+  if (!section) return;
+
+  try {
+    const r = await fetch("/api/admin/site-content/" + encodeURIComponent(section));
+    const data = await r.json();
+
+    if (!r.ok || !data.ok) {
+      throw new Error(data.message || "Could not load content");
+    }
+
+    const c = data.content || {};
+
+    document.getElementById("sssContentTitle").value = c.title || "";
+    document.getElementById("sssContentDescription").value = c.description || "";
+
+    const items = Array.isArray(c.items) ? c.items : [];
+
+    document.getElementById("sssContentItems").value =
+      items.map(x => {
+        if (typeof x === "string") return x;
+        if (x && typeof x === "object") {
+          return x.title || x.name || x.text || JSON.stringify(x);
+        }
+        return "";
+      }).filter(Boolean).join("\\n");
+
+    document.getElementById("sssContentMessage").textContent =
+      c.published ? "Published content loaded." : "Saved content loaded.";
+
+  } catch (e) {
+    document.getElementById("sssContentMessage").textContent =
+      "Error: " + e.message;
+  }
+}
+
+async function sssSaveSiteContent(publish) {
+  const section = document.getElementById("sssContentSection")?.value;
+
+  if (!section) {
+    alert("Please select a content section.");
+    return;
+  }
+
+  const title = document.getElementById("sssContentTitle").value.trim();
+  const description = document.getElementById("sssContentDescription").value.trim();
+
+  const items = document.getElementById("sssContentItems").value
+    .split("\\n")
+    .map(x => x.trim())
+    .filter(Boolean);
+
+  if (!title) {
+    alert("Please enter Title.");
+    return;
+  }
+
+  try {
+    const r = await fetch("/api/admin/site-content/" + encodeURIComponent(section), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        title,
+        description,
+        items,
+        published: publish
+      })
+    });
+
+    const data = await r.json();
+
+    if (!r.ok || !data.ok) {
+      throw new Error(data.message || "Could not save content");
+    }
+
+    document.getElementById("sssContentMessage").textContent =
+      publish
+        ? "✅ Saved and Published successfully."
+        : "✅ Saved successfully.";
+
+  } catch (e) {
+    document.getElementById("sssContentMessage").textContent =
+      "❌ Error: " + e.message;
+  }
+}
+
+function sssCloseSiteContent() {
+  const panel = document.getElementById("sssSiteContentManagement");
+  if (panel) panel.style.display = "none";
+}
+
+/* Extend existing Admin selector */
+(function() {
+  const oldFunction = window.sssOpenAdminForm;
+
+  window.sssOpenAdminForm = function(type) {
+
+    if (
+      type === "services" ||
+      type === "publicDoctors" ||
+      type === "facilities"
+    ) {
+      sssOpenSiteContent(type);
+      return;
+    }
+
+    if (typeof oldFunction === "function") {
+      oldFunction(type);
+    }
+  };
+})();
+</script>
+
+<!-- NOTIFICATION OUTSIDE 3-DOT MENU -->
+<div id="sssNotificationOutside" style="
+  width:100%;
+  max-width:900px;
+  margin:12px auto;
+  padding:0 12px;
+">
+  <button type="button" onclick="window.location.href='notification.html'" style="
+    width:100%;
+    padding:14px 18px;
+    border:0;
+    border-radius:14px;
+    background:#fff4c2;
+    color:#222;
+    font-size:17px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 4px 12px rgba(0,0,0,.12);
+  ">
+    🔔 Notification
+  </button>
+
+<button type="button" onclick="sssOpenContact()" style="
+width:100%;
+padding:13px;
+margin:5px 0;
+border:0;
+border-radius:12px;
+background:#fff0f0;
+text-align:left;
+font-size:16px;
+cursor:pointer;">
+📞 Contact
+</button>
+
+</div>
+
+<!-- NOTICE MANAGEMENT -->
+<section id="noticeManagementSection" class="admin-section" style="display:none;">
+  <h2>🔔 Notice Management</h2>
+
+  <div style="
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:18px;
+    margin-top:15px;
+  ">
+
+    <label>Notice Title</label>
+    <input type="text" id="noticeTitle"
+      placeholder="Enter Notice Title"
+      style="width:100%;padding:12px;margin:6px 0 14px;">
+
+    <label>Notice Details</label>
+    <textarea id="noticeMessage"
+      placeholder="Write Notice Details..."
+      rows="7"
+      style="width:100%;padding:12px;margin:6px 0 14px;resize:vertical;"></textarea>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button type="button" onclick="saveNotice()">Save</button>
+      <button type="button" onclick="editNotice()">Edit</button>
+      <button type="button" class="publish" onclick="publishNotice()">Publish</button>
+      <button type="button" class="delete" onclick="deleteNotice()">Delete</button>
+    </div>
+
+    <div id="noticeStatus" class="status" style="margin-top:12px;"></div>
+  </div>
+
+  <div id="noticeRecords" style="margin-top:20px;"></div>
+</section>
+
+<script>
+let sssEditingNoticeId = null;
+
+function getNoticeStore(){
+  try{
+    const x = JSON.parse(
+      localStorage.getItem("sss_notices") || "[]"
+    );
+    return Array.isArray(x) ? x : [];
+  }catch(e){
+    return [];
+  }
+}
+
+function setNoticeStore(records){
+  localStorage.setItem(
+    "sss_notices",
+    JSON.stringify(records)
+  );
+}
+
+function noticeEscape(v){
+  return String(v ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function saveNotice(){
+  const title=document.getElementById("noticeTitle").value.trim();
+  const message=document.getElementById("noticeMessage").value.trim();
+
+  if(!title || !message){
+    document.getElementById("noticeStatus").textContent =
+      "Please enter Notice Title and Details.";
+    return;
+  }
+
+  let records=getNoticeStore();
+
+  const id=sssEditingNoticeId || Date.now();
+
+  const old=records.find(r=>String(r.id)===String(id));
+
+  const record={
+    id:id,
+    title:title,
+    text:message,
+    published:old ? old.published===true : false,
+    savedAt:new Date().toISOString()
+  };
+
+  const index=records.findIndex(
+    r=>String(r.id)===String(id)
+  );
+
+  if(index>=0){
+    records[index]=record;
+  }else{
+    records.push(record);
+  }
+
+  setNoticeStore(records);
+
+  sssEditingNoticeId=null;
+  document.getElementById("noticeTitle").value="";
+  document.getElementById("noticeMessage").value="";
+  document.getElementById("noticeStatus").textContent="Notice saved.";
+
+  renderNoticeRecords();
+}
+
+function editNotice(){
+  const records=getNoticeStore();
+
+  if(records.length===0){
+    document.getElementById("noticeStatus").textContent=
+      "No saved Notice to edit.";
+    return;
+  }
+
+  const record=records[records.length-1];
+
+  sssEditingNoticeId=record.id;
+  document.getElementById("noticeTitle").value=record.title || "";
+  document.getElementById("noticeMessage").value=record.text || "";
+  document.getElementById("noticeStatus").textContent=
+    "Editing Notice. Press Save after making changes.";
+}
+
+function publishNotice(){
+  const records=getNoticeStore();
+
+  if(sssEditingNoticeId){
+    saveNotice();
+  }
+
+  const latest=getNoticeStore();
+
+  if(latest.length===0){
+    document.getElementById("noticeStatus").textContent=
+      "Please save a Notice first.";
+    return;
+  }
+
+  latest.forEach(r=>r.published=false);
+  latest[latest.length-1].published=true;
+  latest[latest.length-1].publishedAt=new Date().toISOString();
+
+  setNoticeStore(latest);
+
+  document.getElementById("noticeStatus").textContent=
+    "Notice published successfully.";
+
+  renderNoticeRecords();
+}
+
+function deleteNotice(){
+  let records=getNoticeStore();
+
+  if(records.length===0){
+    document.getElementById("noticeStatus").textContent=
+      "No Notice to delete.";
+    return;
+  }
+
+  const id=sssEditingNoticeId || records[records.length-1].id;
+
+  records=records.filter(
+    r=>String(r.id)!==String(id)
+  );
+
+  setNoticeStore(records);
+
+  sssEditingNoticeId=null;
+  document.getElementById("noticeTitle").value="";
+  document.getElementById("noticeMessage").value="";
+  document.getElementById("noticeStatus").textContent=
+    "Notice deleted.";
+
+  renderNoticeRecords();
+}
+
+function renderNoticeRecords(){
+  const box=document.getElementById("noticeRecords");
+  if(!box) return;
+
+  const records=getNoticeStore();
+
+  if(records.length===0){
+    box.innerHTML="";
+    return;
+  }
+
+  box.innerHTML=`
+    <h3>📋 Saved Notices</h3>
+    ${records.map((r,i)=>`
+      <div style="
+        background:#fff;
+        border:1px solid #ddd;
+        border-radius:12px;
+        padding:15px;
+        margin:10px 0;
+      ">
+        <b>${noticeEscape(r.title)}</b>
+        <p>${noticeEscape(r.text)}</p>
+        <div>${r.published ? "🟢 Published" : "🟡 Saved"}</div>
+        <button type="button"
+          onclick="loadNoticeForEdit('${r.id}')">
+          Edit This
+        </button>
+      </div>
+    `).join("")}
+  `;
+}
+
+function loadNoticeForEdit(id){
+  const record=getNoticeStore().find(
+    r=>String(r.id)===String(id)
+  );
+
+  if(!record) return;
+
+  sssEditingNoticeId=record.id;
+  document.getElementById("noticeTitle").value=record.title || "";
+  document.getElementById("noticeMessage").value=record.text || "";
+  document.getElementById("noticeStatus").textContent=
+    "Editing selected Notice.";
+}
+
+renderNoticeRecords();
+</script>
+
+<!-- BABY NOTE -->
+<section id="babyNoteSection" class="admin-section">
+<h2>👶 Baby Note</h2>
+
+<div id="babyForms"></div>
+
+<label style="display:block;margin-top:15px;">
+  <input type="checkbox" id="twinBaby">
+  Twin Baby
+</label>
+
+<div class="button-row" style="margin-top:18px;">
+  <button type="button" onclick="saveBabyData()">Save</button>
+  <button type="button" class="edit" onclick="editBabyNote()">Edit</button>
+  <button type="button" class="publish" onclick="publishBabyNote()">Publish</button>
+  <button type="button" class="delete" onclick="deleteBabyNote()">Delete</button>
+  <button type="button" class="print" onclick="printBabyNote()">Print</button>
+</div>
+
+<div id="babyStatus" class="status"></div>
+
+<div id="babyRecords" style="margin-top:20px;"></div>
+</section>
+
+<script>
+const doctors = [
+  "Dr. ASESH MOITRA",
+  "Dr. JAYENTO SASMO"
+];
+
+const anaesthesiaNames = [];
+
+const rooms = [
+  "1 No Room",
+  "2 No Room",
+  "5 No Room",
+  "6 No Room",
+  "8 No Room",
+  "9 Ground Room"
+];
+
+const beds = ["1","2","3","4","5","6","7"];
+
+function createBabyForm(number) {
+  return `
+  <div class="baby-form" id="babyForm${number}" style="
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:16px;
+    margin:15px 0;
+    background:#fafafa;
+  ">
+
+    <h3>👶 Baby ${number}</h3>
+
+    <label>B/O Mother's Name</label>
+    <input type="text" id="mother${number}" placeholder="Mother's Name">
+
+    <label>DOB</label>
+    <input type="date" id="dob${number}">
+
+    <label>Time</label>
+    <input type="time" id="time${number}">
+
+    <label>Sex</label>
+    <select id="sex${number}">
+      <option value="">Select Sex</option>
+      <option value="BOY">BOY</option>
+      <option value="GIRL">GIRL</option>
+    </select>
+
+    <label>Weight</label>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <input type="text" id="weight${number}" placeholder="00.00" inputmode="decimal">
+      <span>kg</span>
+    </div>
+
+    <label>OT Type</label>
+    <select id="ot${number}">
+      <option value="">Select OT Type</option>
+      <option value="LUCS">LUCS</option>
+      <option value="ND">ND</option>
+    </select>
+
+    <label>Room</label>
+    <select id="room${number}" onchange="showBeds(${number})">
+      <option value="">Select Room</option>
+      ${rooms.map(r => `<option value="${r}">${r}</option>`).join("")}
+    </select>
+
+    <div id="bedBox${number}" style="display:none;">
+      <label>Bed Number</label>
+      <select id="bed${number}">
+        <option value="">Select Bed</option>
+        ${beds.map(b => `<option value="${b}">Bed ${b}</option>`).join("")}
+      </select>
+    </div>
+
+    <label>Baby Serial No.</label>
+    <input type="text" id="serial${number}" placeholder="Baby Serial No.">
+
+    <label>Doctor Name</label>
+    <select id="doctor${number}">
+      <option value="">Select Doctor</option>
+      ${doctors.map(d => `<option value="${d}">${d}</option>`).join("")}
+    </select>
+
+    <button type="button" onclick="addDoctor()"
+      style="margin:6px 0 12px;">+ Add Doctor Name</button>
+
+    <label>Anaesthesia Name</label>
+    <select id="anaesthesia${number}">
+      <option value="">Select Anaesthesia Name</option>
+      ${anaesthesiaNames.map(a => `<option value="${a}">${a}</option>`).join("")}
+    </select>
+
+    <button type="button" onclick="addAnaesthesia()"
+      style="margin:6px 0;">+ Add Anaesthesia Name</button>
+
+  </div>
+  `;
+}
+
+function renderBabyForms() {
+  const container = document.getElementById("babyForms");
+
+  container.innerHTML = createBabyForm(1);
+
+  if (document.getElementById("twinBaby").checked) {
+    container.innerHTML += createBabyForm(2);
+  }
+}
+
+function showBeds(number) {
+  const room = document.getElementById("room" + number).value;
+  const box = document.getElementById("bedBox" + number);
+
+  if (room) {
+    box.style.display = "block";
+  } else {
+    box.style.display = "none";
+  }
+}
+
+function addDoctor() {
+  const name = prompt("Enter new Doctor Name:");
+
+  if (!name || !name.trim()) return;
+
+  doctors.push(name.trim());
+  renderBabyForms();
+}
+
+function addAnaesthesia() {
+  const name = prompt("Enter new Anaesthesia Name:");
+
+  if (!name || !name.trim()) return;
+
+  anaesthesiaNames.push(name.trim());
+  renderBabyForms();
+}
+
+function getBabyData(number) {
+  return {
+    mother: document.getElementById("mother" + number)?.value || "",
+    dob: document.getElementById("dob" + number)?.value || "",
+    time: document.getElementById("time" + number)?.value || "",
+    sex: document.getElementById("sex" + number)?.value || "",
+    weight: document.getElementById("weight" + number)?.value || "",
+    ot: document.getElementById("ot" + number)?.value || "",
+    room: document.getElementById("room" + number)?.value || "",
+    bed: document.getElementById("bed" + number)?.value || "",
+    serial: document.getElementById("serial" + number)?.value || "",
+    doctor: document.getElementById("doctor" + number)?.value || "",
+    anaesthesia: document.getElementById("anaesthesia" + number)?.value || ""
+  };
+}
+
+let sssEditingBabyRecordId = null;
+
+function getBabyRecordStore(){
+  try{
+    const x = JSON.parse(
+      localStorage.getItem("sss_baby_note_records") || "[]"
+    );
+    return Array.isArray(x) ? x : [];
+  }catch(e){
+    return [];
+  }
+}
+
+function setBabyRecordStore(records){
+  localStorage.setItem(
+    "sss_baby_note_records",
+    JSON.stringify(records)
+  );
+}
+
+function escapeBabyHtml(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function saveBabyData(){
+  const data = {
+    id: sssEditingBabyRecordId || Date.now(),
+    savedAt: new Date().toISOString(),
+    published: false,
+    twin: document.getElementById("twinBaby").checked,
+    babies: [getBabyData(1)]
+  };
+
+  if(data.twin){
+    data.babies.push(getBabyData(2));
+  }
+
+  if(!data.babies[0].dob){
+    document.getElementById("babyStatus").textContent =
+      "Please select Baby DOB.";
+    return null;
+  }
+
+  let records = getBabyRecordStore();
+
+  const existingIndex = records.findIndex(
+    r => String(r.id) === String(data.id)
+  );
+
+  if(existingIndex >= 0){
+    data.published = records[existingIndex].published === true;
+    data.publishedAt = records[existingIndex].publishedAt || "";
+    records[existingIndex] = data;
+  }else{
+    records.push(data);
+  }
+
+  setBabyRecordStore(records);
+
+  document.getElementById("babyStatus").textContent =
+    "Baby Note saved. Form cleared for new Baby Note.";
+
+  sssEditingBabyRecordId = null;
+
+  document.getElementById("twinBaby").checked = false;
+  renderBabyForms();
+
+  renderBabyRecords();
+
+  return data;
+}
+
+function renderBabyRecords(){
+  const box = document.getElementById("babyRecords");
+  if(!box) return;
+
+  const records = getBabyRecordStore();
+
+  if(records.length === 0){
+    box.innerHTML = `
+      <div style="padding:15px;border:1px solid #ddd;border-radius:10px;">
+        <b>Saved Baby Notes</b>
+        <p>No Baby Notes saved yet.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const sorted = [...records].sort((a,b)=>{
+    const sa = String(a.babies?.[0]?.serial || "");
+    const sb = String(b.babies?.[0]?.serial || "");
+    return sa.localeCompare(sb,undefined,{numeric:true});
+  });
+
+  box.innerHTML = `
+    <h3>📋 Saved Baby Notes</h3>
+
+    ${sorted.map((record,index)=>{
+
+      const baby = record.babies?.[0] || {};
+      const status = record.published
+        ? "🟢 Published"
+        : "🟡 Saved";
+
+      return `
+        <div style="
+          border:1px solid #ddd;
+          border-radius:12px;
+          padding:15px;
+          margin:12px 0;
+          background:#fff;
+        ">
+          <b>Baby Note ${index+1}</b>
+          <div style="margin-top:7px;">
+            Serial No.: ${escapeBabyHtml(baby.serial)}
+          </div>
+          <div>
+            DOB: ${escapeBabyHtml(baby.dob)}
+          </div>
+          <div>
+            Mother: ${escapeBabyHtml(baby.mother)}
+          </div>
+          <div style="margin-top:6px;">
+            ${status}
+          </div>
+
+          <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+            <button type="button"
+              onclick="editSavedBabyRecord('${record.id}')">
+              Edit
+            </button>
+
+            <button type="button"
+              class="publish"
+              onclick="publishSavedBabyRecord('${record.id}')">
+              Publish
+            </button>
+
+            <button type="button"
+              class="delete"
+              onclick="deleteSavedBabyRecord('${record.id}')">
+              Delete
+            </button>
+          </div>
+        </div>
+      `;
+    }).join("")}
+  `;
+}
+
+function editSavedBabyRecord(id){
+  const records = getBabyRecordStore();
+
+  const record = records.find(
+    r => String(r.id) === String(id)
+  );
+
+  if(!record) return;
+
+  sssEditingBabyRecordId = record.id;
+
+  document.getElementById("twinBaby").checked =
+    !!record.twin;
+
+  renderBabyForms();
+
+  record.babies.forEach((baby,i)=>{
+    const n = i + 1;
+
+    const set = (id,value)=>{
+      const el = document.getElementById(id+n);
+      if(el) el.value = value || "";
+    };
+
+    set("mother",baby.mother);
+    set("dob",baby.dob);
+    set("time",baby.time);
+    set("sex",baby.sex);
+    set("weight",baby.weight);
+    set("ot",baby.ot);
+    set("room",baby.room);
+
+    showBeds(n);
+
+    set("bed",baby.bed);
+    set("serial",baby.serial);
+    set("doctor",baby.doctor);
+    set("anaesthesia",baby.anaesthesia);
+  });
+
+  document.getElementById("babyStatus").textContent =
+    "Baby Note loaded for editing.";
+
+  window.scrollTo({
+    top: document.getElementById("babyNoteSection").offsetTop,
+    behavior:"smooth"
+  });
+}
+
+function publishSavedBabyRecord(id){
+  const records = getBabyRecordStore();
+
+  const index = records.findIndex(
+    r => String(r.id) === String(id)
+  );
+
+  if(index < 0) return;
+
+  const record = records[index];
+
+  if(!record.babies?.[0]?.dob){
+    alert("Baby DOB is required before publishing.");
+    return;
+  }
+
+  record.published = true;
+  record.publishedAt = new Date().toISOString();
+
+  records[index] = record;
+  setBabyRecordStore(records);
+
+  let published = [];
+
+  try{
+    published = JSON.parse(
+      localStorage.getItem("sss_baby_notes") || "[]"
+    );
+    if(!Array.isArray(published)) published = [];
+  }catch(e){
+    published = [];
+  }
+
+  const publicIndex = published.findIndex(
+    r => String(r.id) === String(record.id)
+  );
+
+  if(publicIndex >= 0){
+    published[publicIndex] = record;
+  }else{
+    published.push(record);
+  }
+
+  localStorage.setItem(
+    "sss_baby_notes",
+    JSON.stringify(published)
+  );
+
+  document.getElementById("babyStatus").textContent =
+    "Baby Note published successfully. DOB folder: " +
+    record.babies[0].dob;
+
+  renderBabyRecords();
+}
+
+function publishBabyNote(){
+  const data = {
+    id: sssEditingBabyRecordId || Date.now(),
+    savedAt: new Date().toISOString(),
+    published: true,
+    publishedAt: new Date().toISOString(),
+    twin: document.getElementById("twinBaby").checked,
+    babies: [getBabyData(1)]
+  };
+
+  if(data.twin){
+    data.babies.push(getBabyData(2));
+  }
+
+  if(!data.babies[0].dob){
+    document.getElementById("babyStatus").textContent =
+      "Please select Baby DOB.";
+    return;
+  }
+
+  let records = getBabyRecordStore();
+
+  const existingIndex = records.findIndex(
+    r => String(r.id) === String(data.id)
+  );
+
+  if(existingIndex >= 0){
+    records[existingIndex] = data;
+  }else{
+    records.push(data);
+  }
+
+  setBabyRecordStore(records);
+
+  let published = [];
+
+  try{
+    published = JSON.parse(
+      localStorage.getItem("sss_baby_notes") || "[]"
+    );
+    if(!Array.isArray(published)) published = [];
+  }catch(e){
+    published = [];
+  }
+
+  const publicIndex = published.findIndex(
+    r => String(r.id) === String(data.id)
+  );
+
+  if(publicIndex >= 0){
+    published[publicIndex] = data;
+  }else{
+    published.push(data);
+  }
+
+  localStorage.setItem(
+    "sss_baby_notes",
+    JSON.stringify(published)
+  );
+
+  document.getElementById("babyStatus").textContent =
+    "Baby Note published successfully. DOB folder: " +
+    data.babies[0].dob;
+
+  sssEditingBabyRecordId = null;
+
+  document.getElementById("twinBaby").checked = false;
+  renderBabyForms();
+  renderBabyRecords();
+}
+
+function deleteSavedBabyRecord(id){
+  if(!confirm("Delete this Baby Note?")) return;
+
+  let records = getBabyRecordStore();
+
+  records = records.filter(
+    r => String(r.id) !== String(id)
+  );
+
+  setBabyRecordStore(records);
+
+  let published = [];
+
+  try{
+    published = JSON.parse(
+      localStorage.getItem("sss_baby_notes") || "[]"
+    );
+    if(!Array.isArray(published)) published = [];
+  }catch(e){
+    published = [];
+  }
+
+  published = published.filter(
+    r => String(r.id) !== String(id)
+  );
+
+  localStorage.setItem(
+    "sss_baby_notes",
+    JSON.stringify(published)
+  );
+
+  renderBabyRecords();
+
+  document.getElementById("babyStatus").textContent =
+    "Baby Note deleted.";
+}
+
+function deleteBabyNote(){
+  if(!confirm("Delete current Baby Note?")) return;
+
+  sssEditingBabyRecordId = null;
+
+  document.getElementById("twinBaby").checked = false;
+  renderBabyForms();
+
+  document.getElementById("babyStatus").textContent =
+    "Current Baby Note form cleared.";
+
+  renderBabyRecords();
+}
+
+function formatBabyForPrint(baby, number) {
+  return `
+    <div class="baby-print">
+      <h2>Baby ${number} Note</h2>
+      <p><b>B/O Mother's Name:</b> ${baby.mother}</p>
+      <p><b>DOB:</b> ${baby.dob}</p>
+      <p><b>Time:</b> ${baby.time}</p>
+      <p><b>Sex:</b> ${baby.sex}</p>
+      <p><b>Weight:</b> ${baby.weight} kg</p>
+      <p><b>OT Type:</b> ${baby.ot}</p>
+      <p><b>Room:</b> ${baby.room}</p>
+      <p><b>Bed:</b> ${baby.bed}</p>
+      <p><b>Baby Serial No.:</b> ${baby.serial}</p>
+      <p><b>Doctor Name:</b> ${baby.doctor}</p>
+      <p><b>Anaesthesia Name:</b> ${baby.anaesthesia}</p>
+    </div>
+  `;
+}
+
+function printBabyNote() {
+  const data = saveBabyData();
+
+  if (!data || !data.babies || !data.babies.length) {
+    return;
+  }
+
+  const content = data.babies.map((b, i) => `
+    <div class="baby-print">
+      <h2>Baby ${i + 1} Note</h2>
+      <p><b>B/O Mother's Name:</b> ${escapeBabyHtml(b.mother)}</p>
+      <p><b>DOB:</b> ${escapeBabyHtml(b.dob)}</p>
+      <p><b>Time:</b> ${escapeBabyHtml(b.time)}</p>
+      <p><b>Sex:</b> ${escapeBabyHtml(b.sex)}</p>
+      <p><b>Weight:</b> ${escapeBabyHtml(b.weight)} kg</p>
+      <p><b>OT Type:</b> ${escapeBabyHtml(b.ot)}</p>
+      <p><b>Room:</b> ${escapeBabyHtml(b.room)}</p>
+      <p><b>Bed:</b> ${escapeBabyHtml(b.bed)}</p>
+      <p><b>Baby Serial No.:</b> ${escapeBabyHtml(b.serial)}</p>
+      <p><b>Doctor Name:</b> ${escapeBabyHtml(b.doctor)}</p>
+      <p><b>Anaesthesia Name:</b> ${escapeBabyHtml(b.anaesthesia)}</p>
+    </div>
+  `).join("");
+
+  const w = window.open("", "_blank");
+
+  if (!w) {
+    alert("Please allow pop-ups to print the Baby Note.");
+    return;
+  }
+
+  w.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="UTF-8">
+      <title>Baby Note - SAMUI SEVA SADAN</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          padding: 25px;
+        }
+        h1 {
+          text-align: center;
+        }
+        .baby-print {
+          border: 1px solid #222;
+          padding: 18px;
+          margin-bottom: 20px;
+          page-break-inside: avoid;
+        }
+        p {
+          margin: 8px 0;
+        }
+      </style>
+    </head>
+    <body>
+      <h1>SAMUI SEVA SADAN</h1>
+      ${content}
+    
+
+
+
+  `);
+
+  w.document.close();
+  w.focus();
+
+  setTimeout(() => {
+    w.print();
+  }, 400);
+}
+
+document.getElementById("twinBaby").addEventListener("change", renderBabyForms);
+
+renderBabyForms();
+renderBabyRecords();
+</script>
+
+<!-- DOCTOR ADMIN -->
+<section id="doctorAdminSection" class="admin-section" style="display:none;">
+
+<div id="sssDoctorCard">
+<h2>👨‍⚕️ Doctor Admin</h2>
+
+<div class="doctor-admin-form">
+
+<label>Doctor Photo (Maximum 50 KB)</label>
+<input type="file" id="doctorPhoto" accept="image/*"
+onchange="checkDoctorPhoto(this)">
+
+<div id="doctorPhotoMessage" class="status"></div>
+
+<label>1) Doctor Name</label>
+<input type="text" id="doctorName" placeholder="Enter Doctor Name">
+
+<label>2) Doctor Qualification</label>
+<input type="text" id="doctorQualification"
+placeholder="Enter Doctor Qualification">
+
+<label>3) ADD ON HOSPITAL NAME</label>
+<select id="doctorHospital">
+<option value="">Select Hospital</option>
+</select>
+<button type="button" onclick="addHospitalName()">
++ ADD ON HOSPITAL NAME
+</button>
+
+<label>4) CHAMBER TIME</label>
+<div style="display:flex;gap:8px;flex-wrap:wrap;">
+
+<select id="chamberHour">
+<option value="">Hour</option>
+<option value="01">01</option>
+<option value="02">02</option>
+<option value="03">03</option>
+<option value="04">04</option>
+<option value="05">05</option>
+<option value="06">06</option>
+<option value="07">07</option>
+<option value="08">08</option>
+<option value="09">09</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+</select>
+
+<select id="chamberMinute">
+<option value="">Minute</option>
+<option value="00">00</option>
+<option value="05">05</option>
+<option value="10">10</option>
+<option value="15">15</option>
+<option value="20">20</option>
+<option value="25">25</option>
+<option value="30">30</option>
+<option value="35">35</option>
+<option value="40">40</option>
+<option value="45">45</option>
+<option value="50">50</option>
+<option value="55">55</option>
+</select>
+
+<select id="chamberAmPm">
+<option value="">AM / PM</option>
+<option value="AM">AM</option>
+<option value="PM">PM</option>
+</select>
+
+</div>
+
+<label>Chamber Days</label>
+
+<div class="doctor-days">
+<label><input type="checkbox" value="Sunday"> Sunday (রবিবার)</label>
+<label><input type="checkbox" value="Monday"> Monday (সোমবার)</label>
+<label><input type="checkbox" value="Tuesday"> Tuesday (মঙ্গলবার)</label>
+<label><input type="checkbox" value="Wednesday"> Wednesday (বুধবার)</label>
+<label><input type="checkbox" value="Thursday"> Thursday (বৃহস্পতিবার)</label>
+<label><input type="checkbox" value="Friday"> Friday (শুক্রবার)</label>
+<label><input type="checkbox" value="Saturday"> Saturday (শনিবার)</label>
+</div>
+
+<label>5) DOCTOR SPECIALIST</label>
+
+<select id="doctorSpecialist">
+<option value="">Select Specialist</option>
+<option>General Physician</option>
+<option>Medicine Specialist</option>
+<option>Cardiologist</option>
+<option>Neurologist</option>
+<option>Neurosurgeon</option>
+<option>Orthopedic Surgeon</option>
+<option>Gynecologist & Obstetrician</option>
+<option>Pediatrician (Child Specialist)</option>
+<option>Neonatologist</option>
+<option>General Surgeon</option>
+<option>Laparoscopic Surgeon</option>
+<option>Urologist</option>
+<option>Nephrologist</option>
+<option>Gastroenterologist</option>
+<option>Hepatologist</option>
+<option>Pulmonologist / Chest Specialist</option>
+<option>ENT Specialist</option>
+<option>Ophthalmologist (Eye Specialist)</option>
+<option>Dermatologist (Skin Specialist)</option>
+<option>Psychiatrist</option>
+<option>Psychologist</option>
+<option>Dentist</option>
+<option>Endocrinologist</option>
+<option>Diabetologist</option>
+<option>Oncologist</option>
+<option>Hematologist</option>
+<option>Rheumatologist</option>
+<option>Endocrine Surgeon</option>
+<option>Plastic Surgeon</option>
+<option>Vascular Surgeon</option>
+<option>Cardiothoracic Surgeon</option>
+<option>Pain Management Specialist</option>
+<option>Anesthesiologist</option>
+<option>Radiologist</option>
+<option>Pathologist</option>
+<option>Physiotherapist</option>
+<option>Dietitian / Nutritionist</option>
+</select>
+
+<button type="button" onclick="addSpecialistName()">
++ ADD SPECIALIST NAME
+</button>
+
+<label>Appointment Phone</label>
+<input type="tel" id="doctorPhone"
+placeholder="Add Appointment Phone Number">
+
+<label>Clinic Name</label>
+<select id="doctorClinic">
+<option value="">Select Clinic</option>
+</select>
+
+<button type="button" onclick="addClinicName()">
++ ADD CLINIC NAME
+</button>
+
+<div class="button-row" style="margin-top:20px;">
+<button class="edit" onclick="editDoctor()">Edit</button>
+<button class="delete" onclick="deleteDoctor()">Delete</button>
+<button class="save" onclick="saveDoctor()">💾 Save</button>
+<button class="publish" onclick="publishDoctor()">Publish</button>
+<button class="print" onclick="printDoctor()">Print</button>
+</div>
+
+<div id="doctorStatus" class="status"></div>
+
+</div>
+</section>
+
+<script>
+(function(){
+
+const doctorKey = "sss_doctors";
+const hospitalKey = "sss_doctor_hospitals";
+const clinicKey = "sss_doctor_clinics";
+const specialistKey = "sss_doctor_specialists";
+
+function getList(key){
+  return JSON.parse(localStorage.getItem(key) || "[]");
+}
+
+function saveList(key,list){
+  localStorage.setItem(key,JSON.stringify(list));
+}
+
+window.checkDoctorPhoto = function(input){
+  const msg=document.getElementById("doctorPhotoMessage");
+
+  if(!input.files.length){
+    msg.textContent="";
+    return;
+  }
+
+  const file=input.files[0];
+
+  if(file.size > 50*1024){
+    msg.textContent="Photo must be 50 KB or less.";
+    input.value="";
+    return;
+  }
+
+  msg.textContent="Photo accepted.";
+};
+
+function loadSelect(id,key,firstText){
+  const select=document.getElementById(id);
+  if(!select) return;
+
+  const current=select.value;
+
+  select.innerHTML='<option value="">'+firstText+'</option>';
+
+  getList(key).forEach(x=>{
+    const o=document.createElement("option");
+    o.value=x;
+    o.textContent=x;
+    select.appendChild(o);
+  });
+
+  select.value=current;
+}
+
+function loadAllNames(){
+  loadSelect("doctorHospital",hospitalKey,"Select Hospital");
+  loadSelect("doctorClinic",clinicKey,"Select Clinic");
+
+  const select=document.getElementById("doctorSpecialist");
+  const current=select.value;
+
+  const standard=[
+    "General Physician","Medicine Specialist","Cardiologist",
+    "Neurologist","Neurosurgeon","Orthopedic Surgeon",
+    "Gynecologist & Obstetrician","Pediatrician (Child Specialist)",
+    "Neonatologist","General Surgeon","Laparoscopic Surgeon",
+    "Urologist","Nephrologist","Gastroenterologist","Hepatologist",
+    "Pulmonologist / Chest Specialist","ENT Specialist",
+    "Ophthalmologist (Eye Specialist)","Dermatologist (Skin Specialist)",
+    "Psychiatrist","Psychologist","Dentist","Endocrinologist",
+    "Diabetologist","Oncologist","Hematologist","Rheumatologist",
+    "Endocrine Surgeon","Plastic Surgeon","Vascular Surgeon",
+    "Cardiothoracic Surgeon","Pain Management Specialist",
+    "Anesthesiologist","Radiologist","Pathologist",
+    "Physiotherapist","Dietitian / Nutritionist"
+  ];
+
+  select.innerHTML='<option value="">Select Specialist</option>';
+
+  [...standard,...getList(specialistKey)].forEach(x=>{
+    if(![...select.options].some(o=>o.value===x)){
+      const o=document.createElement("option");
+      o.value=x;
+      o.textContent=x;
+      select.appendChild(o);
+    }
+  });
+
+  select.value=current;
+}
+
+window.addHospitalName=function(){
+  const name=prompt("Enter Hospital Name:");
+  if(!name || !name.trim()) return;
+
+  const list=getList(hospitalKey);
+  if(!list.includes(name.trim())) list.push(name.trim());
+  saveList(hospitalKey,list);
+  loadAllNames();
+  document.getElementById("doctorHospital").value=name.trim();
+};
+
+window.addClinicName=function(){
+  const name=prompt("Enter Clinic Name:");
+  if(!name || !name.trim()) return;
+
+  const list=getList(clinicKey);
+  if(!list.includes(name.trim())) list.push(name.trim());
+  saveList(clinicKey,list);
+  loadAllNames();
+  document.getElementById("doctorClinic").value=name.trim();
+};
+
+window.addSpecialistName=function(){
+  const name=prompt("Enter New Specialist Name:");
+  if(!name || !name.trim()) return;
+
+  const list=getList(specialistKey);
+  if(!list.includes(name.trim())) list.push(name.trim());
+  saveList(specialistKey,list);
+  loadAllNames();
+  document.getElementById("doctorSpecialist").value=name.trim();
+};
+
+function getDoctorData(){
+
+  const photoInput=document.getElementById("doctorPhoto");
+
+  let photo="";
+
+  if(photoInput.files.length){
+    const file=photoInput.files[0];
+
+    if(file.size > 50*1024){
+      alert("Doctor photo must be 50 KB or less.");
+      return null;
+    }
+  }
+
+  const days=[...document.querySelectorAll(".doctor-days input:checked")]
+    .map(x=>x.value);
+
+  const hour=document.getElementById("chamberHour").value;
+  const minute=document.getElementById("chamberMinute").value;
+  const ampm=document.getElementById("chamberAmPm").value;
+
+  let chamberTime="";
+
+  if(hour && minute && ampm){
+    chamberTime=hour+":"+minute+" "+ampm;
+  }
+
+  return {
+    id:Date.now(),
+    doctorName:document.getElementById("doctorName").value.trim(),
+    qualification:document.getElementById("doctorQualification").value.trim(),
+    hospital:document.getElementById("doctorHospital").value,
+    chamberTime:chamberTime,
+    chamberDays:days,
+    specialist:document.getElementById("doctorSpecialist").value,
+    phone:document.getElementById("doctorPhone").value.trim(),
+    clinic:document.getElementById("doctorClinic").value,
+    photo:photo,
+    published:false
+  };
+}
+
+window.publishDoctor=function(){
+
+  const data=getDoctorData();
+
+  if(!data) return;
+
+  if(!data.doctorName){
+    alert("Doctor Name is required.");
+    return;
+  }
+
+  const records=getList(doctorKey);
+
+  data.published=true;
+  records.push(data);
+
+  saveList(doctorKey,records);
+
+  document.getElementById("doctorStatus").textContent=
+    "Doctor published successfully. It will appear on Main Page.";
+
+  clearDoctorForm();
+};
+
+window.editDoctor=function(){
+  const records=getList(doctorKey);
+
+  if(!records.length){
+    alert("No Doctor record available.");
+    return;
+  }
+
+  const d=records[records.length-1];
+
+  document.getElementById("doctorName").value=d.doctorName||"";
+  document.getElementById("doctorQualification").value=d.qualification||"";
+  document.getElementById("doctorHospital").value=d.hospital||"";
+  document.getElementById("doctorSpecialist").value=d.specialist||"";
+  document.getElementById("doctorPhone").value=d.phone||"";
+  document.getElementById("doctorClinic").value=d.clinic||"";
+
+  if(d.chamberTime){
+    const parts=d.chamberTime.split(" ");
+    const hm=parts[0].split(":");
+    document.getElementById("chamberHour").value=hm[0];
+    document.getElementById("chamberMinute").value=hm[1];
+    document.getElementById("chamberAmPm").value=parts[1];
+  }
+
+  document.querySelectorAll(".doctor-days input").forEach(x=>{
+    x.checked=(d.chamberDays||[]).includes(x.value);
+  });
+
+  document.getElementById("doctorStatus").textContent=
+    "Latest Doctor record loaded for editing.";
+};
+
+window.deleteDoctor=function(){
+
+  const records=getList(doctorKey);
+
+  if(!records.length){
+    alert("No Doctor record available.");
+    return;
+  }
+
+  if(!confirm("Delete latest Doctor record?")) return;
+
+  records.pop();
+  saveList(doctorKey,records);
+
+  clearDoctorForm();
+
+  document.getElementById("doctorStatus").textContent=
+    "Doctor record deleted.";
+};
+
+window.printDoctor=function(){
+
+  const data=getDoctorData();
+
+  if(!data) return;
+
+  const w=window.open("","_blank");
+
+  w.document.write(`
+  <html>
+  <head>
+  <title>Doctor Information</title>
+  <style>
+  body{font-family:Arial;padding:25px;line-height:1.8}
+  h2{text-align:center}
+  </style>
+  </head>
+  <body>
+  <h2>👨‍⚕️ DOCTOR INFORMATION</h2>
+  <p><b>Doctor Name:</b> ${data.doctorName}</p>
+  <p><b>Qualification:</b> ${data.qualification}</p>
+  <p><b>Hospital:</b> ${data.hospital}</p>
+  <p><b>Specialist:</b> ${data.specialist}</p>
+  <p><b>Chamber Time:</b> ${data.chamberTime}</p>
+  <p><b>Chamber Days:</b> ${data.chamberDays.join(", ")}</p>
+  <p><b>Appointment Phone:</b> ${data.phone}</p>
+  <p><b>Clinic:</b> ${data.clinic}</p>
+  
+
+
+
+
+
+
+<div style="font-size:13px;color:#667;margin:6px 0 12px;">
+    Homepage menu position, color and text customize করুন
+  </div>
+  <a href="custom-skin.html"
+     style="display:inline-block;padding:10px 16px;border-radius:9px;background:#087e9b;color:#fff;text-decoration:none;font-weight:bold;">
+     Open Custom Skin
+  </a>
+</div>
+
+</body>
+  </html>
+  `);
+
+  w.document.close();
+  w.focus();
+  setTimeout(()=>{ w.print(); },300);
+}
+
+</script>
+
+<script id="sss-scroll-system-js">
+(function(){
+
+const KEY_TEXT = "sss_scroll_text";
+const KEY_PUBLISHED = "sss_scroll_published";
+const KEY_SETTINGS = "sss_scroll_settings";
+
+function defaultSettings(){
+  return {
+    speed:35,
+    font:"Segoe UI",
+    textColor:"#1565c0",
+    bgColor:"#fff8d6",
+    weight:"normal"
+  };
+}
+
+function getSettings(){
+  try{
+    return Object.assign(
+      defaultSettings(),
+      JSON.parse(localStorage.getItem(KEY_SETTINGS) || "{}")
+    );
+  }catch(e){
+    return defaultSettings();
+  }
+}
+
+function setStatus(msg,color){
+  const el=document.getElementById("sssScrollAdminStatus");
+  if(el){
+    el.textContent=msg;
+    el.style.color=color || "#1565c0";
+  }
+}
+
+window.sssPublishScrollText=function(){
+  const input=document.getElementById("sssScrollTextInput");
+  const text=(input?.value || "").trim();
+
+  if(!text){
+    setStatus("Please write Scroll Text first.","#e53935");
+    return;
+  }
+
+  localStorage.setItem(KEY_TEXT,text);
+  localStorage.setItem(KEY_PUBLISHED,"1");
+
+  setStatus("✓ Scroll Text Published","#2e9d50");
+};
+
+window.sssClearScrollText=function(){
+  localStorage.removeItem(KEY_TEXT);
+  localStorage.setItem(KEY_PUBLISHED,"0");
+
+  const input=document.getElementById("sssScrollTextInput");
+  if(input) input.value="";
+
+  setStatus("Scroll Text deleted.","#e53935");
+};
+
+window.sssOpenScrollSettings=function(){
+  const m=document.getElementById("sssScrollSettingsModal");
+  if(!m) return;
+
+  const x=getSettings();
+
+  document.getElementById("sssScrollSpeed").value=x.speed;
+  document.getElementById("sssScrollSpeedValue").textContent=x.speed;
+  document.getElementById("sssScrollFont").value=x.font;
+  document.getElementById("sssScrollTextColor").value=x.textColor;
+  document.getElementById("sssScrollTextColorHex").value=x.textColor;
+  document.getElementById("sssScrollBgColor").value=x.bgColor;
+  document.getElementById("sssScrollBgColorHex").value=x.bgColor;
+  document.getElementById("sssScrollWeight").value=x.weight;
+
+  sssUpdatePreview();
+  m.style.display="block";
+};
+
+window.sssCloseScrollSettings=function(){
+  const m=document.getElementById("sssScrollSettingsModal");
+  if(m) m.style.display="none";
+};
+
+window.sssSaveScrollSettings=function(){
+  const x={
+    speed:Number(document.getElementById("sssScrollSpeed").value),
+    font:document.getElementById("sssScrollFont").value,
+    textColor:document.getElementById("sssScrollTextColorHex").value,
+    bgColor:document.getElementById("sssScrollBgColorHex").value,
+    weight:document.getElementById("sssScrollWeight").value
+  };
+
+  localStorage.setItem(KEY_SETTINGS,JSON.stringify(x));
+  setStatus("✓ Scroll Setting Saved","#2e9d50");
+  sssUpdatePreview();
+};
+
+window.sssResetScrollSettings=function(){
+  const x=defaultSettings();
+  localStorage.setItem(KEY_SETTINGS,JSON.stringify(x));
+
+  document.getElementById("sssScrollSpeed").value=x.speed;
+  document.getElementById("sssScrollSpeedValue").textContent=x.speed;
+  document.getElementById("sssScrollFont").value=x.font;
+  document.getElementById("sssScrollTextColor").value=x.textColor;
+  document.getElementById("sssScrollTextColorHex").value=x.textColor;
+  document.getElementById("sssScrollBgColor").value=x.bgColor;
+  document.getElementById("sssScrollBgColorHex").value=x.bgColor;
+  document.getElementById("sssScrollWeight").value=x.weight;
+
+  sssUpdatePreview();
+  setStatus("✓ Scroll Setting Reset","#1565c0");
+};
+
+window.sssPickTextColour=function(){
+  document.getElementById("sssScrollTextColor").click();
+};
+
+window.sssPickBgColour=function(){
+  document.getElementById("sssScrollBgColor").click();
+};
+
+window.sssTranslateScrollText=async function(){
+  const input=document.getElementById("sssScrollTextInput");
+  const text=(input?.value || "").trim();
+
+  if(!text){
+    setStatus("Translate করার আগে Text লিখুন.","#e53935");
+    return;
+  }
+
+  const from=document.getElementById("sssScrollFromLang").value;
+  const to=document.getElementById("sssScrollToLang").value;
+
+  if(from===to && from!=="auto"){
+    setStatus("Source এবং Target language একই।","#e53935");
+    return;
+  }
+
+  setStatus("Translating...","#1565c0");
+
+  try{
+    const source=(from==="auto" ? "en" : from);
+
+    const url =
+      "https://api.mymemory.translated.net/get?q=" +
+      encodeURIComponent(text) +
+      "&langpair=" +
+      encodeURIComponent(source+"|"+to);
+
+    const r=await fetch(url);
+    const data=await r.json();
+
+    if(data && data.responseData && data.responseData.translatedText){
+      input.value=data.responseData.translatedText;
+      sssUpdatePreview();
+      setStatus("✓ Translation complete","#2e9d50");
+    }else{
+      throw new Error("Translation failed");
+    }
+  }catch(e){
+    setStatus(
+      "Translation service এখন available নয়। Internet connection check করুন.",
+      "#e53935"
+    );
+  }
+};
+
+function sssUpdatePreview(){
+  const p=document.getElementById("sssScrollPreview");
+  if(!p) return;
+
+  const x=getSettings();
+  const text=document.getElementById("sssScrollTextInput")?.value ||
+              "Scroll Text Preview";
+
+  p.textContent=text;
+  p.style.fontFamily=x.font;
+  p.style.fontWeight=x.weight;
+  p.style.color=x.textColor;
+  p.style.background=x.bgColor;
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+
+  const input=document.getElementById("sssScrollTextInput");
+  if(input){
+    input.value=localStorage.getItem(KEY_TEXT) || "";
+    input.addEventListener("input",sssUpdatePreview);
+  }
+
+  const speed=document.getElementById("sssScrollSpeed");
+  if(speed){
+    speed.addEventListener("input",function(){
+      document.getElementById("sssScrollSpeedValue").textContent=this.value;
+    });
+  }
+
+  const tc=document.getElementById("sssScrollTextColor");
+  const th=document.getElementById("sssScrollTextColorHex");
+
+  if(tc) tc.addEventListener("input",function(){
+    th.value=this.value;
+    sssUpdatePreview();
+  });
+
+  if(th) th.addEventListener("input",function(){
+    if(/^#[0-9a-fA-F]{6}$/.test(this.value)){
+      tc.value=this.value;
+      sssUpdatePreview();
+    }
+  });
+
+  const bc=document.getElementById("sssScrollBgColor");
+  const bh=document.getElementById("sssScrollBgColorHex");
+
+  if(bc) bc.addEventListener("input",function(){
+    bh.value=this.value;
+    sssUpdatePreview();
+  });
+
+  if(bh) bh.addEventListener("input",function(){
+    if(/^#[0-9a-fA-F]{6}$/.test(this.value)){
+      bc.value=this.value;
+      sssUpdatePreview();
+    }
+  });
+
+  sssUpdatePreview();
+
+});
+})();
+</script>
+
+
+<script id="sss-scroll-edit-save-js">
+window.sssEditScrollText = function(){
+  const x = document.getElementById("sssScrollTextInput");
+  if(!x) return;
+
+  x.disabled = false;
+  x.focus();
+
+  const st = document.getElementById("sssScrollAdminStatus");
+  if(st){
+    st.textContent = "✏ Edit mode ON";
+    st.style.color = "#1565c0";
+  }
+};
+
+window.sssSaveScrollText = function(){
+  const x = document.getElementById("sssScrollTextInput");
+  if(!x) return;
+
+  const text = x.value.trim();
+
+  if(!text){
+    const st = document.getElementById("sssScrollAdminStatus");
+    if(st){
+      st.textContent = "Text লিখে Save করুন।";
+      st.style.color = "#e53935";
+    }
+    return;
+  }
+
+  localStorage.setItem("sss_scroll_text", text);
+  x.disabled = true;
+
+  const st = document.getElementById("sssScrollAdminStatus");
+  if(st){
+    st.textContent = "✓ Scroll Text Saved";
+    st.style.color = "#2e9d50";
+  }
+};
+</script>
+
+
+<script id="sss-scroll-admin-final-js">
+(function(){
+
+  const TEXT_KEY = "sss_scroll_text";
+  const PUB_KEY  = "sss_scroll_published";
+
+  window.sssEditScrollText = function(){
+    const box = document.getElementById("sssScrollTextInput");
+    if(!box) return;
+
+    box.disabled = false;
+    box.focus();
+
+    const st = document.getElementById("sssScrollAdminStatus");
+    if(st){
+      st.textContent = "✏ Edit mode ON";
+      st.style.color = "#1565c0";
+    }
+  };
+
+  window.sssSaveScrollText = function(){
+    const box = document.getElementById("sssScrollTextInput");
+    if(!box) return;
+
+    const text = box.value.trim();
+
+    if(!text){
+      const st = document.getElementById("sssScrollAdminStatus");
+      if(st){
+        st.textContent = "আগে Scroll Text লিখুন।";
+        st.style.color = "#e53935";
+      }
+      return;
+    }
+
+    localStorage.setItem(TEXT_KEY,text);
+    box.disabled = true;
+
+    const st = document.getElementById("sssScrollAdminStatus");
+    if(st){
+      st.textContent = "✓ Scroll Text Saved";
+      st.style.color = "#2e9d50";
+    }
+  };
+
+  window.sssPublishScrollText = function(){
+    const box = document.getElementById("sssScrollTextInput");
+    if(!box) return;
+
+    const text = box.value.trim();
+
+    if(!text){
+      const st = document.getElementById("sssScrollAdminStatus");
+      if(st){
+        st.textContent = "আগে Scroll Text লিখুন।";
+        st.style.color = "#e53935";
+      }
+      return;
+    }
+
+    localStorage.setItem(TEXT_KEY,text);
+    localStorage.setItem(PUB_KEY,"1");
+
+    box.disabled = true;
+
+    const st = document.getElementById("sssScrollAdminStatus");
+    if(st){
+      st.textContent = "✓ Scroll Text Published";
+      st.style.color = "#2e9d50";
+    }
+  };
+
+  window.sssClearScrollText = function(){
+    localStorage.removeItem(TEXT_KEY);
+    localStorage.setItem(PUB_KEY,"0");
+
+    const box = document.getElementById("sssScrollTextInput");
+    if(box){
+      box.value="";
+      box.disabled=true;
+    }
+
+    const st = document.getElementById("sssScrollAdminStatus");
+    if(st){
+      st.textContent = "Scroll Text Deleted";
+      st.style.color = "#e53935";
+    }
+  };
+
+  document.addEventListener("DOMContentLoaded",function(){
+    const box = document.getElementById("sssScrollTextInput");
+    if(box){
+      box.value = localStorage.getItem(TEXT_KEY) || "";
+      box.disabled = true;
+    }
+  });
+
+})();
+</script>
+
+<!-- LOGOUT -->
+<div class="card">
+<button class="logout" onclick="logout()">Logout</button>
+</div>
+
+</main>
+
+<script>
+
+async function checkLogin(){
+  try{
+    const r=await fetch("/api/admin-status");
+    const d=await r.json();
+
+    if(!d.loggedIn){
+      location.href="/admin-login.html";
+    }
+
+  }catch(e){
+    location.href="/admin-login.html";
+  }
+}
+
+
+async function logout(){
+  await fetch("/api/admin-logout",{method:"POST"});
+  location.href="/admin-login.html";
+}
+
+
+/* GET ELEMENT IDS */
+function getIds(type){
+
+  if(type==="baby"){
+    return {
+      text:"babyText",
+      status:"babyStatus",
+      key:"sss_baby_note_saved",
+      publishedKey:"sss_baby_note_published"
+    };
+  }
+
+  return {
+    text:"doctorText",
+    status:"doctorStatus",
+    key:"sss_doctor_admin_saved",
+    publishedKey:"sss_doctor_admin_published"
+  };
+}
+
+
+/* EDIT */
+function editContent(type){
+
+  const x=getIds(type);
+
+  document.getElementById(x.text).readOnly=false;
+  document.getElementById(x.status).textContent="Editing mode enabled.";
+
+  document.getElementById(x.text).focus();
+}
+
+
+/* SAVE */
+function saveContent(type){
+
+  const x=getIds(type);
+  const text=document.getElementById(x.text).value.trim();
+
+  if(!text){
+    document.getElementById(x.status).textContent=
+      "Please enter details first.";
+    return;
+  }
+
+  localStorage.setItem(x.key,text);
+
+  document.getElementById(x.text).readOnly=true;
+
+  document.getElementById(x.status).textContent=
+    "Saved successfully.";
+}
+
+
+/* PUBLISH */
+function publishContent(type){
+
+  const x=getIds(type);
+  const text=document.getElementById(x.text).value.trim();
+
+  if(!text){
+    document.getElementById(x.status).textContent=
+      "Please enter details first.";
+    return;
+  }
+
+  /* Save first */
+  localStorage.setItem(x.key,text);
+
+  /* Publish */
+  localStorage.setItem(
+    x.publishedKey,
+    JSON.stringify({
+      published:true,
+      text:text
+    })
+  );
+
+  document.getElementById(x.text).readOnly=true;
+
+  document.getElementById(x.status).textContent=
+    "Published successfully.";
+}
+
+
+/* UNPUBLISH */
+function unpublishContent(type){
+
+  const x=getIds(type);
+
+  localStorage.removeItem(x.publishedKey);
+
+  document.getElementById(x.status).textContent=
+    "Unpublished. Public page will no longer show this content.";
+}
+
+
+/* PRINT */
+function printContent(type){
+
+  const x=getIds(type);
+  const text=document.getElementById(x.text).value.trim();
+
+  if(!text){
+    document.getElementById(x.status).textContent=
+      "Nothing to print.";
+    return;
+  }
+
+  const title =
+    type==="baby"
+    ? "Baby Note"
+    : "Doctor Admin";
+
+  const printWindow=window.open(
+    "",
+    "_blank",
+    "width=800,height=700"
+  );
+
+  printWindow.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>${title} - SAMUI SEVA SADAN</title>
+      <style>
+        body{
+          font-family:Arial,sans-serif;
+          padding:35px;
+          line-height:1.7;
+        }
+        h1{
+          text-align:center;
+          color:#0b6b78;
+        }
+        h2{
+          border-bottom:1px solid #ccc;
+          padding-bottom:10px;
+        }
+        .content{
+          white-space:pre-wrap;
+          font-size:16px;
+        }
+      </style>
+    </head>
+
+    <body>
+
+      <h1>SAMUI SEVA SADAN NURSING HOME</h1>
+
+      <h2>${title}</h2>
+
+      <div class="content">${escapeHtml(text)}</div>
+
+    </body>
+    </html>
+  `);
+
+  printWindow.document.close();
+  printWindow.focus();
+
+  setTimeout(()=>{
+    printWindow.print();
+  },300);
+}
+
+
+/* HTML SAFE TEXT */
+function escapeHtml(text){
+
+  const div=document.createElement("div");
+  div.textContent=text;
+
+  return div.innerHTML;
+}
+
+
+/* LOAD SAVED / PUBLISHED CONTENT */
+function loadContent(){
+
+  const items=[
+    ["baby","babyText","babyStatus"],
+    ["doctor","doctorText","doctorStatus"]
+  ];
+
+  items.forEach(item=>{
+
+    const type=item[0];
+    const textId=item[1];
+    const statusId=item[2];
+
+    const x=getIds(type);
+
+    let text="";
+
+    /* Published content gets priority */
+    const published=
+      localStorage.getItem(x.publishedKey);
+
+    if(published){
+
+      try{
+
+        const d=JSON.parse(published);
+
+        if(d.published && d.text){
+          text=d.text;
+        }
+
+      }catch(e){}
+
+    }
+
+    /* Otherwise load saved content */
+    if(!text){
+      text=localStorage.getItem(x.key) || "";
+    }
+
+    document.getElementById(textId).value=text;
+
+    if(published){
+      document.getElementById(statusId).textContent=
+        "Currently published.";
+    }
+
+  });
+}
+
+
+/* START */
+checkLogin();
+loadContent();
+
+</script>
+
+
+
+
+
+<script>
+function sssOpenAdminForm(type) {
+  const baby = document.getElementById("babyNoteSection");
+  const doctor = document.getElementById("doctorAdminSection");
+  const siteContent = document.getElementById("sssSiteContentManagement");
+
+  if (baby) baby.classList.remove("sss-active");
+  if (doctor) doctor.classList.remove("sss-active");
+
+  if (siteContent) {
+    siteContent.style.display = "none";
+  }
+
+  if (type === "services" ||
+      type === "publicDoctors" ||
+      type === "facilities") {
+
+    if (typeof sssOpenSiteContent === "function") {
+      sssOpenSiteContent(type);
+    } else {
+      alert("Site content form is not available.");
+    }
+    return;
+  }
+
+  if (type === "baby") {
+    if (!baby) {
+      alert("Baby Note form section not found.");
+      return;
+    }
+    baby.classList.add("sss-active");
+    baby.scrollIntoView({behavior:"smooth", block:"start"});
+    return;
+  }
+
+  if (type === "doctor") {
+    if (!doctor) {
+      alert("Doctor Admin form section not found.");
+      return;
+    }
+    doctor.classList.add("sss-active");
+    doctor.scrollIntoView({behavior:"smooth", block:"start"});
+    return;
+  }
+}
+</script>
+
+<!-- CONTACT MANAGEMENT PANEL -->
+<div id="sssContactPanel" style="
+display:none;
+position:fixed;
+inset:0;
+z-index:99999;
+background:rgba(245,248,252,.98);
+overflow:auto;
+padding:20px;">
+
+<div style="
+max-width:620px;
+margin:20px auto;
+background:white;
+border-radius:20px;
+padding:20px;
+box-shadow:0 10px 35px rgba(0,0,0,.18);">
+
+<div style="display:flex;justify-content:space-between;align-items:center;">
+<h2 style="margin:0;">📞 Contact Management</h2>
+
+<button type="button" onclick="sssCloseContact()" style="
+border:0;
+background:#eee;
+border-radius:50%;
+width:40px;
+height:40px;
+font-size:22px;">×</button>
+</div>
+
+<hr>
+
+<label><b>Contact Type</b></label>
+
+<select id="sssContactType" style="
+width:100%;
+padding:13px;
+margin:8px 0;
+border:1px solid #ccc;
+border-radius:10px;
+font-size:16px;">
+
+<option value="whatsapp">🟢 WhatsApp</option>
+<option value="sms">💬 SMS</option>
+<option value="phone">☎️ Phone</option>
+<option value="email">✉️ Email</option>
+
+</select>
+
+<label><b>Number / Email</b></label>
+
+<input id="sssContactValue"
+placeholder="Number / Email"
+style="
+width:100%;
+padding:13px;
+margin:8px 0;
+border:1px solid #ccc;
+border-radius:10px;
+font-size:16px;">
+
+<label><b>Name / Label</b></label>
+
+<input id="sssContactLabel"
+placeholder="Name / Label"
+style="
+width:100%;
+padding:13px;
+margin:8px 0;
+border:1px solid #ccc;
+border-radius:10px;
+font-size:16px;">
+
+<button type="button" onclick="sssSaveContact()" style="
+width:100%;
+padding:14px;
+margin-top:10px;
+border:0;
+border-radius:12px;
+background:#1976d2;
+color:white;
+font-size:16px;
+font-weight:bold;">
+💾 Save Contact
+</button>
+
+<div style="
+margin-top:20px;
+padding-top:15px;
+border-top:2px solid #eee;">
+<h3 style="margin:0 0 10px;">📋 Saved Contacts</h3>
+<div id="sssContactList"></div>
+</div>
+
+</div>
+</div>
+
+<script>
+(function(){
+
+const KEY="sssContactRecords";
+let editId=null;
+
+window.sssOpenContact=function(){
+  const x=document.getElementById("sssContactPanel");
+  if(x){
+    x.style.display="block";
+    renderContacts();
+  }
+};
+
+window.sssCloseContact=function(){
+  const x=document.getElementById("sssContactPanel");
+  if(x) x.style.display="none";
+};
+
+function getContacts(){
+  try{
+    return JSON.parse(localStorage.getItem(KEY)||"[]");
+  }catch(e){
+    return [];
+  }
+}
+
+function saveContacts(x){
+  localStorage.setItem(KEY,JSON.stringify(x));
+}
+
+window.sssSaveContact=function(){
+
+  const type=document.getElementById("sssContactType").value;
+  const value=document.getElementById("sssContactValue").value.trim();
+  const label=document.getElementById("sssContactLabel").value.trim();
+
+  if(!value){
+    alert("Number / Email লিখুন");
+    return;
+  }
+
+  const list=getContacts();
+
+  if(editId){
+    const item=list.find(x=>x.id===editId);
+
+    if(item){
+      item.type=type;
+      item.value=value;
+      item.label=label;
+    }
+
+    editId=null;
+
+  }else{
+
+    list.push({
+      id:Date.now().toString(),
+      type:type,
+      value:value,
+      label:label,
+      published:false
+    });
+
+  }
+
+  saveContacts(list);
+
+  document.getElementById("sssContactValue").value="";
+  document.getElementById("sssContactLabel").value="";
+
+  renderContacts();
+};
+
+window.sssEditContact=function(id){
+
+  const item=getContacts().find(x=>x.id===id);
+
+  if(!item) return;
+
+  document.getElementById("sssContactType").value=item.type;
+  document.getElementById("sssContactValue").value=item.value;
+  document.getElementById("sssContactLabel").value=item.label||"";
+
+  editId=id;
+};
+
+window.sssDeleteContact=function(id){
+
+  if(!confirm("Delete this contact?")) return;
+
+  saveContacts(getContacts().filter(x=>x.id!==id));
+
+  renderContacts();
+};
+
+window.sssToggleContact=function(id){
+
+  const list=getContacts();
+  const item=list.find(x=>x.id===id);
+
+  if(item){
+    item.published=!item.published;
+    saveContacts(list);
+    renderContacts();
+  }
+};
+
+function renderContacts(){
+
+  const box=document.getElementById("sssContactList");
+
+  if(!box) return;
+
+  const list=getContacts();
+
+  if(!list.length){
+
+    box.innerHTML=
+      '<p style="text-align:center;color:#777;">No contacts added yet.</p>';
+
+    return;
+  }
+
+  box.innerHTML=list.map(x=>{
+
+    const icon=
+      x.type==="whatsapp" ? "🟢" :
+      x.type==="sms" ? "💬" :
+      x.type==="phone" ? "☎️" : "✉️";
+
+    return `
+    <div style="
+    border:1px solid #ddd;
+    border-radius:14px;
+    padding:14px;
+    margin:10px 0;
+    background:#fafafa;">
+
+    <b style="font-size:17px;">
+    ${icon} ${x.label||x.type}
+    </b>
+
+    <div style="margin:7px 0;color:#555;">
+    ${x.value}
+    </div>
+
+    <div style="display:flex;gap:7px;flex-wrap:wrap;">
+
+    <button type="button"
+    onclick="sssEditContact('${x.id}')"
+    style="padding:9px 13px;border:0;border-radius:9px;background:#e8f0ff;">
+    
+    ✏️ Edit
+    </button>
+
+    <button type="button"
+    onclick="sssDeleteContact('${x.id}')">
+    🗑️ Delete
+    </button>
+
+    <button type="button"
+    onclick="sssToggleContact('${x.id}')">
+    ${x.published ? "🔴 Unpublish" : "🟢 Publish"}
+    </button>
+
+    </div>
+
+    <small>
+    Status: ${x.published ? "Published" : "Unpublished"}
+    </small>
+
+    </div>`;
+  }).join("");
+}
+
+})();
+</script>
+
+
+<!-- ABOUT MANAGEMENT PANEL -->
+<div id="sssAboutPanel" style="
+display:none;
+position:fixed;
+inset:0;
+z-index:99998;
+background:rgba(245,248,252,.98);
+overflow:auto;
+padding:20px;">
+
+<div style="
+max-width:700px;
+margin:20px auto;
+background:#fff;
+border-radius:22px;
+padding:22px;
+box-shadow:0 10px 35px rgba(0,0,0,.18);">
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;">
+
+<h2 style="margin:0;">📖 About Management</h2>
+
+<button type="button"
+onclick="sssCloseAbout()"
+style="
+border:0;
+background:#eee;
+border-radius:50%;
+width:40px;
+height:40px;
+font-size:22px;">
+×
+</button>
+
+</div>
+
+<hr>
+
+<label><b>About Title</b></label>
+
+<input id="sssAboutTitle"
+placeholder="SAMUI SEVA SADAN"
+style="
+width:100%;
+padding:13px;
+margin:8px 0 14px;
+border:1px solid #ccc;
+border-radius:10px;
+font-size:16px;">
+
+<label><b>About Description</b></label>
+
+<textarea id="sssAboutText"
+placeholder="Write About SAMUI SEVA SADAN..."
+style="
+width:100%;
+min-height:180px;
+padding:13px;
+margin:8px 0;
+border:1px solid #ccc;
+border-radius:10px;
+font-size:16px;
+resize:vertical;"></textarea>
+
+<button type="button"
+onclick="sssSaveAbout()"
+style="
+width:100%;
+padding:14px;
+margin-top:10px;
+border:0;
+border-radius:12px;
+background:#1976d2;
+color:white;
+font-size:16px;
+font-weight:bold;">
+💾 Save About
+</button>
+
+<div style="
+margin-top:25px;
+padding-top:15px;
+border-top:2px solid #eee;">
+
+<h3 style="margin:0 0 10px;">📋 Saved About</h3>
+
+<div id="sssAboutList"></div>
+
+</div>
+
+</div>
+</div>
+
+<script>
+(function(){
+
+const ABOUT_KEY="sssAboutRecords";
+let aboutEditId=null;
+
+function getAbouts(){
+  try{
+    return JSON.parse(localStorage.getItem(ABOUT_KEY)||"[]");
+  }catch(e){
+    return [];
+  }
+}
+
+function saveAbouts(x){
+  localStorage.setItem(ABOUT_KEY,JSON.stringify(x));
+}
+
+window.sssOpenAbout=function(){
+
+  const box=document.getElementById("sssAboutPanel");
+
+  if(box){
+    box.style.display="block";
+    renderAbouts();
+  }
+
+};
+
+window.sssCloseAbout=function(){
+
+  const box=document.getElementById("sssAboutPanel");
+
+  if(box){
+    box.style.display="none";
+  }
+
+};
+
+window.sssSaveAbout=function(){
+
+  const title=document.getElementById("sssAboutTitle").value.trim();
+  const text=document.getElementById("sssAboutText").value.trim();
+
+  if(!title){
+    alert("About Title লিখুন");
+    return;
+  }
+
+  if(!text){
+    alert("About Description লিখুন");
+    return;
+  }
+
+  const list=getAbouts();
+
+  if(aboutEditId){
+
+    const item=list.find(x=>x.id===aboutEditId);
+
+    if(item){
+      item.title=title;
+      item.text=text;
+    }
+
+    aboutEditId=null;
+
+  }else{
+
+    list.push({
+      id:Date.now().toString(),
+      title:title,
+      text:text,
+      published:false
+    });
+
+  }
+
+  saveAbouts(list);
+
+  document.getElementById("sssAboutTitle").value="";
+  document.getElementById("sssAboutText").value="";
+
+  renderAbouts();
+
+};
+
+window.sssEditAbout=function(id){
+
+  const item=getAbouts().find(x=>x.id===id);
+
+  if(!item) return;
+
+  document.getElementById("sssAboutTitle").value=item.title;
+  document.getElementById("sssAboutText").value=item.text;
+
+  aboutEditId=id;
+
+};
+
+window.sssDeleteAbout=function(id){
+
+  if(!confirm("Delete this About?")) return;
+
+  saveAbouts(getAbouts().filter(x=>x.id!==id));
+
+  renderAbouts();
+
+};
+
+window.sssToggleAbout=function(id){
+
+  const list=getAbouts();
+  const item=list.find(x=>x.id===id);
+
+  if(item){
+
+    item.published=!item.published;
+
+    saveAbouts(list);
+
+    renderAbouts();
+
+  }
+
+};
+
+function renderAbouts(){
+
+  const box=document.getElementById("sssAboutList");
+
+  if(!box) return;
+
+  const list=getAbouts();
+
+  if(!list.length){
+
+    box.innerHTML=
+    '<p style="text-align:center;color:#777;">No About information saved yet.</p>';
+
+    return;
+
+  }
+
+  box.innerHTML=list.map(x=>`
+
+  <div style="
+  border:1px solid #ddd;
+  border-radius:14px;
+  padding:15px;
+  margin:10px 0;
+  background:#fafafa;">
+
+  <h3 style="margin:0 0 8px;">
+  📖 ${x.title}
+  </h3>
+
+  <div style="
+  white-space:pre-wrap;
+  color:#555;
+  line-height:1.6;">
+  ${x.text}
+  </div>
+
+  <div style="
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-top:12px;">
+
+  <button type="button"
+  onclick="sssEditAbout('${x.id}')"
+  style="padding:9px 13px;">
+  ✏️ Edit
+  </button>
+
+  <button type="button"
+  onclick="sssDeleteAbout('${x.id}')"
+  style="padding:9px 13px;">
+  🗑️ Delete
+  </button>
+
+  <button type="button"
+  onclick="sssToggleAbout('${x.id}')"
+  style="padding:9px 13px;">
+  ${x.published ? "🔴 Unpublish" : "🟢 Publish"}
+  </button>
+
+  </div>
+
+  <div style="margin-top:8px;font-size:13px;color:#777;">
+  Status: ${x.published ? "Published" : "Unpublished"}
+  </div>
+
+  </div>
+
+  `).join("");
+
+}
+
+})();
+</script>
+
+
+
+<!-- ===== EMERGENCY AMBULANCE & CAR ADMIN ===== -->
+
+<div id="sssEmergencyFleetToggle"
+     onclick="sssToggleEmergencyFleet()"
+     style="
+       margin:20px 0;
+       padding:15px 18px;
+       border-radius:14px;
+       background:#0b8f83;
+       color:#fff;
+       font-size:18px;
+       font-weight:bold;
+       cursor:pointer;
+       box-shadow:0 4px 12px rgba(0,0,0,.12);
+       display:flex;
+       align-items:center;
+       justify-content:space-between;">
+  <span>🚑 Emergency AMBULANCE & CAR</span>
+  <span id="sssEmergencyFleetArrow">▼</span>
+</div>
+
+<section id="sssEmergencyFleetAdmin" style="display:none;"
+margin:20px 0;
+padding:18px;
+border:1px solid #ddd;
+border-radius:16px;
+background:#fff;
+box-shadow:0 3px 12px rgba(0,0,0,.08);">
+
+<h2 style="margin-top:0;">🚑 Emergency Ambulance & Car</h2>
+
+<div style="display:grid;gap:10px;">
+
+<label>
+Driver Name
+<input id="sssFleetDriver"
+type="text"
+placeholder="Enter Driver Name"
+style="width:100%;box-sizing:border-box;padding:11px;border:1px solid #ccc;border-radius:9px;">
+</label>
+
+<label>
+Phone Number
+<input id="sssFleetPhone"
+type="tel"
+placeholder="Enter Phone Number"
+style="width:100%;box-sizing:border-box;padding:11px;border:1px solid #ccc;border-radius:9px;">
+</label>
+
+</div>
+
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+
+<button type="button"
+onclick="sssFleetPickContact()"
+style="padding:10px 13px;border:0;border-radius:9px;background:#1976d2;color:#fff;">
+📱 Contact
+</button>
+
+<button type="button"
+onclick="sssFleetSave()"
+style="padding:10px 13px;border:0;border-radius:9px;background:#198754;color:#fff;">
+💾 Save
+</button>
+
+<button type="button"
+onclick="sssFleetClear()"
+style="padding:10px 13px;border:0;border-radius:9px;background:#777;color:#fff;">
+➕ New
+</button>
+
+</div>
+
+<div id="sssFleetStatus"
+style="margin-top:10px;font-size:14px;color:#555;"></div>
+
+
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
+
+<button type="button"
+onclick="sssFleetEditLast()"
+style="padding:10px 13px;border:0;border-radius:9px;background:#1565c0;color:#fff;">
+✏️ Edit
+</button>
+
+<button type="button"
+onclick="sssFleetPublishLast()"
+style="padding:10px 13px;border:0;border-radius:9px;background:#f57c00;color:#fff;">
+🟢 Publish
+</button>
+
+</div>
+
+<div id="sssFleetList" style="margin-top:15px;"></div>
+
+</section>
+<!-- ===== END EMERGENCY AMBULANCE & CAR ADMIN ===== -->
+
+
+<script id="sss-emergency-fleet-admin-js">
+(function(){
+
+const KEY = "sssEmergencyFleet";
+let editId = null;
+
+function getFleet(){
+  try{
+    return JSON.parse(localStorage.getItem(KEY) || "[]");
+  }catch(e){
+    return [];
+  }
+}
+
+function saveFleet(list){
+  localStorage.setItem(KEY, JSON.stringify(list));
+}
+
+function cleanPhone(phone){
+  return String(phone || "").replace(/[^\d+]/g,"");
+}
+
+window.sssFleetPickContact = async function(){
+
+  if(navigator.contacts && navigator.contacts.select){
+
+    try{
+
+      const contacts = await navigator.contacts.select(
+        ["name","tel"],
+        {multiple:false}
+      );
+
+      if(contacts && contacts.length){
+
+        const c = contacts[0];
+
+        document.getElementById("sssFleetDriver").value =
+          (c.name && c.name[0]) || "";
+
+        document.getElementById("sssFleetPhone").value =
+          (c.tel && c.tel[0]) || "";
+
+        return;
+      }
+
+    }catch(e){}
+  }
+
+  const phone = prompt("Enter contact phone number:");
+
+  if(phone !== null){
+    document.getElementById("sssFleetPhone").value = phone;
+  }
+};
+
+window.sssFleetSave = function(){
+
+  const driver =
+    document.getElementById("sssFleetDriver").value.trim();
+
+  const phone =
+    document.getElementById("sssFleetPhone").value.trim();
+
+  const status =
+    document.getElementById("sssFleetStatus");
+
+  if(!driver){
+    alert("Driver Name is required.");
+    return;
+  }
+
+  if(!phone){
+    alert("Phone Number is required.");
+    return;
+  }
+
+  const list = getFleet();
+
+  if(editId){
+
+    const item = list.find(x => x.id === editId);
+
+    if(item){
+
+      item.driver = driver;
+      item.phone = phone;
+
+      saveFleet(list);
+
+      status.textContent = "Emergency contact updated.";
+    }
+
+  }else{
+
+    list.push({
+      id: Date.now().toString(),
+      driver: driver,
+      phone: phone,
+      published: false
+    });
+
+    saveFleet(list);
+
+    status.textContent =
+      "Emergency Ambulance & Car saved.";
+  }
+
+  editId = null;
+
+  document.getElementById("sssFleetDriver").value = "";
+  document.getElementById("sssFleetPhone").value = "";
+
+  renderFleet();
+};
+
+window.sssFleetEdit = function(id){
+
+  const item = getFleet().find(x => x.id === id);
+
+  if(!item) return;
+
+  document.getElementById("sssFleetDriver").value =
+    item.driver || "";
+
+  document.getElementById("sssFleetPhone").value =
+    item.phone || "";
+
+  editId = id;
+
+  document.getElementById("sssFleetStatus").textContent =
+    "Editing Emergency contact.";
+};
+
+window.sssFleetDelete = function(id){
+
+  if(!confirm("Delete this Emergency contact?")) return;
+
+  const list = getFleet().filter(x => x.id !== id);
+
+  saveFleet(list);
+
+  if(editId === id){
+    editId = null;
+    document.getElementById("sssFleetDriver").value = "";
+    document.getElementById("sssFleetPhone").value = "";
+  }
+
+  renderFleet();
+};
+
+window.sssFleetPublish = function(id){
+
+  const list = getFleet();
+
+  const item = list.find(x => x.id === id);
+
+  if(!item) return;
+
+  item.published = !item.published;
+
+  saveFleet(list);
+
+  renderFleet();
+};
+
+window.sssFleetClear = function(){
+
+  editId = null;
+
+  document.getElementById("sssFleetDriver").value = "";
+  document.getElementById("sssFleetPhone").value = "";
+
+  document.getElementById("sssFleetStatus").textContent =
+    "New Emergency contact.";
+};
+
+function renderFleet(){
+
+  const box = document.getElementById("sssFleetList");
+
+  if(!box) return;
+
+  const list = getFleet();
+
+  if(!list.length){
+
+    box.innerHTML =
+      '<p style="color:#777;text-align:center;">No Emergency Ambulance & Car contact added yet.</p>';
+
+    return;
+  }
+
+  box.innerHTML = list.map(item => {
+
+    const phone = cleanPhone(item.phone);
+
+    return `
+    <div style="
+      border:1px solid #ddd;
+      border-radius:12px;
+      padding:13px;
+      margin:9px 0;
+      background:#fafafa;">
+
+      <b>🚑 ${String(item.driver || "Emergency Driver")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")}</b>
+
+      <div style="margin:6px 0;">
+        📞 ${String(item.phone || "")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")}
+      </div>
+
+      <div style="
+        display:flex;
+        gap:7px;
+        flex-wrap:wrap;">
+
+        <button type="button"
+        onclick="sssFleetEdit('${item.id}')">
+        ✏️ Edit
+        </button>
+
+        <button type="button"
+        onclick="sssFleetDelete('${item.id}')">
+        🗑️ Delete
+        </button>
+
+        <button type="button"
+        onclick="sssFleetPublish('${item.id}')">
+        ${item.published ? "🔴 Unpublish" : "🟢 Publish"}
+        </button>
+
+      </div>
+
+      <small>
+        Status:
+        ${item.published ? "Published on Home" : "Unpublished"}
+      </small>
+
+    </div>`;
+  }).join("");
+}
+
+document.addEventListener("DOMContentLoaded", renderFleet);
+
+})();
+</script>
+
+
+
+<script id="sss-emergency-fleet-toggle-js">
+function sssToggleEmergencyFleet(){
+  const box = document.getElementById("sssEmergencyFleetAdmin");
+  const arrow = document.getElementById("sssEmergencyFleetArrow");
+
+  if(!box) return;
+
+  if(box.style.display === "none" || box.style.display === ""){
+    box.style.display = "block";
+    if(arrow) arrow.textContent = "▲";
+  }else{
+    box.style.display = "none";
+    if(arrow) arrow.textContent = "▼";
+  }
+}
+</script>
+
+
+<script id="sss-admin-ask-ai-settings">
+(function(){
+
+const KEY = "sssAskAiEnabled";
+
+const toggle = document.getElementById("adminAskAiToggle");
+
+if(toggle){
+    toggle.checked = localStorage.getItem(KEY) !== "false";
+
+    toggle.addEventListener("change", function(){
+        localStorage.setItem(KEY, this.checked ? "true" : "false");
+
+        alert(
+            this.checked
+            ? "Ask AI চালু হয়েছে"
+            : "Ask AI বন্ধ হয়েছে"
+        );
+    });
+}
+
+const langBtn = document.getElementById("adminLanguageButton");
+
+if(langBtn){
+    langBtn.addEventListener("click", function(){
+        location.href = "ask-ai.html#language";
+    });
+}
+
+})();
+</script>
+</body>
+</html>
+
+<script>
+(function(){
+
+window.sssOpenMenu = function(){
+  const menu = document.getElementById("sssSideMenu");
+  const overlay = document.getElementById("sssMenuOverlay");
+
+  if(menu) menu.style.display = "block";
+  if(overlay) overlay.style.display = "block";
+};
+
+window.sssCloseMenu = function(){
+  const menu = document.getElementById("sssSideMenu");
+  const overlay = document.getElementById("sssMenuOverlay");
+
+  if(menu) menu.style.display = "none";
+  if(overlay) overlay.style.display = "none";
+};
+
+})();
+</script>
+
+<script>
+window.sssToggleMenu = function(){
+  const menu = document.getElementById("sssSideMenu");
+  const overlay = document.getElementById("sssMenuOverlay");
+
+  if(!menu) return;
+
+  if(menu.style.display === "block"){
+    menu.style.display = "none";
+    if(overlay) overlay.style.display = "none";
+  }else{
+    menu.style.display = "block";
+    if(overlay) overlay.style.display = "block";
+  }
+};
+
+window.sssFleetEditLast = function(){
+
+  const list = getFleet();
+
+  if(!list.length){
+    alert("আগে Save করুন, তারপর Edit করা যাবে।");
+    return;
+  }
+
+  const item = list[list.length - 1];
+
+  if(window.sssFleetEdit){
+    window.sssFleetEdit(item.id);
+  }
+};
+
+window.sssFleetPublishLast = function(){
+
+  const list = getFleet();
+
+  if(!list.length){
+    alert("আগে Save করুন, তারপর Publish করা যাবে।");
+    return;
+  }
+
+  const item = list[list.length - 1];
+
+  if(window.sssFleetPublish){
+    window.sssFleetPublish(item.id);
+  }
+};
+
+</script>

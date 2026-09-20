@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About - SAMUI SEVA SADAN</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f3f8fc;
+color:#222;
+}
+
+header{
+background:#087f8c;
+color:white;
+padding:25px 18px;
+text-align:center;
+}
+
+main{
+max-width:800px;
+margin:25px auto;
+padding:0 15px;
+}
+
+.about-card{
+background:white;
+border-radius:20px;
+padding:25px;
+box-shadow:0 5px 20px rgba(0,0,0,.12);
+}
+
+#aboutTitle{
+margin-top:0;
+color:#087f8c;
+}
+
+#aboutText{
+white-space:pre-wrap;
+line-height:1.8;
+font-size:17px;
+}
+
+.back{
+display:inline-block;
+margin-top:20px;
+padding:12px 18px;
+background:#087f8c;
+color:white;
+text-decoration:none;
+border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>📖 About</h1>
+<div>SAMUI SEVA SADAN NURSING HOME</div>
+</header>
+
+<main>
+
+<div class="about-card" id="aboutBox">
+<h2 id="aboutTitle">About SAMUI SEVA SADAN</h2>
+<div id="aboutText">No published About information available.</div>
+</div>
+
+<a class="back" href="index.html">← Back to Home</a>
+
+</main>
+
+<script>
+
+const KEY="sssAboutRecords";
+
+function loadAbout(){
+
+  let list=[];
+
+  try{
+    list=JSON.parse(localStorage.getItem(KEY)||"[]");
+  }catch(e){
+    list=[];
+  }
+
+  const published=list.filter(x=>x.published);
+
+  const title=document.getElementById("aboutTitle");
+  const text=document.getElementById("aboutText");
+
+  if(!published.length){
+
+    title.textContent="About SAMUI SEVA SADAN";
+    text.textContent="No published About information available.";
+
+    return;
+  }
+
+  title.textContent=published[0].title;
+  text.textContent=published[0].text;
+
+}
+
+loadAbout();
+
+</script>
+
+</body>
+</html>
