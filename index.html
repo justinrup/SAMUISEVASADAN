@@ -2262,3 +2262,144 @@ if(menu){
   display:flex !important;
 }
 </style>
+
+<style id="sss-search-box-visible-final">
+/* Search container ঠিক position-এ */
+.sss-header-search{
+  position:absolute !important;
+  right:12px !important;
+  top:calc(50% + 5px) !important;
+  left:auto !important;
+  width:190px !important;
+  height:38px !important;
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  transform:translate(-18px,-50%) !important;
+  z-index:999999 !important;
+}
+
+/* Search input পুরোপুরি visible */
+.sss-header-search input{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  width:190px !important;
+  height:38px !important;
+  background:#fff !important;
+  color:#183b4d !important;
+  border:1px solid #d5e1e8 !important;
+  border-radius:22px !important;
+  box-sizing:border-box !important;
+}
+
+/* Search icon */
+.sss-header-search .sss-search-icon{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  position:absolute !important;
+  right:14px !important;
+  top:9px !important;
+  z-index:2 !important;
+}
+</style>
+
+<style id="sss-contact-down-fix">
+/* Contact number একটু নিচে */
+.sss-header-contact,
+.sss-contact,
+.header-contact,
+.contact-number{
+  position:relative !important;
+  top:6px !important;
+}
+</style>
+
+<style id="sss-contact-final-position">
+/* Contact number Search bar-এর নিচে থাকবে */
+.sss-header-contact,
+.sss-contact,
+.header-contact,
+.contact-number{
+  position:absolute !important;
+  top:48px !important;
+  right:12px !important;
+  z-index:999998 !important;
+  transform:none !important;
+}
+</style>
+
+<style id="sss-emergency-contact-final">
+/* Emergency + contact number Search bar-এর নিচে */
+.header-emergency{
+  position:absolute !important;
+  right:18px !important;
+  bottom:6px !important;
+  top:auto !important;
+  z-index:999998 !important;
+  transform:none !important;
+  text-align:center !important;
+}
+
+/* Emergency text */
+.header-emergency span{
+  display:block !important;
+  margin-bottom:2px !important;
+}
+
+/* Contact number */
+.header-emergency strong{
+  display:block !important;
+}
+</style>
+
+<script id="sss-close-menu-fix">
+function closeMenu(){
+  var sideMenu = document.getElementById('sideMenu');
+  var menuOverlay = document.getElementById('menuOverlay');
+
+  if(sideMenu){
+    sideMenu.classList.remove('open');
+  }
+
+  if(menuOverlay){
+    menuOverlay.classList.remove('open');
+  }
+}
+</script>
+
+
+<script id="sss-menu-hard-close-fix">
+(function(){
+  function forceCloseMenu(){
+    var menu = document.getElementById('sideMenu');
+    var overlay = document.getElementById('menuOverlay');
+
+    if(menu){
+      menu.classList.remove('open');
+      menu.style.transform = 'translate3d(-110%,0,0)';
+      menu.style.visibility = 'hidden';
+      menu.style.pointerEvents = 'none';
+    }
+
+    if(overlay){
+      overlay.classList.remove('open');
+      overlay.style.opacity = '0';
+      overlay.style.visibility = 'hidden';
+      overlay.style.pointerEvents = 'none';
+    }
+  }
+
+  document.addEventListener('click', function(e){
+    var closeBtn = e.target.closest('.sss-menu-close');
+
+    if(closeBtn){
+      e.preventDefault();
+      e.stopPropagation();
+      forceCloseMenu();
+    }
+  }, true);
+})();
+</script>
+
