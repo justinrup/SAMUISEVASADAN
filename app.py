@@ -197,6 +197,12 @@ def get_site_content():
             "description": "Explore our available facilities.",
             "items": [],
             "published": False
+        },
+        "baby_notes": {
+            "title": "Baby Note",
+            "description": "Published Baby Notes.",
+            "items": [],
+            "published": False
         }
     }
 
@@ -223,7 +229,7 @@ def save_site_content(data):
 
 @app.route("/api/site-content/<section>")
 def get_public_site_content(section):
-    if section not in ("services", "doctors", "facilities"):
+    if section not in ("services", "doctors", "facilities", "baby_notes"):
         return jsonify({"ok": False, "message": "Invalid section"}), 404
 
     data = get_site_content()
@@ -242,7 +248,7 @@ def get_admin_site_content(section):
             "message": "Admin login required"
         }), 401
 
-    if section not in ("services", "doctors", "facilities"):
+    if section not in ("services", "doctors", "facilities", "baby_notes"):
         return jsonify({"ok": False, "message": "Invalid section"}), 404
 
     data = get_site_content()
@@ -262,7 +268,7 @@ def save_admin_site_content(section):
             "message": "Admin login required"
         }), 401
 
-    if section not in ("services", "doctors", "facilities"):
+    if section not in ("services", "doctors", "facilities", "baby_notes"):
         return jsonify({"ok": False, "message": "Invalid section"}), 404
 
     incoming = request.get_json(silent=True) or {}

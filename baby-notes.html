@@ -162,28 +162,43 @@ function folderDate(d){
   return d.replace(/\//g,"-");
 }
 
-function loadPublishedBabyNotes(){
+async function loadPublishedBabyNotes(){
 
   var container=document.getElementById("babyNotesContainer");
+
+  container.innerHTML=
+    '<div class="card">'+
+    '<h2>👶 Baby Note</h2>'+
+    '<div class="empty">Loading published Baby Notes...</div>'+
+    '</div>';
 
   var records=[];
 
   try{
-    records=JSON.parse(
-      localStorage.getItem("sss_baby_notes") || localStorage.getItem("sss_baby_note_published") || "[]"
-    );
+    var response=await fetch("/api/site-content/baby_notes", {
+      method:"GET",
+      credentials:"same-origin",
+      cache:"no-store"
+    });
+
+    var result=await response.json();
+    var content=result && result.content ? result.content : result;
+
+    if(
+      response.ok &&
+      result &&
+      result.ok &&
+      content &&
+      content.published === true &&
+      Array.isArray(content.items)
+    ){
+      records=content.items;
+    }
   }catch(e){
+    console.error("Baby Note server load error:",e);
     records=[];
   }
 
-  if(!Array.isArray(records)){
-    records=[];
-  }
-
-  /*
-   * Keep only records which are published.
-   * Older published records are also accepted.
-   */
   records=records.filter(function(r){
     return r && (
       r.published === true ||

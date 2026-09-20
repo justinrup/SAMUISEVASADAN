@@ -2567,11 +2567,40 @@ function publishSavedBabyRecord(id){
     JSON.stringify(published)
   );
 
-  document.getElementById("babyStatus").textContent =
-    "Baby Note published successfully. DOB folder: " +
-    record.babies[0].dob;
+  // Also publish Baby Note to the Flask server
+  fetch("/api/admin/site-content/baby_notes", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "same-origin",
+    body: JSON.stringify({
+      title: "Baby Note",
+      description: "Published Baby Notes.",
+      items: published,
+      published: true
+    })
+  })
+  .then(async function(response){
+    const result = await response.json().catch(function(){
+      return {};
+    });
 
-  renderBabyRecords();
+    if(!response.ok || !result.ok){
+      throw new Error(result.message || "Server publish failed");
+    }
+
+    document.getElementById("babyStatus").textContent =
+      "Baby Note published successfully. DOB folder: " +
+      record.babies[0].dob;
+
+    renderBabyRecords();
+  })
+  .catch(function(error){
+    console.error("Baby Note server publish error:", error);
+    document.getElementById("babyStatus").textContent =
+      "Baby Note saved locally, but server publish failed.";
+  });
 }
 
 function publishBabyNote(){
@@ -2634,11 +2663,45 @@ function publishBabyNote(){
     JSON.stringify(published)
   );
 
-  document.getElementById("babyStatus").textContent =
-    "Baby Note published successfully. DOB folder: " +
-    data.babies[0].dob;
+  // Publish Baby Note to Flask server
+  fetch("/api/admin/site-content/baby_notes", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "same-origin",
+    body: JSON.stringify({
+      title: "Baby Note",
+      description: "Published Baby Notes.",
+      items: published,
+      published: true
+    })
+  })
+  .then(async function(response){
+    const result = await response.json().catch(function(){
+      return {};
+    });
 
-  sssEditingBabyRecordId = null;
+    if(!response.ok || !result.ok){
+      throw new Error(result.message || "Server publish failed");
+    }
+
+    document.getElementById("babyStatus").textContent =
+      "Baby Note published successfully. DOB folder: " +
+      data.babies[0].dob;
+
+    sssEditingBabyRecordId = null;
+
+    document.getElementById("twinBaby").checked = false;
+    renderBabyForms();
+    renderBabyRecords();
+  })
+  .catch(function(error){
+    console.error("Baby Note server publish error:", error);
+
+    document.getElementById("babyStatus").textContent =
+      "Baby Note saved locally, but server publish failed.";
+  });
 
   document.getElementById("twinBaby").checked = false;
   renderBabyForms();

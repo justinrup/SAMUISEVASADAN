@@ -21,3 +21,4 @@ Thumbs.db
 index.after-*
 index.html.before-*
 app.py.before-*
+site_content.json
