@@ -259,11 +259,28 @@ function showTab(id){
 }
 
 function parseDate(s){
+  // Accept DD/MM/YYYY, DD.MM.YYYY and DD-MM-YYYY
+  s = String(s || '').trim().replace(/[.\-]/g,'/');
+
   const p=s.split('/');
   if(p.length!==3)return null;
+
   const d=Number(p[0]),m=Number(p[1]),y=Number(p[2]);
+
+  if(!Number.isInteger(d) || !Number.isInteger(m) || !Number.isInteger(y)){
+    return null;
+  }
+
+  if(d<1 || d>31 || m<1 || m>12 || y<1){
+    return null;
+  }
+
   const dt=new Date(y,m-1,d);
-  if(dt.getFullYear()!=y || dt.getMonth()!=m-1 || dt.getDate()!=d)return null;
+
+  if(dt.getFullYear()!=y || dt.getMonth()!=m-1 || dt.getDate()!=d){
+    return null;
+  }
+
   return dt;
 }
 
