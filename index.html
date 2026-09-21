@@ -465,7 +465,7 @@ body{
 <header class="site-header">
     <div class="header-inner">
 
-        <button class="sss-menu-button" type="button" onclick="document.getElementById('sideMenu').classList.add('open');document.getElementById('menuOverlay').classList.add('open')">⋮</button>
+        <button class="sss-menu-button" type="button" onclick="toggleMenu()">⋮</button>
 
         <div class="brand">
             <div class="brand-mark">✚</div>
@@ -972,7 +972,7 @@ style="display:none;width:100vw;position:relative;left:50%;transform:translateX(
 <aside class="sss-side-menu" id="sideMenu">
     <div class="sss-menu-header">
         <div class="sss-menu-title">🏥 SAMUI SEVA SADAN</div>
-        <button class="sss-menu-close" type="button" onclick="document.getElementById('sideMenu').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open')">×</button>
+        <button class="sss-menu-close" type="button" onclick="closeMenu()">×</button>
     </div>
 
     <div class="sss-menu-list">
@@ -2216,9 +2216,7 @@ if(menu){
 
 <style id="sss-menu-header-home-final-fix">
 /* পুরো menu আগের জায়গাতেই থাকবে */
-.sss-side-menu{
-  transform:none !important;
-}
+
 
 /* SAMUI SEVA SADAN header একটু উপরে */
 .sss-side-menu .sss-menu-header{
@@ -2354,52 +2352,65 @@ if(menu){
 }
 </style>
 
-<script id="sss-close-menu-fix">
-function closeMenu(){
-  var sideMenu = document.getElementById('sideMenu');
-  var menuOverlay = document.getElementById('menuOverlay');
+<script id="sss-final-menu-state-fix">
+function openMenu(){
+  var menu = document.getElementById('sideMenu');
+  var overlay = document.getElementById('menuOverlay');
 
-  if(sideMenu){
-    sideMenu.classList.remove('open');
+  if(menu){
+    menu.classList.add('open');
+    menu.style.transform = '';
+    menu.style.visibility = '';
+    menu.style.pointerEvents = '';
   }
 
-  if(menuOverlay){
-    menuOverlay.classList.remove('open');
+  if(overlay){
+    overlay.classList.add('open');
+    overlay.style.opacity = '';
+    overlay.style.visibility = '';
+    overlay.style.pointerEvents = '';
   }
 }
-</script>
 
+function closeMenu(){
+  var menu = document.getElementById('sideMenu');
+  var overlay = document.getElementById('menuOverlay');
 
-<script id="sss-menu-hard-close-fix">
-(function(){
-  function forceCloseMenu(){
-    var menu = document.getElementById('sideMenu');
-    var overlay = document.getElementById('menuOverlay');
-
-    if(menu){
-      menu.classList.remove('open');
-      menu.style.transform = 'translate3d(-110%,0,0)';
-      menu.style.visibility = 'hidden';
-      menu.style.pointerEvents = 'none';
-    }
-
-    if(overlay){
-      overlay.classList.remove('open');
-      overlay.style.opacity = '0';
-      overlay.style.visibility = 'hidden';
-      overlay.style.pointerEvents = 'none';
-    }
+  if(menu){
+    menu.classList.remove('open');
+    menu.style.transform = '';
+    menu.style.visibility = '';
+    menu.style.pointerEvents = '';
   }
 
-  document.addEventListener('click', function(e){
-    var closeBtn = e.target.closest('.sss-menu-close');
+  if(overlay){
+    overlay.classList.remove('open');
+    overlay.style.opacity = '';
+    overlay.style.visibility = '';
+    overlay.style.pointerEvents = '';
+  }
+}
 
-    if(closeBtn){
-      e.preventDefault();
-      e.stopPropagation();
-      forceCloseMenu();
-    }
-  }, true);
-})();
+function toggleMenu(){
+  var menu = document.getElementById('sideMenu');
+
+  if(menu && menu.classList.contains('open')){
+    closeMenu();
+  }else{
+    openMenu();
+  }
+}
+
+/* Page load হলে menu সবসময় CLOSED */
+document.addEventListener('DOMContentLoaded', function(){
+  closeMenu();
+});
+
+window.addEventListener('pageshow', function(){
+  closeMenu();
+});
 </script>
+
+
+
 
