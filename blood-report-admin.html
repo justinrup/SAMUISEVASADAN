@@ -204,6 +204,36 @@ h2{margin-top:0}
 
 <h3 id="testHeading">CBC Results</h3>
 
+
+<div class="card" id="laboratoryInformation">
+  <h3>Laboratory Information</h3>
+
+  <div>
+    <label>Laboratory Name</label>
+    <input id="laboratoryName" type="text" placeholder="Add laboratory name">
+  </div>
+
+  <div>
+    <label>Laboratory Address</label>
+    <textarea id="laboratoryAddress" placeholder="Add laboratory address"></textarea>
+  </div>
+
+  <div>
+    <label>Phone Number</label>
+    <input id="laboratoryPhone" type="tel" placeholder="Add phone number">
+  </div>
+
+  <div>
+    <label>Email</label>
+    <input id="laboratoryEmail" type="email" placeholder="Add email">
+  </div>
+
+  <div>
+    <label>Registration / License No.</label>
+    <input id="laboratoryRegistration" type="text" placeholder="Add registration / license number">
+  </div>
+</div>
+
 <div class="test-grid" id="testFields"></div>
 
 <div>
@@ -407,6 +437,114 @@ const REPORTS={
  ]}
 };
 
+
+const REF_RANGES={
+ "Hemoglobin":"Male 13.0–17.0 g/dL; Female 12.0–15.0 g/dL",
+ "RBC Count":"Male 4.5–5.9 million/µL; Female 4.0–5.2 million/µL",
+ "WBC Count":"4,000–11,000 /µL",
+ "Platelet Count":"150,000–450,000 /µL",
+ "HCT / PCV":"Male 40–52%; Female 36–48%",
+ "MCV":"80–100 fL",
+ "MCH":"27–33 pg",
+ "MCHC":"32–36 g/dL",
+ "RDW":"11.5–14.5%",
+ "Neutrophils":"40–70%",
+ "Lymphocytes":"20–40%",
+ "Monocytes":"2–8%",
+ "Eosinophils":"1–6%",
+ "Basophils":"0–1%",
+
+ "Fasting Blood Sugar":"70–99 mg/dL",
+ "Post Prandial Blood Sugar":"<140 mg/dL",
+ "Random Blood Sugar":"70–140 mg/dL",
+
+ "HbA1c":"4.0–5.6%",
+ "Estimated Average Glucose":"Approx. 70–114 mg/dL",
+
+ "Total Cholesterol":"<200 mg/dL",
+ "Triglycerides":"<150 mg/dL",
+ "HDL Cholesterol":">40 mg/dL",
+ "LDL Cholesterol":"<100 mg/dL",
+ "VLDL Cholesterol":"5–40 mg/dL",
+ "TC / HDL Ratio":"Usually <5.0",
+
+ "Total Bilirubin":"0.2–1.2 mg/dL",
+ "Direct Bilirubin":"0.0–0.3 mg/dL",
+ "Indirect Bilirubin":"0.2–0.9 mg/dL",
+ "SGOT / AST":"10–40 U/L",
+ "SGPT / ALT":"7–56 U/L",
+ "ALP":"44–147 U/L",
+ "Total Protein":"6.0–8.3 g/dL",
+ "Albumin":"3.5–5.0 g/dL",
+ "Globulin":"2.0–3.5 g/dL",
+
+ "Blood Urea":"15–45 mg/dL",
+ "Serum Creatinine":"Male 0.7–1.3 mg/dL; Female 0.6–1.1 mg/dL",
+ "Uric Acid":"Male 3.4–7.0 mg/dL; Female 2.4–6.0 mg/dL",
+ "eGFR":">90 mL/min/1.73m²",
+ "Sodium":"135–145 mmol/L",
+ "Potassium":"3.5–5.1 mmol/L",
+ "Chloride":"98–107 mmol/L",
+
+ "TSH":"0.4–4.0 µIU/mL",
+ "T3":"0.8–2.0 ng/mL",
+ "T4":"5.0–12.0 µg/dL",
+ "Free T3":"2.3–4.2 pg/mL",
+ "Free T4":"0.8–1.8 ng/dL",
+
+ "Colour":"Pale yellow to yellow",
+ "Appearance":"Clear",
+ "pH":"4.5–8.0",
+ "Specific Gravity":"1.005–1.030",
+ "Protein":"Negative",
+ "Sugar":"Negative",
+ "Ketone":"Negative",
+ "Blood":"Negative",
+ "Pus Cells":"0–5 /HPF",
+ "RBC":"0–2 /HPF",
+ "Epithelial Cells":"Few",
+ "Bacteria":"None / Nil",
+
+ "Consistency":"Formed",
+ "Occult Blood":"Negative",
+ "Mucus":"Absent",
+ "Ova / Parasite":"Not seen",
+
+ "ESR":"Male 0–15 mm/hr; Female 0–20 mm/hr",
+ "CRP":"<5 mg/L",
+
+ "ABO Group":"A / B / AB / O",
+ "Rh Factor":"Positive / Negative",
+
+ "Bicarbonate":"22–29 mmol/L",
+
+ "Total Calcium":"8.5–10.5 mg/dL",
+ "Ionized Calcium":"1.12–1.32 mmol/L",
+
+ "Amylase":"30–110 U/L",
+ "Lipase":"0–160 U/L",
+
+ "Test":"As applicable",
+ "Result":"Negative / Positive as applicable",
+
+ "NS1 Antigen":"Negative",
+ "IgM Antibody":"Negative",
+ "IgG Antibody":"Negative",
+
+ "Parasite / Antigen":"Not detected",
+ "Salmonella Typhi O":"Negative / No significant titre",
+ "Salmonella Typhi H":"Negative / No significant titre",
+ "Salmonella Paratyphi AH":"Negative / No significant titre",
+ "Salmonella Paratyphi BH":"Negative / No significant titre",
+
+ "Test 1":"As applicable",
+ "Test 2":"As applicable",
+ "Test 3":"As applicable",
+ "Test 4":"As applicable",
+ "Test 5":"As applicable",
+ "Test 6":"As applicable"
+};
+
 let currentType="CBC";
 let currentId=null;
 
@@ -461,8 +599,116 @@ function buildFields(){
    <label>${f[0]}</label>
    <input id="test_${i}" placeholder="${f[1]||""}">
    ${f[1]?`<div class="small">Unit: ${f[1]}</div>`:""}
+   <div class="small reference-range">
+     <b>Reference Range:</b> ${esc(REF_RANGES[f[0]]||"Not specified")}
+   </div>
  </div>
  `).join("");
+
+ attachInterpretationListeners();
+}
+
+
+function interpretResult(testName,value){
+ const raw=String(value||"").trim();
+ if(!raw) return "";
+
+ const low=raw.toLowerCase();
+
+ /* Qualitative laboratory results */
+ if(["negative","not detected","none","nil","absent","not seen"].includes(low)){
+   return `${testName}: Negative / not detected — within expected reference.`;
+ }
+
+ if(["positive","detected","present"].includes(low)){
+   return `${testName}: Positive / detected — requires clinical correlation.`;
+ }
+
+ /* Blood group / Rh */
+ if(testName==="ABO Group" || testName==="Rh Factor"){
+   return `${testName}: ${raw}.`;
+ }
+
+ /* Numeric reference-range interpretation */
+ let ref=REF_RANGES[testName]||"";
+
+ /* Select sex-specific range */
+ if(ref.includes(";")){
+   const sex=(document.getElementById("sex")?.value||"").toLowerCase();
+
+   if(sex.startsWith("female") && /female/i.test(ref)){
+     const m=ref.match(/Female\s+([^;]+)/i);
+     if(m) ref=m[1];
+   }else if(sex.startsWith("male") && /male/i.test(ref)){
+     const m=ref.match(/Male\s+([^;]+)/i);
+     if(m) ref=m[1];
+   }else{
+     ref=ref.split(";")[0];
+   }
+ }
+
+ const numMatch=raw.replace(/,/g,"").match(/-?\d+(?:\.\d+)?/);
+ if(!numMatch) return `${testName}: ${raw}.`;
+
+ const n=parseFloat(numMatch[0]);
+
+ /* Range: 70–99 */
+ let m=ref.replace(/,/g,"").match(/(-?\d+(?:\.\d+)?)\s*[–-]\s*(-?\d+(?:\.\d+)?)/);
+
+ if(m){
+   const min=parseFloat(m[1]);
+   const max=parseFloat(m[2]);
+
+   if(n<min) return `${testName}: Below Reference Range (${ref}).`;
+   if(n>max) return `${testName}: Above Reference Range (${ref}).`;
+   return `${testName}: Within Reference Range (${ref}).`;
+ }
+
+ /* Less than */
+ m=ref.replace(/,/g,"").match(/<\s*(-?\d+(?:\.\d+)?)/);
+ if(m){
+   const max=parseFloat(m[1]);
+   if(n<max) return `${testName}: Within Reference Range (${ref}).`;
+   return `${testName}: Above Reference Range (${ref}).`;
+ }
+
+ /* Greater than */
+ m=ref.replace(/,/g,"").match(/>\s*(-?\d+(?:\.\d+)?)/);
+ if(m){
+   const min=parseFloat(m[1]);
+   if(n>min) return `${testName}: Within Reference Range (${ref}).`;
+   return `${testName}: Below Reference Range (${ref}).`;
+ }
+
+ return `${testName}: ${raw}. Reference: ${ref||"Not specified"}.`;
+}
+
+function updateAutomaticRemarks(){
+ const messages=[];
+
+ REPORTS[currentType].fields.forEach((f,i)=>{
+   const el=document.getElementById("test_"+i);
+   if(!el || !el.value.trim()) return;
+
+   const text=interpretResult(f[0],el.value);
+   if(text) messages.push(text);
+ });
+
+ const box=document.getElementById("remarks");
+ if(box && messages.length){
+   box.value=messages.join("\n");
+ }
+}
+
+
+function attachInterpretationListeners(){
+ REPORTS[currentType].fields.forEach((f,i)=>{
+   const el=document.getElementById("test_"+i);
+   if(!el) return;
+
+   el.addEventListener("input",updateAutomaticRemarks);
+   el.addEventListener("change",updateAutomaticRemarks);
+ });
 }
 
 function clearValuesOnly(){
@@ -507,6 +753,13 @@ function collect(){
    labNo:document.getElementById("labNo").value.trim(),
    doctor:document.getElementById("doctor").value.trim(),
    specimen:document.getElementById("specimen").value.trim(),
+
+   laboratoryName:document.getElementById("laboratoryName").value.trim(),
+   laboratoryAddress:document.getElementById("laboratoryAddress").value.trim(),
+   laboratoryPhone:document.getElementById("laboratoryPhone").value.trim(),
+   laboratoryEmail:document.getElementById("laboratoryEmail").value.trim(),
+   laboratoryRegistration:document.getElementById("laboratoryRegistration").value.trim(),
+
    results:results,
    remarks:document.getElementById("remarks").value.trim(),
    status:"draft",
@@ -673,9 +926,17 @@ function printReport(){
 
 function printReportObject(r){
 
- const tests=Object.entries(r.results||{}).map(([k,v])=>
- `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`
- ).join("");
+ const tests=Object.entries(r.results||{}).map(([k,v])=>{
+ const field=(REPORTS[r.type]?.fields||[]).find(f=>f[0]===k);
+ const unit=field?field[1]:"";
+ const range=REF_RANGES[k]||"Not specified";
+ return `<tr>
+   <td>${esc(k)}</td>
+   <td>${esc(v)}</td>
+   <td>${esc(unit)}</td>
+   <td>${esc(range)}</td>
+ </tr>`;
+}).join("");
 
  const w=window.open("","_blank","width=900,height=700");
 
@@ -712,7 +973,7 @@ td,th{border:1px solid #999;padding:9px}
 </div>
 
 <table>
-<tr><th>Test</th><th>Result</th></tr>
+<tr><th>Test Name</th><th>Result</th><th>Unit</th><th>Reference Range</th></tr>
 ${tests}
 </table>
 
