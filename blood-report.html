@@ -77,6 +77,42 @@ header h1{margin:0}
  color:#777;
 }
 .small{font-size:12px;color:#666}
+
+<style id="patient-lab-two-column">
+.report-info-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin:20px 0;
+}
+
+.info-card{
+  border:1px solid #d9dee7;
+  border-radius:12px;
+  padding:16px;
+  background:#fff;
+  box-sizing:border-box;
+}
+
+.info-card h3{
+  margin:0 0 12px;
+  padding-bottom:8px;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.info-card div{
+  margin:7px 0;
+  line-height:1.5;
+}
+
+@media(max-width:700px){
+  .report-info-grid{
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+}
+</style>
+
 </style>
 </head>
 
@@ -252,15 +288,93 @@ function toggleFolder(i){
 
 }
 
+
+const REF_RANGES={
+ "Hemoglobin":"Male 13.0–17.0 g/dL; Female 12.0–15.0 g/dL",
+ "RBC Count":"Male 4.5–5.9 million/µL; Female 4.0–5.2 million/µL",
+ "WBC Count":"4,000–11,000 /µL",
+ "Platelet Count":"150,000–450,000 /µL",
+ "HCT / PCV":"Male 40–52%; Female 36–48%",
+ "MCV":"80–100 fL","MCH":"27–33 pg","MCHC":"32–36 g/dL",
+ "RDW":"11.5–14.5%","Neutrophils":"40–70%","Lymphocytes":"20–40%",
+ "Monocytes":"2–8%","Eosinophils":"1–6%","Basophils":"0–1%",
+ "Fasting Blood Sugar":"70–99 mg/dL",
+ "Post Prandial Blood Sugar":"<140 mg/dL",
+ "Random Blood Sugar":"70–140 mg/dL",
+ "HbA1c":"4.0–5.6%",
+ "Estimated Average Glucose":"Approx. 70–114 mg/dL",
+ "Total Cholesterol":"<200 mg/dL","Triglycerides":"<150 mg/dL",
+ "HDL Cholesterol":">40 mg/dL","LDL Cholesterol":"<100 mg/dL",
+ "VLDL Cholesterol":"5–40 mg/dL","TC / HDL Ratio":"Usually <5.0",
+ "Total Bilirubin":"0.2–1.2 mg/dL","Direct Bilirubin":"0.0–0.3 mg/dL",
+ "Indirect Bilirubin":"0.2–0.9 mg/dL","SGOT / AST":"10–40 U/L",
+ "SGPT / ALT":"7–56 U/L","ALP":"44–147 U/L",
+ "Total Protein":"6.0–8.3 g/dL","Albumin":"3.5–5.0 g/dL",
+ "Globulin":"2.0–3.5 g/dL","Blood Urea":"15–45 mg/dL",
+ "Serum Creatinine":"Male 0.7–1.3 mg/dL; Female 0.6–1.1 mg/dL",
+ "Uric Acid":"Male 3.4–7.0 mg/dL; Female 2.4–6.0 mg/dL",
+ "eGFR":">90 mL/min/1.73m²","Sodium":"135–145 mmol/L",
+ "Potassium":"3.5–5.1 mmol/L","Chloride":"98–107 mmol/L",
+ "TSH":"0.4–4.0 µIU/mL","T3":"0.8–2.0 ng/mL",
+ "T4":"5.0–12.0 µg/dL","Free T3":"2.3–4.2 pg/mL",
+ "Free T4":"0.8–1.8 ng/dL","Colour":"Pale yellow to yellow",
+ "Appearance":"Clear","pH":"4.5–8.0","Specific Gravity":"1.005–1.030",
+ "Protein":"Negative","Sugar":"Negative","Ketone":"Negative",
+ "Blood":"Negative","Pus Cells":"0–5 /HPF","RBC":"0–2 /HPF",
+ "Epithelial Cells":"Few","Bacteria":"None / Nil",
+ "Consistency":"Formed","Occult Blood":"Negative","Mucus":"Absent",
+ "Ova / Parasite":"Not seen","ESR":"Male 0–15 mm/hr; Female 0–20 mm/hr",
+ "CRP":"<5 mg/L","ABO Group":"A / B / AB / O",
+ "Rh Factor":"Positive / Negative","Bicarbonate":"22–29 mmol/L",
+ "Total Calcium":"8.5–10.5 mg/dL","Ionized Calcium":"1.12–1.32 mmol/L",
+ "Amylase":"30–110 U/L","Lipase":"0–160 U/L",
+ "Test":"As applicable","Result":"Negative / Positive as applicable",
+ "NS1 Antigen":"Negative","IgM Antibody":"Negative","IgG Antibody":"Negative",
+ "Parasite / Antigen":"Not detected",
+ "Salmonella Typhi O":"Negative / No significant titre",
+ "Salmonella Typhi H":"Negative / No significant titre",
+ "Salmonella Paratyphi AH":"Negative / No significant titre",
+ "Salmonella Paratyphi BH":"Negative / No significant titre",
+ "Test 1":"As applicable","Test 2":"As applicable","Test 3":"As applicable",
+ "Test 4":"As applicable","Test 5":"As applicable","Test 6":"As applicable"
+};
+
 function viewReport(id){
 
  const r=getAll().find(x=>x.id===id);
 
  if(!r)return;
 
- const tests=Object.entries(r.results||{}).map(([k,v])=>
- `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`
- ).join("");
+ const tests=Object.entries(r.results||{}).map(([k,v])=>{
+ const range=REF_RANGES[k]||"Not specified";
+ const unit={
+  "Hemoglobin":"g/dL","RBC Count":"million/µL","WBC Count":"/µL",
+  "Platelet Count":"/µL","HCT / PCV":"%","MCV":"fL","MCH":"pg",
+  "MCHC":"g/dL","RDW":"%","Neutrophils":"%","Lymphocytes":"%",
+  "Monocytes":"%","Eosinophils":"%","Basophils":"%",
+  "Fasting Blood Sugar":"mg/dL","Post Prandial Blood Sugar":"mg/dL",
+  "Random Blood Sugar":"mg/dL","HbA1c":"%","Estimated Average Glucose":"mg/dL",
+  "Total Cholesterol":"mg/dL","Triglycerides":"mg/dL",
+  "HDL Cholesterol":"mg/dL","LDL Cholesterol":"mg/dL",
+  "VLDL Cholesterol":"mg/dL","Total Bilirubin":"mg/dL",
+  "Direct Bilirubin":"mg/dL","Indirect Bilirubin":"mg/dL",
+  "SGOT / AST":"U/L","SGPT / ALT":"U/L","ALP":"U/L",
+  "Total Protein":"g/dL","Albumin":"g/dL","Globulin":"g/dL",
+  "Blood Urea":"mg/dL","Serum Creatinine":"mg/dL","Uric Acid":"mg/dL",
+  "eGFR":"mL/min","Sodium":"mmol/L","Potassium":"mmol/L",
+  "Chloride":"mmol/L","TSH":"µIU/mL","T3":"ng/mL","T4":"µg/dL",
+  "Free T3":"pg/mL","Free T4":"ng/dL","Pus Cells":"/HPF",
+  "RBC":"/HPF","Epithelial Cells":"/HPF","ESR":"mm/hr","CRP":"mg/L",
+  "Bicarbonate":"mmol/L","Total Calcium":"mg/dL",
+  "Ionized Calcium":"mmol/L","Amylase":"U/L","Lipase":"U/L"
+ }[k]||"";
+ return `<tr>
+   <td>${esc(k)}</td>
+   <td>${esc(v)}</td>
+   <td>${esc(unit)}</td>
+   <td>${esc(range)}</td>
+ </tr>`;
+}).join("");
 
  const w=window.open("","_blank","width=900,height=700");
 
@@ -275,10 +389,57 @@ function viewReport(id){
 <head>
 <title>${esc(r.reportType)}</title>
 <style>
-body{font-family:Arial;padding:25px}
-h1,h2{text-align:center}
-table{width:100%;border-collapse:collapse;margin-top:20px}
-td,th{border:1px solid #999;padding:9px}
+body{
+  font-family:Arial;
+  padding:25px;
+  margin:0;
+}
+
+h1,h2{
+  text-align:center;
+}
+
+.report-info-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin:20px 0;
+}
+
+.info-card{
+  border:1px solid #999;
+  border-radius:10px;
+  padding:15px;
+  box-sizing:border-box;
+}
+
+.info-card h3{
+  margin:0 0 12px;
+  padding-bottom:8px;
+  border-bottom:1px solid #ddd;
+}
+
+.info-card div{
+  margin:7px 0;
+  line-height:1.45;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
+}
+
+td,th{
+  border:1px solid #999;
+  padding:9px;
+}
+
+@media(max-width:700px){
+  .report-info-grid{
+    grid-template-columns:1fr;
+  }
+}
 </style>
 </head>
 <body>
@@ -286,18 +447,32 @@ td,th{border:1px solid #999;padding:9px}
 <h1>SAMUI SEVA SADAN</h1>
 <h2>${esc(r.reportType)}</h2>
 
-<p>
-<b>Mother / Patient:</b> ${esc(r.patientName)}<br>
-<b>Aadhaar:</b> ${maskAadhaar(r.aadhaar)}<br>
-<b>Age:</b> ${esc(r.age)}<br>
-<b>Sex:</b> ${esc(r.sex)}<br>
-<b>Sample Date:</b> ${esc(r.sampleDate)}<br>
-<b>Lab No:</b> ${esc(r.labNo)}<br>
-<b>Doctor:</b> ${esc(r.doctor)}
-</p>
+<div class="report-info-grid">
+
+  <div class="info-card patient-information">
+    <h3>👤 Patient Information</h3>
+    <div><b>Mother / Patient:</b> ${esc(r.patientName)}</div>
+    <div><b>Aadhaar:</b> ${maskAadhaar(r.aadhaar)}</div>
+    <div><b>Age:</b> ${esc(r.age)}</div>
+    <div><b>Sex:</b> ${esc(r.sex)}</div>
+    <div><b>Sample Date:</b> ${esc(r.sampleDate)}</div>
+    <div><b>Lab No:</b> ${esc(r.labNo)}</div>
+    <div><b>Doctor:</b> ${esc(r.doctor)}</div>
+  </div>
+
+  <div class="info-card laboratory-information">
+    <h3>🏥 Laboratory Information</h3>
+    ${r.laboratoryName ? `<div><b>Laboratory Name:</b> ${esc(r.laboratoryName)}</div>` : ""}
+    ${r.laboratoryAddress ? `<div><b>Address:</b> ${esc(r.laboratoryAddress)}</div>` : ""}
+    ${r.laboratoryPhone ? `<div><b>Phone:</b> ${esc(r.laboratoryPhone)}</div>` : ""}
+    ${r.laboratoryEmail ? `<div><b>Email:</b> ${esc(r.laboratoryEmail)}</div>` : ""}
+    ${r.laboratoryRegistration ? `<div><b>Registration / License No.:</b> ${esc(r.laboratoryRegistration)}</div>` : ""}
+  </div>
+
+</div>
 
 <table>
-<tr><th>Test</th><th>Result</th></tr>
+<tr><th>Test Name</th><th>Result</th><th>Unit</th><th>Reference Range</th></tr>
 ${tests}
 </table>
 
@@ -316,7 +491,7 @@ ${tests}
 render();
 
 window.addEventListener("storage",render);
-setInterval(render,1500);
+// setInterval(render,1500);
 
 </script>
 
